@@ -45,11 +45,49 @@ body {
 }
 
 /* Language Toggle System */
-.lang-en { display: inline; }
-.lang-hi { display: none; }
+/* Default: Show English, Hide Hindi */
+.lang-en { display: inline !important; }
+.lang-hi { display: none !important; }
 
-.lang-hi .lang-en { display: none; }
-.lang-hi .lang-hi { display: inline; }
+/* When body has lang-hi class: Hide English, Show Hindi */
+body.lang-hi .lang-en { display: none !important; }
+body.lang-hi .lang-hi { display: inline !important; }
+
+/* When body has lang-en class: Show English, Hide Hindi */
+body.lang-en .lang-en { display: inline !important; }
+body.lang-en .lang-hi { display: none !important; }
+
+/* Prevent body element itself from being hidden */
+body.lang-hi,
+body.lang-en { 
+    display: block !important; 
+}
+
+/* Hindi-specific font styling */
+body.lang-hi {
+  font-family: 'Noto Sans Devanagari', 'Noto Sans', 'Mangal', 'Utsaah', 'Aparajita', sans-serif !important;
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1;
+  -moz-font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.lang-hi {
+  font-family: 'Noto Sans Devanagari', 'Noto Sans', 'Mangal', 'Utsaah', 'Aparajita', sans-serif !important;
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1;
+  -moz-font-feature-settings: "kern" 1, "liga" 1;
+  line-height: 1.8 !important;
+}
+
+/* Ensure Hindi content is visible */
+body.lang-hi .lang-hi {
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: inherit !important;
+  color: inherit !important;
+}
 
 /* Container and Layout */
 .container {
