@@ -283,24 +283,104 @@ function initTestimonialsCarousel() {
     if (slides.length === 0) return;
     
     let currentSlide = 0;
+    let intervalId;
+    
+    // Hide all slides initially
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        slide.style.zIndex = index === 0 ? 10 : 1;
+    });
     
     // Show first slide
     slides[currentSlide].classList.add('active');
     
-    // Auto-rotate testimonials
-    setInterval(() => {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }, 5000); // Change every 5 seconds
+    function showSlide(index) {
+        // Remove active class from all slides
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Add active class to current slide
+        slides[index].classList.add('active');
+        
+        // Update z-index for proper layering
+        slides.forEach((slide, i) => {
+            slide.style.zIndex = i === index ? 10 : 1;
+        });
+    }
     
-    // Pause on hover
-    carousel.addEventListener('mouseenter', () => {
-        carousel.style.animationPlayState = 'paused';
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+    
+    // Start auto-rotation
+    function startRotation() {
+        intervalId = setInterval(nextSlide, 4000); // Change every 4 seconds
+    }
+    
+    function stopRotation() {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+    }
+    
+    // Initialize rotation
+    startRotation();
+    
+    // Add navigation dots (optional)
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = 'testimonial-dots';
+    dotsContainer.style.cssText = `
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    `;
+    
+    slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'testimonial-dot';
+        dot.style.cssText = `
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        `;
+        
+        if (index === 0) {
+            dot.style.background = 'var(--primary-color)';
+        }
+        
+        dot.addEventListener('click', () => {
+            stopRotation();
+            currentSlide = index;
+            showSlide(currentSlide);
+            startRotation();
+            
+            // Update dot states
+            dotsContainer.querySelectorAll('.testimonial-dot').forEach((d, i) => {
+                d.style.background = i === index ? 'var(--primary-color)' : '#ddd';
+            });
+        });
+        
+        dotsContainer.appendChild(dot);
     });
     
-    carousel.addEventListener('mouseleave', () => {
-        carousel.style.animationPlayState = 'running';
+    carousel.appendChild(dotsContainer);
+    
+    // Pause on hover
+    carousel.addEventListener('mouseenter', stopRotation);
+    carousel.addEventListener('mouseleave', startRotation);
+    
+    // Handle visibility change (pause when tab is not active)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopRotation();
+        } else {
+            startRotation();
+        }
     });
 }
 
