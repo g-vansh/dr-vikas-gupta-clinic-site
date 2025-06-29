@@ -1,0 +1,193 @@
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "@id": "https://www.drvikasgupta.skin/#localbusiness",
+  "name": "Dr. Vikas Gupta Skin Care Clinic",
+  "alternateName": "डॉ विकास गुप्ता स्किन केयर क्लिनिक",
+  "description": "Leading dermatology clinic in Moradabad providing comprehensive skin, hair, and nail treatments with 30+ years of expertise. Expert in acne, hair loss, psoriasis, vitiligo treatment.",
+  "url": "https://www.drvikasgupta.skin",
+  "telephone": "+918273112888",
+  "email": "contact@drvikasgupta.skin",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "A-73, Prince Road, Gandhi Nagar",
+    "addressLocality": "Moradabad",
+    "addressRegion": "Uttar Pradesh",
+    "postalCode": "244001",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 28.84,
+    "longitude": 78.78
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "10:00",
+      "closes": "17:45"
+    }
+  ],
+  "image": [
+    "https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg",
+    "https://www.drvikasgupta.skin/assets/images/clinic-logo.png"
+  ],
+  "logo": "https://www.drvikasgupta.skin/assets/images/clinic-logo.png",
+  "priceRange": "₹₹₹",
+  "paymentAccepted": ["Cash", "UPI", "Credit Card", "Debit Card"],
+  "currenciesAccepted": "INR",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 4.8,
+    "reviewCount": 114,
+    "bestRating": 5,
+    "worstRating": 1
+  },
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Moradabad",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh",
+        "containedInPlace": {
+          "@type": "Country",
+          "name": "India"
+        }
+      }
+    }
+  ],
+  "serviceArea": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": 28.84,
+      "longitude": 78.78
+    },
+    "geoRadius": "50000"
+  },
+  "medicalSpecialty": [
+    "Dermatology",
+    "Venereology", 
+    "Leprology"
+  ],
+  "availableLanguage": ["English", "Hindi"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Dermatology Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Acne Treatment",
+          "description": "Comprehensive acne treatment for all skin types and ages",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Hair Loss Treatment",
+          "description": "Advanced hair loss treatment and restoration therapies",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Psoriasis Treatment",
+          "description": "Long-term management and treatment of psoriasis",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Vitiligo Treatment",
+          "description": "Medical and procedural therapies for vitiligo/leucoderma",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR"
+      }
+    ]
+  },
+  "founder": {
+    "@type": "Physician",
+    "name": "Dr. Vikas Gupta",
+    "alternateName": "डॉ विकास गुप्ता",
+    "medicalSpecialty": ["Dermatology", "Venereology", "Leprology"],
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "S.N. Medical College, Agra"
+      },
+      {
+        "@type": "EducationalOrganization", 
+        "name": "Maharani Laxmi Bai Medical College, Jhansi"
+      }
+    ],
+    "memberOf": {
+      "@type": "Organization",
+      "name": "Indian Medical Association"
+    },
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "degree",
+        "educationalLevel": "MD",
+        "name": "MD in Dermatology, Venereology & Leprology"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "degree", 
+        "educationalLevel": "MBBS",
+        "name": "Bachelor of Medicine, Bachelor of Surgery"
+      }
+    ]
+  },
+  "employee": {
+    "@id": "https://www.drvikasgupta.skin/#physician"
+  },
+  "potentialAction": [
+    {
+      "@type": "ReserveAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad",
+        "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+      },
+      "result": {
+        "@type": "Reservation",
+        "name": "Online Consultation Appointment"
+      }
+    },
+    {
+      "@type": "CommunicateAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "tel:+918273112888",
+        "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+      },
+      "result": {
+        "@type": "Message",
+        "name": "Phone Appointment Booking"
+      }
+    }
+  ],
+  "sameAs": [
+    "https://www.drvikasgupta.skin",
+    "https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad"
+  ]
+} 
