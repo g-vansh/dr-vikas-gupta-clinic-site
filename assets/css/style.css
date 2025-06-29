@@ -413,6 +413,186 @@ p {
   margin: 0;
 }
 
+/* Credibility Badge Styling */
+.highlight-item a {
+  transition: var(--transition);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-item a:hover {
+  color: var(--secondary-color) !important;
+  transform: translateY(-1px);
+}
+
+.highlight-item a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.highlight-item a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Hero Medal Ribbon Styling */
+.hero-medal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.medal-link {
+  text-decoration: none;
+  display: block;
+}
+
+.medal-ribbon {
+  position: relative;
+  background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+  padding: 12px 16px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  transform: rotate(-5deg);
+  transition: all 0.3s ease;
+  border: 3px solid #FFF;
+  overflow: hidden;
+  min-width: 180px;
+  text-align: center;
+}
+
+.medal-ribbon:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+}
+
+.medal-icon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+  animation: bounce 2s infinite;
+}
+
+.medal-text {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #8B4513;
+  line-height: 1.2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.medal-subtext {
+  font-size: 0.65rem;
+  color: #8B4513;
+  font-weight: 500;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+.shine-effect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shine 3s infinite;
+}
+
+/* Appointment Trust Badge Styling */
+.appointment-trust-badge {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.trust-badge-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.trust-badge {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(46, 134, 171, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.trust-badge:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(46, 134, 171, 0.4);
+}
+
+.badge-icon {
+  font-size: 2rem;
+  animation: pulse 2s infinite;
+}
+
+.badge-content {
+  text-align: left;
+}
+
+.badge-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.badge-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.trust-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: trustShine 4s infinite;
+}
+
+/* Animations */
+@keyframes shine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+@keyframes trustShine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-8px); }
+  60% { transform: translateY(-4px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
 /* Services Grid */
 .services-grid {
   display: grid;
@@ -853,6 +1033,37 @@ p {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+
+  /* Responsive Medal Styling */
+  .hero-medal {
+    top: 10px;
+    right: 10px;
+  }
+
+  .medal-ribbon {
+    min-width: 140px;
+    padding: 8px 12px;
+    transform: rotate(-3deg);
+  }
+
+  .medal-text {
+    font-size: 0.7rem;
+  }
+
+  .medal-subtext {
+    font-size: 0.6rem;
+  }
+
+  .trust-badge {
+    padding: 12px 16px;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .badge-content {
+    text-align: center;
+  }
   
   .services-grid {
     grid-template-columns: 1fr;
@@ -930,6 +1141,25 @@ p {
 
   .hero h1 {
     font-size: var(--font-size-2xl);
+  }
+
+  /* Extra Small Mobile Medal Styling */
+  .hero-medal {
+    top: 5px;
+    right: 5px;
+  }
+
+  .medal-ribbon {
+    min-width: 120px;
+    padding: 6px 10px;
+  }
+
+  .medal-text {
+    font-size: 0.65rem;
+  }
+
+  .medal-subtext {
+    font-size: 0.55rem;
   }
   
   .section {
