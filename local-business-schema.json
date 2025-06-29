@@ -3,8 +3,13 @@
   "@type": "MedicalBusiness",
   "@id": "https://www.drvikasgupta.skin/#localbusiness",
   "name": "Dr. Vikas Gupta Skin Care Clinic",
-  "alternateName": "डॉ विकास गुप्ता स्किन केयर क्लिनिक",
-  "description": "Leading dermatology clinic in Moradabad providing comprehensive skin, hair, and nail treatments with 30+ years of expertise. Expert in acne, hair loss, psoriasis, vitiligo treatment.",
+  "alternateName": [
+    "डॉ विकास गुप्ता स्किन केयर क्लिनिक",
+    "Dr Vikas Gupta Dermatologist",
+    "Moradabad Skin Clinic",
+    "मुरादाबाद त्वचा क्लिनिक"
+  ],
+  "description": "Leading dermatology clinic serving 200km radius from Moradabad plus Pan-India video consultations. Comprehensive skin, hair, and nail treatments with 30+ years of expertise. Expert in acne, hair loss, psoriasis, vitiligo treatment. Online and offline appointments available.",
   "url": "https://www.drvikasgupta.skin",
   "telephone": "+918273112888",
   "email": "contact@drvikasgupta.skin",
@@ -27,6 +32,13 @@
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "opens": "10:00",
       "closes": "17:45"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "09:00",
+      "closes": "21:00",
+      "description": "Video consultation hours - Pan-India availability"
     }
   ],
   "image": [
@@ -35,7 +47,7 @@
   ],
   "logo": "https://www.drvikasgupta.skin/assets/images/clinic-logo.png",
   "priceRange": "₹₹₹",
-  "paymentAccepted": ["Cash", "UPI", "Credit Card", "Debit Card"],
+  "paymentAccepted": ["Cash", "UPI", "Credit Card", "Debit Card", "Online Payment"],
   "currenciesAccepted": "INR",
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -56,23 +68,95 @@
           "name": "India"
         }
       }
+    },
+    {
+      "@type": "City",
+      "name": "Rampur",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Bareilly",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Sambhal",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Amroha",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Bijnor",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Meerut",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "City",
+      "name": "Ghaziabad",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Uttar Pradesh"
+      }
+    },
+    {
+      "@type": "Country",
+      "name": "India",
+      "description": "Pan-India video consultation services available"
     }
   ],
-  "serviceArea": {
-    "@type": "GeoCircle",
-    "geoMidpoint": {
-      "@type": "GeoCoordinates",
-      "latitude": 28.84,
-      "longitude": 78.78
+  "serviceArea": [
+    {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": 28.84,
+        "longitude": 78.78
+      },
+      "geoRadius": "200000",
+      "description": "200km radius physical consultation area from Moradabad"
     },
-    "geoRadius": "50000"
-  },
+    {
+      "@type": "Country",
+      "name": "India",
+      "description": "Pan-India video consultation and telemedicine services"
+    }
+  ],
   "medicalSpecialty": [
     "Dermatology",
     "Venereology", 
-    "Leprology"
+    "Leprology",
+    "Telemedicine",
+    "Video Consultation"
   ],
   "availableLanguage": ["English", "Hindi"],
+  "knowsLanguage": ["en", "hi"],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "Dermatology Services",
@@ -81,45 +165,92 @@
         "@type": "Offer",
         "itemOffered": {
           "@type": "MedicalProcedure",
-          "name": "Acne Treatment",
-          "description": "Comprehensive acne treatment for all skin types and ages",
+          "name": "Video Consultation - Pan India",
+          "alternateName": "वीडियो परामर्श - पूरे भारत में",
+          "description": "Online video consultation available across India for skin, hair, and nail problems",
           "medicalSpecialty": "Dermatology"
         },
         "price": "800",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Acne Treatment",
+          "alternateName": "मुंहासे का इलाज",
+          "description": "Comprehensive acne treatment for all skin types and ages - available in-person (200km radius) and via video consultation (Pan-India)",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "MedicalProcedure",
           "name": "Hair Loss Treatment",
-          "description": "Advanced hair loss treatment and restoration therapies",
+          "alternateName": "बाल झड़ने का इलाज",
+          "description": "Advanced hair loss treatment and restoration therapies - consultation available in-person and online",
           "medicalSpecialty": "Dermatology"
         },
         "price": "800",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "MedicalProcedure",
           "name": "Psoriasis Treatment",
-          "description": "Long-term management and treatment of psoriasis",
+          "alternateName": "सोरायसिस का इलाज",
+          "description": "Long-term management and treatment of psoriasis with follow-up via video consultation",
           "medicalSpecialty": "Dermatology"
         },
         "price": "800",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "MedicalProcedure",
           "name": "Vitiligo Treatment",
-          "description": "Medical and procedural therapies for vitiligo/leucoderma",
+          "alternateName": "सफेद दाग का इलाज",
+          "description": "Medical and procedural therapies for vitiligo/leucoderma with online monitoring",
           "medicalSpecialty": "Dermatology"
         },
         "price": "800",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Skin Allergy Treatment",
+          "alternateName": "त्वचा एलर्जी का इलाज",
+          "description": "Comprehensive treatment for skin allergies, eczema, and dermatitis",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "MedicalProcedure",
+          "name": "Skin Infection Treatment",
+          "alternateName": "त्वचा संक्रमण का इलाज",
+          "description": "Treatment for bacterial, fungal, and viral skin infections",
+          "medicalSpecialty": "Dermatology"
+        },
+        "price": "800",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
       }
     ]
   },
@@ -128,6 +259,7 @@
     "name": "Dr. Vikas Gupta",
     "alternateName": "डॉ विकास गुप्ता",
     "medicalSpecialty": ["Dermatology", "Venereology", "Leprology"],
+    "availableLanguage": ["English", "Hindi"],
     "alumniOf": [
       {
         "@type": "EducationalOrganization",
@@ -170,7 +302,7 @@
       },
       "result": {
         "@type": "Reservation",
-        "name": "Online Consultation Appointment"
+        "name": "Online Video Consultation Appointment - Pan India"
       }
     },
     {
@@ -182,12 +314,34 @@
       },
       "result": {
         "@type": "Message",
-        "name": "Phone Appointment Booking"
+        "name": "Phone Appointment Booking - Video/In-person"
       }
     }
   ],
   "sameAs": [
     "https://www.drvikasgupta.skin",
     "https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad"
+  ],
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Service Radius",
+      "value": "200 kilometers"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Video Consultation Coverage",
+      "value": "Pan-India"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Languages Spoken",
+      "value": "English, Hindi"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Consultation Types",
+      "value": "In-person, Video consultation, Telemedicine"
+    }
   ]
 } 
