@@ -480,7 +480,7 @@ function initMap() {
         // Initialize map centered on clinic with modern styling
         const map = L.map('patientMap', {
             center: [28.8285263, 78.7752077],
-            zoom: 7,
+            zoom: 8,
             zoomControl: false,
             scrollWheelZoom: true,
             dragging: true,
@@ -862,9 +862,11 @@ function initMap() {
         // Start creating routes
         createRoutes();
         
-        // Fit map to show all markers with padding
+        // Fit map to show all markers with padding, but maintain minimum zoom level
         const group = new L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1));
+        map.fitBounds(group.getBounds().pad(0.1), {
+            maxZoom: 8
+        });
         
         // Add modern legend with glassmorphism effect
         const legend = L.control({position: 'topright'});
