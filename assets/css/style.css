@@ -1913,6 +1913,18 @@ p {
     padding: 15px;
   }
   
+  /* Hide map overlays on tablet for cleaner mobile experience */
+  .leaflet-control-container .leaflet-top.leaflet-left,
+  .leaflet-control-container .leaflet-top.leaflet-right,
+  .floating-map-info {
+    display: none !important;
+  }
+  
+  /* Keep bottom controls visible */
+  .leaflet-control-container .leaflet-bottom {
+    display: block !important;
+  }
+  
   .clinic-marker-container {
     width: 40px;
     height: 40px;
@@ -2179,6 +2191,18 @@ p {
   .floating-map-info {
     max-width: 200px;
     padding: 12px;
+  }
+  
+  /* Hide map overlays on mobile for cleaner experience */
+  .leaflet-control-container .leaflet-top.leaflet-left,
+  .leaflet-control-container .leaflet-top.leaflet-right,
+  .floating-map-info {
+    display: none !important;
+  }
+  
+  /* Keep bottom controls visible */
+  .leaflet-control-container .leaflet-bottom {
+    display: block !important;
   }
   
   .legend-stats {
