@@ -466,29 +466,53 @@ function initTestimonialsCarousel() {
 
 // Doctor Image Flip Animation (Front Page Only)
 function initDoctorImageFlip() {
+    console.log('🎬 initDoctorImageFlip called');
+    
     // Helper function to get current page
     function getCurrentPage() {
         const path = window.location.pathname;
+        console.log('📍 Current path:', path);
+        
+        // Check for specific pages
         if (path.includes('about')) return 'about';
         if (path.includes('services')) return 'services';
         if (path.includes('testimonials')) return 'testimonials';
         if (path.includes('appointment')) return 'appointment';
+        
+        // Default to index for root paths
+        if (path === '/' || path === '/index.html' || path.endsWith('index.html')) {
+            return 'index';
+        }
+        
+        // If path doesn't contain any specific page, assume it's index
         return 'index';
     }
     
     // Only run on the front page (index.html)
     const currentPage = getCurrentPage();
-    if (currentPage !== 'index') return;
+    console.log('🏠 Detected page:', currentPage);
+    
+    if (currentPage !== 'index') {
+        console.log('❌ Not on index page, skipping flip animation');
+        return;
+    }
     
     const flipContainer = document.querySelector('.flip-container');
-    if (!flipContainer) return;
+    console.log('🎯 Flip container found:', flipContainer);
+    
+    if (!flipContainer) {
+        console.log('❌ No flip container found, exiting');
+        return;
+    }
     
     let isFlipped = false;
-    let flipInterval;
+    let flipInterval = null;
     
     // Function to toggle flip state
     function toggleFlip() {
         isFlipped = !isFlipped;
+        console.log('🔄 Toggling flip to:', isFlipped ? 'BACK (Logo)' : 'FRONT (Doctor)');
+        
         flipContainer.classList.toggle('flipped', isFlipped);
         
         // Add subtle animation feedback
@@ -502,9 +526,16 @@ function initDoctorImageFlip() {
     
     // Start periodic flipping every 5 seconds
     function startPeriodicFlip() {
+        if (flipInterval) {
+            clearInterval(flipInterval);
+        }
+        
         flipInterval = setInterval(() => {
+            console.log('⏰ Auto flip triggered');
             toggleFlip();
         }, 5000);
+        
+        console.log('✅ Periodic flip started (every 5 seconds)');
     }
     
     // Stop periodic flipping
@@ -512,52 +543,44 @@ function initDoctorImageFlip() {
         if (flipInterval) {
             clearInterval(flipInterval);
             flipInterval = null;
+            console.log('⏹️ Periodic flip stopped');
         }
     }
     
-    // Manual flip on click/hover
+    // Manual flip on click
     flipContainer.addEventListener('click', () => {
+        console.log('👆 Manual click detected');
         stopPeriodicFlip();
         toggleFlip();
+        
         // Restart periodic flipping after 10 seconds
-        setTimeout(startPeriodicFlip, 10000);
+        setTimeout(() => {
+            console.log('🔄 Restarting periodic flip after manual interaction');
+            startPeriodicFlip();
+        }, 10000);
     });
     
-    // Pause animation when user hovers (for better UX)
-    flipContainer.addEventListener('mouseenter', () => {
-        flipContainer.style.animationPlayState = 'paused';
-    });
-    
-    flipContainer.addEventListener('mouseleave', () => {
-        flipContainer.style.animationPlayState = 'running';
-    });
-    
-    // Pause when page is not visible (performance optimization)
+    // Pause when page is not visible
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
+            console.log('👁️ Page hidden, stopping animation');
             stopPeriodicFlip();
         } else {
-            startPeriodicFlip();
+            console.log('👁️ Page visible, starting animation');
+            if (!flipInterval) {
+                startPeriodicFlip();
+            }
         }
     });
     
     // Start the periodic flipping after a 3-second delay
-    setTimeout(startPeriodicFlip, 3000);
+    console.log('⏳ Starting flip animation in 3 seconds...');
+    setTimeout(() => {
+        console.log('🚀 Starting periodic flip now!');
+        startPeriodicFlip();
+    }, 3000);
     
-    // Add intersection observer for better performance
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (!flipInterval) startPeriodicFlip();
-                } else {
-                    stopPeriodicFlip();
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        observer.observe(flipContainer);
-    }
+    console.log('✅ Flip animation initialization complete');
 }
 
 // Interactive Patient Origin Map
