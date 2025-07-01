@@ -795,37 +795,43 @@ function initMap() {
             const city = cities[index];
             
             marker.on('mouseover', function() {
-                this.getElement().style.transform = 'scale(1.2)';
-                this.getElement().style.zIndex = '1000';
-                
-                // Highlight connecting lines for patient cities
-                if (!city.isClinic) {
-                    connectionLines.forEach(line => {
-                        if (line.getLatLngs().some(latLng => 
-                            Math.abs(latLng.lat - city.coords[0]) < 0.01 && 
-                            Math.abs(latLng.lng - city.coords[1]) < 0.01)) {
-                            line.setStyle({
-                                color: '#F59E0B',
-                                weight: 4,
-                                opacity: 1
-                            });
-                        }
-                    });
+                const element = this.getElement();
+                if (element) {
+                    // Add CSS class for stable hover effects instead of direct transform
+                    element.classList.add('marker-hover');
+                    
+                    // Highlight connecting lines for patient cities
+                    if (!city.isClinic) {
+                        connectionLines.forEach(line => {
+                            if (line.getLatLngs().some(latLng => 
+                                Math.abs(latLng.lat - city.coords[0]) < 0.01 && 
+                                Math.abs(latLng.lng - city.coords[1]) < 0.01)) {
+                                line.setStyle({
+                                    color: '#F59E0B',
+                                    weight: 4,
+                                    opacity: 1
+                                });
+                            }
+                        });
+                    }
                 }
             });
             
             marker.on('mouseout', function() {
-                this.getElement().style.transform = 'scale(1)';
-                this.getElement().style.zIndex = 'auto';
-                
-                // Reset line styles
-                connectionLines.forEach(line => {
-                    line.setStyle({
-                        color: '#3B82F6',
-                        weight: 2,
-                        opacity: 0.7
+                const element = this.getElement();
+                if (element) {
+                    // Remove CSS class to reset hover effects
+                    element.classList.remove('marker-hover');
+                    
+                    // Reset line styles
+                    connectionLines.forEach(line => {
+                        line.setStyle({
+                            color: '#3B82F6',
+                            weight: 2,
+                            opacity: 0.7
+                        });
                     });
-                });
+                }
             });
         });
         
