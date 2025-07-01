@@ -410,20 +410,9 @@ function initTestimonialsCarousel() {
     slides.forEach((slide, index) => {
         const englishContent = slide.querySelectorAll('.lang-en');
         const hindiContent = slide.querySelectorAll('.lang-hi');
-        const visibleEnglish = Array.from(englishContent).filter(el => {
-            const style = window.getComputedStyle(el);
-            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        }).length;
-        const visibleHindi = Array.from(hindiContent).filter(el => {
-            const style = window.getComputedStyle(el);
-            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        }).length;
+        const visibleEnglish = Array.from(englishContent).filter(el => window.getComputedStyle(el).display !== 'none').length;
+        const visibleHindi = Array.from(hindiContent).filter(el => window.getComputedStyle(el).display !== 'none').length;
         console.log(`  Slide ${index + 1}: English visible: ${visibleEnglish}, Hindi visible: ${visibleHindi}`);
-        
-        // Ensure at least one language is visible in each slide
-        if (visibleEnglish === 0 && visibleHindi === 0) {
-            console.warn(`⚠️ Slide ${index + 1} has no visible content! This may cause blank slides.`);
-        }
     });
     
     // Adjust container height based on content
@@ -431,11 +420,6 @@ function initTestimonialsCarousel() {
         const activeSlide = carousel.querySelector('.testimonial-slide.active');
         if (activeSlide) {
             const container = carousel.querySelector('.testimonial-container');
-            
-            // Force a reflow to ensure accurate height calculation
-            activeSlide.style.display = 'flex';
-            activeSlide.offsetHeight; // Trigger reflow
-            
             const slideHeight = activeSlide.scrollHeight;
             const minHeight = 220; // Original minimum height
             const newHeight = Math.max(minHeight, slideHeight + 40); // Add padding
@@ -443,25 +427,6 @@ function initTestimonialsCarousel() {
             if (container) {
                 container.style.height = newHeight + 'px';
                 console.log(`📏 Adjusted container height to: ${newHeight}px for current slide`);
-            }
-            
-            // Verify content is visible
-            const visibleContent = activeSlide.querySelectorAll('.lang-en, .lang-hi');
-            const actuallyVisible = Array.from(visibleContent).filter(el => {
-                const style = window.getComputedStyle(el);
-                return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-            });
-            
-            if (actuallyVisible.length === 0) {
-                console.error('❌ Active slide has no visible content!');
-                // Force show content based on current language
-                const currentLang = document.body.classList.contains('lang-hi') ? 'hi' : 'en';
-                const targetElements = activeSlide.querySelectorAll(`.lang-${currentLang}`);
-                targetElements.forEach(el => {
-                    el.style.display = 'inline';
-                    el.style.visibility = 'visible';
-                    el.style.opacity = '1';
-                });
             }
         }
     }
