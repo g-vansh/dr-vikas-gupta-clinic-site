@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
-    <!-- Homepage - Main landing page with comprehensive SEO -->
+    <!-- Homepage - Main landing page with comprehensive SEO (English) -->
     <url>
         <loc>https://www.drvikasgupta.skin/</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/"/>
         <image:image>
             <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg</image:loc>
             <image:title>Dr. Vikas Gupta - Top Dermatologist serving 200km radius + Pan-India Video Consultations</image:title>
@@ -19,109 +21,181 @@
             <image:title>Dr. Vikas Gupta Skin Care Clinic Logo</image:title>
             <image:caption>Official logo of Dr. Vikas Gupta Skin Care Clinic - Premier dermatology services in Moradabad and Pan-India video consultations</image:caption>
         </image:image>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-og.jpg</image:loc>
+            <image:title>Dr. Vikas Gupta - Best Dermatologist Moradabad</image:title>
+            <image:caption>Dr. Vikas Gupta - Leading dermatologist in Moradabad with 30+ years experience in treating skin, hair, and nail conditions</image:caption>
+        </image:image>
     </url>
     
-    <!-- About Page - Doctor's credentials and experience -->
+    <!-- Homepage - Hindi Version -->
+    <url>
+        <loc>https://www.drvikasgupta.skin/?lang=hi</loc>
+        <lastmod>2024-12-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/?lang=hi"/>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg</image:loc>
+            <image:title>डॉ विकास गुप्ता - मुरादाबाद के शीर्ष त्वचा विशेषज्ञ + पूरे भारत में वीडियो परामर्श</image:title>
+            <image:caption>मुरादाबाद में प्रमुख त्वचा विशेषज्ञ 30+ वर्षों के अनुभव के साथ। व्यक्तिगत परामर्श के लिए 200km की रेंज और पूरे भारत में वीडियो परामर्श। मुंहासे, बाल झड़ना, सोरायसिस, विटिलिगो उपचार में विशेषज्ञ।</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/clinic-logo.png</image:loc>
+            <image:title>डॉ विकास गुप्ता स्किन केयर क्लिनिक लोगो</image:title>
+            <image:caption>डॉ विकास गुप्ता स्किन केयर क्लिनिक का आधिकारिक लोगो - मुरादाबाद में प्रीमियम त्वचा सेवाएं और पूरे भारत में वीडियो परामर्श</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- About Page - English -->
     <url>
         <loc>https://www.drvikasgupta.skin/about.html</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/about.html?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/about.html"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-about.jpg</image:loc>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-profile.jpg</image:loc>
             <image:title>Dr. Vikas Gupta MD - 30+ Years Experience in Dermatology</image:title>
             <image:caption>Dr. Vikas Gupta, MD in Dermatology from SN Medical College Agra. 30+ years of expertise in treating skin, hair, and nail conditions. Serving 200km radius and Pan-India through video consultations.</image:caption>
         </image:image>
     </url>
     
-    <!-- Services Page - Comprehensive dermatology treatments -->
+    <!-- About Page - Hindi -->
+    <url>
+        <loc>https://www.drvikasgupta.skin/about.html?lang=hi</loc>
+        <lastmod>2024-12-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/about.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/about.html?lang=hi"/>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-profile.jpg</image:loc>
+            <image:title>डॉ विकास गुप्ता एमडी - त्वचा रोग में 30+ वर्षों का अनुभव</image:title>
+            <image:caption>डॉ विकास गुप्ता, एसएन मेडिकल कॉलेज आगरा से त्वचा रोग में एमडी। त्वचा, बाल और नाखून की स्थितियों के इलाज में 30+ वर्षों की विशेषज्ञता। 200km रेंज की सेवा और वीडियो परामर्श के माध्यम से पूरे भारत में।</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Services Page - English -->
     <url>
         <loc>https://www.drvikasgupta.skin/services.html</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/services.html?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/services.html"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/dermatology-services.jpg</image:loc>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-cropped.jpg</image:loc>
             <image:title>Comprehensive Dermatology Services - 200km Service Area + Pan-India Video Consultations</image:title>
             <image:caption>Complete range of dermatology services including acne treatment, hair loss therapy, psoriasis management, vitiligo treatment. Available in-person within 200km radius and via video consultation across India.</image:caption>
         </image:image>
     </url>
     
-    <!-- Testimonials Page - Patient reviews and ratings -->
+    <!-- Services Page - Hindi -->
+    <url>
+        <loc>https://www.drvikasgupta.skin/services.html?lang=hi</loc>
+        <lastmod>2024-12-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/services.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/services.html?lang=hi"/>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-cropped.jpg</image:loc>
+            <image:title>व्यापक त्वचा रोग सेवाएं - 200km सेवा क्षेत्र + पूरे भारत में वीडियो परामर्श</image:title>
+            <image:caption>त्वचा रोग सेवाओं की पूरी श्रृंखला जिसमें मुंहासे का इलाज, बाल झड़ने की चिकित्सा, सोरायसिस प्रबंधन, विटिलिगो उपचार शामिल है। 200km रेंज के भीतर व्यक्तिगत रूप से और पूरे भारत में वीडियो परामर्श के माध्यम से उपलब्ध।</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Testimonials Page - English -->
     <url>
         <loc>https://www.drvikasgupta.skin/testimonials.html</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/testimonials.html?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/testimonials.html"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/patient-testimonials.jpg</image:loc>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-square.jpg</image:loc>
             <image:title>Patient Reviews - 4.8★ Rating from 100+ Patients across 200km radius and Pan-India</image:title>
             <image:caption>Excellent patient reviews and testimonials for Dr. Vikas Gupta. 4.8/5 star rating from satisfied patients across 200km service area and Pan-India video consultation users.</image:caption>
         </image:image>
     </url>
     
-    <!-- Appointment Page - Online booking for video and in-person consultations -->
+    <!-- Testimonials Page - Hindi -->
+    <url>
+        <loc>https://www.drvikasgupta.skin/testimonials.html?lang=hi</loc>
+        <lastmod>2024-12-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/testimonials.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/testimonials.html?lang=hi"/>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta-square.jpg</image:loc>
+            <image:title>मरीजों की समीक्षाएं - 200km रेंज और पूरे भारत के 100+ मरीजों से 4.8★ रेटिंग</image:title>
+            <image:caption>डॉ विकास गुप्ता के लिए उत्कृष्ट मरीज समीक्षाएं और प्रशंसापत्र। 200km सेवा क्षेत्र और पूरे भारत के वीडियो परामर्श उपयोगकर्ताओं से संतुष्ट मरीजों से 4.8/5 स्टार रेटिंग।</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Appointment Page - English -->
     <url>
         <loc>https://www.drvikasgupta.skin/appointment.html</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/appointment.html?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/appointment.html"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/online-appointment.jpg</image:loc>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/clinic-logo.png</image:loc>
             <image:title>Book Appointment - Video Consultation Pan-India | In-person within 200km | ₹800</image:title>
             <image:caption>Easy online appointment booking for dermatology consultation. Video consultations available Pan-India. In-person appointments within 200km radius from Moradabad. Consultation fee ₹800.</image:caption>
         </image:image>
     </url>
     
-    <!-- FAQ Page - Common dermatology questions with Hindi support -->
+    <!-- Appointment Page - Hindi -->
+    <url>
+        <loc>https://www.drvikasgupta.skin/appointment.html?lang=hi</loc>
+        <lastmod>2024-12-15</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/appointment.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/appointment.html?lang=hi"/>
+        <image:image>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/clinic-logo.png</image:loc>
+            <image:title>अपॉइंटमेंट बुक करें - पूरे भारत में वीडियो परामर्श | 200km के भीतर व्यक्तिगत | ₹800</image:title>
+            <image:caption>त्वचा रोग परामर्श के लिए आसान ऑनलाइन अपॉइंटमेंट बुकिंग। पूरे भारत में वीडियो परामर्श उपलब्ध। मुरादाबाद से 200km रेंज के भीतर व्यक्तिगत अपॉइंटमेंट। परामर्श शुल्क ₹800।</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- FAQ Page - English -->
     <url>
         <loc>https://www.drvikasgupta.skin/faq.html</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/faq.html?lang=hi"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/faq.html"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/dermatology-faq.jpg</image:loc>
-            <image:title>Dermatology FAQ - Common Skin Problems Answered in English & Hindi</image:title>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg</image:loc>
+            <image:title>Dermatology FAQ - Common Skin Problems Answered in English &amp; Hindi</image:title>
             <image:caption>Frequently asked questions about skin, hair, and nail problems answered by Dr. Vikas Gupta. Available in English and Hindi for better understanding of patients across India.</image:caption>
         </image:image>
     </url>
     
-    <!-- Video Consultation Landing Page -->
+    <!-- FAQ Page - Hindi -->
     <url>
-        <loc>https://www.drvikasgupta.skin/video-consultation-dermatologist-india.html</loc>
-        <lastmod>2024-12-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-        <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/video-consultation.jpg</image:loc>
-            <image:title>Video Consultation Dermatologist Pan-India - ऑनलाइन त्वचा डॉक्टर - Dr. Vikas Gupta</image:title>
-            <image:caption>Professional dermatology video consultations available across India. Expert online skin, hair, nail treatment guidance by Dr. Vikas Gupta. Book online appointment today.</image:caption>
-        </image:image>
-    </url>
-    
-    <!-- Specific Treatment Pages for Better SEO -->
-    <url>
-        <loc>https://www.drvikasgupta.skin/acne-treatment-moradabad.html</loc>
+        <loc>https://www.drvikasgupta.skin/faq.html?lang=hi</loc>
         <lastmod>2024-12-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/faq.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://www.drvikasgupta.skin/faq.html?lang=hi"/>
         <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/acne-treatment.jpg</image:loc>
-            <image:title>Best Acne Treatment in Moradabad - मुंहासे का इलाज - Dr. Vikas Gupta</image:title>
-            <image:caption>Expert acne treatment by Dr. Vikas Gupta. Advanced therapies for all types of acne. Available in-person within 200km and via video consultation Pan-India. मुंहासे का बेहतरीन इलाज।</image:caption>
+            <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg</image:loc>
+            <image:title>त्वचा रोग FAQ - अंग्रेजी और हिंदी में सामान्य त्वचा समस्याओं के उत्तर</image:title>
+            <image:caption>डॉ विकास गुप्ता द्वारा त्वचा, बाल और नाखून की समस्याओं के बारे में अक्सर पूछे जाने वाले प्रश्नों के उत्तर। पूरे भारत में मरीजों की बेहतर समझ के लिए अंग्रेजी और हिंदी में उपलब्ध।</image:caption>
         </image:image>
     </url>
     
-    <url>
-        <loc>https://www.drvikasgupta.skin/hair-loss-treatment-moradabad.html</loc>
-        <lastmod>2024-12-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-        <image:image>
-            <image:loc>https://www.drvikasgupta.skin/assets/images/hair-loss-treatment.jpg</image:loc>
-            <image:title>Hair Loss Treatment Moradabad - बाल झड़ने का इलाज - Dr. Vikas Gupta</image:title>
-            <image:caption>Advanced hair loss treatment and restoration by Dr. Vikas Gupta. Effective solutions for male and female pattern baldness. 200km service area + Pan-India video consultations.</image:caption>
-        </image:image>
-    </url>
-    
-</urlset> 
+</urlset>

@@ -512,7 +512,7 @@ function initDoctorImageFlip() {
     function toggleFlip() {
         isFlipped = !isFlipped;
         console.log('🔄 Toggling flip to:', isFlipped ? 'BACK (Logo)' : 'FRONT (Doctor)');
-        
+
         flipContainer.classList.toggle('flipped', isFlipped);
         
         // Add subtle animation feedback
