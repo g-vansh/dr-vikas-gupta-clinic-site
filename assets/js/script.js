@@ -519,7 +519,7 @@ function initMap() {
                 coords: [28.8285263, 78.7752077], 
                 isClinic: true,
                 description: "Leading Dermatologist in Moradabad",
-                patients: "1000+"
+                patients: "500,000+"
             },
             // Existing nearby cities
             { 
@@ -558,7 +558,7 @@ function initMap() {
                 patients: "10,000+"
             },
             { 
-                name: "New Delhi", 
+                name: "Delhi NCR", 
                 coords: [28.68, 77.10], 
                 isClinic: false,
                 description: "Patients from New Delhi metropolitan area",
@@ -860,7 +860,7 @@ function initMap() {
                         <strong>18+</strong> Cities
                     </div>
                     <div class="stat-item">
-                        <strong>1200+</strong> Patients
+                        <strong>500,000+</strong> Patients
                     </div>
                 </div>
             `;
