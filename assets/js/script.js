@@ -5,12 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality
     initLanguageToggle();
     initMobileMenu();
-    
-    // Initialize carousel after a small delay to ensure language settings are applied
-    setTimeout(() => {
-        initTestimonialsCarousel();
-    }, 100);
-    
+    initTestimonialsCarousel();
     initMap();
     initSmoothScrolling();
     initContactForms();
@@ -215,12 +210,6 @@ function initLanguageToggle() {
         // Update page title if needed
         updatePageTitle(lang);
         
-        // Re-initialize carousel after language change to ensure proper functionality
-        setTimeout(() => {
-            console.log('🎠 Re-initializing carousel after language change...');
-            initTestimonialsCarousel();
-        }, 150);
-        
         // Final state check
         console.log('🏁 FINAL STATE:');
         console.log('  - Body classes:', body.classList.toString());
@@ -367,31 +356,11 @@ function initMobileMenu() {
 
 // Testimonials Carousel
 function initTestimonialsCarousel() {
-    console.log('🎠 Initializing testimonials carousel...');
     const carousel = document.querySelector('.testimonials-carousel');
-    if (!carousel) {
-        console.log('❌ Carousel container not found');
-        return;
-    }
+    if (!carousel) return;
     
     const slides = carousel.querySelectorAll('.testimonial-slide');
-    console.log(`📊 Found ${slides.length} testimonial slides`);
-    if (slides.length === 0) {
-        console.log('❌ No testimonial slides found');
-        return;
-    }
-    
-    // Clean up any existing carousel state
-    if (window.testimonialCarouselInterval) {
-        clearInterval(window.testimonialCarouselInterval);
-        window.testimonialCarouselInterval = null;
-    }
-    
-    // Remove any existing dots container
-    const existingDots = carousel.querySelector('.testimonial-dots');
-    if (existingDots) {
-        existingDots.remove();
-    }
+    if (slides.length === 0) return;
     
     let currentSlide = 0;
     let intervalId;
@@ -405,35 +374,6 @@ function initTestimonialsCarousel() {
     // Show first slide
     slides[currentSlide].classList.add('active');
     
-    // Debug: Check which language content is visible in slides
-    console.log('🔍 Checking slide content visibility...');
-    slides.forEach((slide, index) => {
-        const englishContent = slide.querySelectorAll('.lang-en');
-        const hindiContent = slide.querySelectorAll('.lang-hi');
-        const visibleEnglish = Array.from(englishContent).filter(el => window.getComputedStyle(el).display !== 'none').length;
-        const visibleHindi = Array.from(hindiContent).filter(el => window.getComputedStyle(el).display !== 'none').length;
-        console.log(`  Slide ${index + 1}: English visible: ${visibleEnglish}, Hindi visible: ${visibleHindi}`);
-    });
-    
-    // Adjust container height based on content
-    function adjustContainerHeight() {
-        const activeSlide = carousel.querySelector('.testimonial-slide.active');
-        if (activeSlide) {
-            const container = carousel.querySelector('.testimonial-container');
-            const slideHeight = activeSlide.scrollHeight;
-            const minHeight = 220; // Original minimum height
-            const newHeight = Math.max(minHeight, slideHeight + 40); // Add padding
-            
-            if (container) {
-                container.style.height = newHeight + 'px';
-                console.log(`📏 Adjusted container height to: ${newHeight}px for current slide`);
-            }
-        }
-    }
-    
-    // Call height adjustment initially and after each slide change
-    setTimeout(adjustContainerHeight, 50);
-    
     function showSlide(index) {
         // Remove active class from all slides
         slides.forEach(slide => slide.classList.remove('active'));
@@ -445,9 +385,6 @@ function initTestimonialsCarousel() {
         slides.forEach((slide, i) => {
             slide.style.zIndex = i === index ? 10 : 1;
         });
-        
-        // Adjust container height for the new slide
-        setTimeout(adjustContainerHeight, 100);
     }
     
     function nextSlide() {
@@ -458,17 +395,11 @@ function initTestimonialsCarousel() {
     // Start auto-rotation
     function startRotation() {
         intervalId = setInterval(nextSlide, 4000); // Change every 4 seconds
-        window.testimonialCarouselInterval = intervalId; // Store globally for cleanup
     }
     
     function stopRotation() {
         if (intervalId) {
             clearInterval(intervalId);
-            intervalId = null;
-        }
-        if (window.testimonialCarouselInterval) {
-            clearInterval(window.testimonialCarouselInterval);
-            window.testimonialCarouselInterval = null;
         }
     }
     
@@ -531,8 +462,6 @@ function initTestimonialsCarousel() {
             startRotation();
         }
     });
-    
-    console.log('✅ Testimonials carousel initialization complete');
 }
 
 // Doctor Image Flip Animation (Front Page Only)
