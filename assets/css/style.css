@@ -2744,31 +2744,65 @@ textarea:focus {
   box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
 }
 
-/* Stable hover effects for markers using CSS classes */
-.marker-hover {
-  z-index: 1000 !important;
-  position: relative;
-}
-
-.marker-hover .clinic-marker-icon {
-  transform: scale(1.1) !important;
-  box-shadow: 0 6px 25px rgba(239, 68, 68, 0.6) !important;
-}
-
-.marker-hover .patient-marker-icon {
-  transform: scale(1.2) !important;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5) !important;
-}
-
-/* Connecting Lines Animation */
+/* Connecting Lines Animation - Enhanced for Real Routes */
 .connection-line {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
+  transition: all 0.3s ease;
+}
+
+.route-line {
+  /* Real OSRM routes with enhanced styling */
+  stroke-width: 2.5;
+  stroke: #3B82F6;
+  stroke-opacity: 0.8;
+  filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+}
+
+.route-line:hover {
+  stroke: #F59E0B;
+  stroke-width: 4;
+  stroke-opacity: 1;
+  filter: drop-shadow(0 3px 6px rgba(245, 158, 11, 0.5));
+}
+
+.fallback-line {
+  /* Fallback straight lines with dashed style */
+  stroke-width: 2;
+  stroke: #6B7280;
+  stroke-opacity: 0.6;
+  stroke-dasharray: 8, 4;
+  filter: drop-shadow(0 1px 2px rgba(107, 114, 128, 0.2));
+}
+
+.fallback-line:hover {
+  stroke: #9CA3AF;
+  stroke-width: 3;
+  stroke-opacity: 0.8;
 }
 
 @keyframes drawLine {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* Route Loading Animation */
+.route-loading {
+  stroke: #10B981;
+  stroke-width: 3;
+  stroke-opacity: 0.7;
+  animation: routePulse 1.5s infinite;
+}
+
+@keyframes routePulse {
+  0%, 100% {
+    stroke-opacity: 0.4;
+    stroke-width: 2;
+  }
+  50% {
+    stroke-opacity: 0.9;
+    stroke-width: 4;
   }
 }
 
@@ -2837,6 +2871,22 @@ textarea:focus {
   background: linear-gradient(90deg, transparent, #3B82F6, transparent);
   border-radius: 2px;
   animation: shimmer 2s infinite;
+}
+
+.legend-line.fallback-style {
+  background: linear-gradient(90deg, #6B7280, #9CA3AF);
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.5) 3px,
+    rgba(255, 255, 255, 0.5) 6px
+  );
+}
+
+.legend-line.fallback-style::before {
+  background: linear-gradient(90deg, transparent, #6B7280, transparent);
+  animation: shimmer 3s infinite;
 }
 
 .legend-stats {
