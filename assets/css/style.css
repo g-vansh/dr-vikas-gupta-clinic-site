@@ -46,16 +46,75 @@ body {
 
 /* Language Toggle System */
 /* Default: Show English, Hide Hindi */
-.lang-en { display: inline !important; }
-.lang-hi { display: none !important; }
+.lang-en { 
+    display: inline !important; 
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.lang-hi { 
+    display: none !important; 
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
 
 /* When body has lang-hi class: Hide English, Show Hindi */
-body.lang-hi .lang-en { display: none !important; }
-body.lang-hi .lang-hi { display: inline !important; }
+body.lang-hi .lang-en { 
+    display: none !important; 
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+body.lang-hi .lang-hi { 
+    display: inline !important; 
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 
 /* When body has lang-en class: Show English, Hide Hindi */
-body.lang-en .lang-en { display: inline !important; }
-body.lang-en .lang-hi { display: none !important; }
+body.lang-en .lang-en { 
+    display: inline !important; 
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+body.lang-en .lang-hi { 
+    display: none !important; 
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Special handling for block-level language elements */
+.lang-en.block, .lang-hi.block,
+div.lang-en, div.lang-hi,
+p.lang-en, p.lang-hi,
+h1.lang-en, h1.lang-hi,
+h2.lang-en, h2.lang-hi,
+h3.lang-en, h3.lang-hi,
+h4.lang-en, h4.lang-hi,
+h5.lang-en, h5.lang-hi,
+h6.lang-en, h6.lang-hi {
+    display: block !important;
+}
+
+/* Special handling for testimonial content */
+.testimonial-slide .lang-en,
+.testimonial-slide .lang-hi {
+    display: inline !important;
+}
+
+body.lang-hi .testimonial-slide .lang-en {
+    display: none !important;
+}
+
+body.lang-hi .testimonial-slide .lang-hi {
+    display: inline !important;
+}
+
+body.lang-en .testimonial-slide .lang-en {
+    display: inline !important;
+}
+
+body.lang-en .testimonial-slide .lang-hi {
+    display: none !important;
+}
 
 /* Prevent body element itself from being hidden */
 body.lang-hi,
