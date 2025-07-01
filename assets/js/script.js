@@ -20,10 +20,36 @@ function initLanguageToggle() {
     const langBtns = document.querySelectorAll('.lang-btn');
     const body = document.body;
     
-    // Get saved language preference or default to English
-    let currentLang = localStorage.getItem('prefLang') || 'en';
+    // Function to get URL parameter
+    function getURLParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
     
-    // Apply saved language on load
+    // Function to update URL with language parameter (optional - for persistence)
+    function updateURL(lang) {
+        const url = new URL(window.location);
+        if (lang && lang !== 'en') {
+            url.searchParams.set('lang', lang);
+        } else {
+            url.searchParams.delete('lang');
+        }
+        // Update URL without page reload
+        window.history.replaceState({}, '', url);
+    }
+    
+    // Determine language preference with priority order:
+    // 1. URL parameter (highest priority)
+    // 2. Saved localStorage preference
+    // 3. Default to English
+    let currentLang = getURLParameter('lang') || localStorage.getItem('prefLang') || 'en';
+    
+    // Validate language code
+    if (!['en', 'hi'].includes(currentLang)) {
+        currentLang = 'en';
+    }
+    
+    // Apply language on load
     setLanguage(currentLang);
     
     // Add click event listeners
@@ -174,6 +200,12 @@ function initLanguageToggle() {
         // Save preference
         localStorage.setItem('prefLang', lang);
         
+        // Update URL to reflect current language (optional - remove if you don't want URL to change)
+        updateURL(lang);
+        
+        // Update all navigation links
+        updateNavigationLinks();
+        
         // Update page title if needed
         updatePageTitle(lang);
         
@@ -204,26 +236,32 @@ function initLanguageToggle() {
     }
     
     function updatePageTitle(lang) {
-        const titles = {
-            'en': {
-                'index': 'Dr. Vikas Gupta - Best Dermatologist in Moradabad | Skin Care Clinic',
-                'about': 'About Dr. Vikas Gupta - Dermatologist in Moradabad',
-                'services': 'Services - Dr. Vikas Gupta Skin Clinic Moradabad',
-                'testimonials': 'Patient Reviews - Dr. Vikas Gupta Dermatologist',
-                'appointment': 'Book Appointment - Dr. Vikas Gupta Skin Clinic'
+        // Get current page for title mapping
+        const currentPage = getCurrentPage();
+        
+        // Title mappings for different pages and languages
+        const pageTitles = {
+            'index': {
+                'en': 'Dr. Vikas Gupta - Best Dermatologist Moradabad | मुरादाबाद के शीर्ष त्वचा विशेषज्ञ',
+                'hi': 'डॉ विकास गुप्ता - मुरादाबाद के सर्वश्रेष्ठ त्वचा विशेषज्ञ | Best Dermatologist'
             },
-            'hi': {
-                'index': 'डॉ विकास गुप्ता - मुरादाबाद के सर्वश्रेष्ठ त्वचा विशेषज्ञ | स्किन केयर क्लिनिक',
-                'about': 'डॉ विकास गुप्ता के बारे में - मुरादाबाद के त्वचा विशेषज्ञ',
-                'services': 'सेवाएं - डॉ विकास गुप्ता स्किन क्लिनिक मुरादाबाद',
-                'testimonials': 'मरीजों की समीक्षाएं - डॉ विकास गुप्ता त्वचा विशेषज्ञ',
-                'appointment': 'अपॉइंटमेंट बुक करें - डॉ विकास गुप्ता स्किन क्लिनिक'
+            'about': {
+                'en': 'About Dr. Vikas Gupta - Leading Dermatologist | 30+ Years Experience',
+                'hi': 'डॉ विकास गुप्ता के बारे में - प्रमुख त्वचा विशेषज्ञ | 30+ वर्ष अनुभव'
+            },
+            'services': {
+                'en': 'Dermatology Services - Dr. Vikas Gupta | Skin, Hair & Nail Treatment',
+                'hi': 'त्वचा रोग सेवाएं - डॉ विकास गुप्ता | त्वचा, बाल और नाखून उपचार'
+            },
+            'appointment': {
+                'en': 'Book Appointment - Dr. Vikas Gupta | Online & In-Person Consultation',
+                'hi': 'अपॉइंटमेंट बुक करें - डॉ विकास गुप्ता | ऑनलाइन और व्यक्तिगत परामर्श'
             }
         };
         
-        const currentPage = getCurrentPage();
-        if (titles[lang] && titles[lang][currentPage]) {
-            document.title = titles[lang][currentPage];
+        // Update page title if mapping exists
+        if (pageTitles[currentPage] && pageTitles[currentPage][lang]) {
+            document.title = pageTitles[currentPage][lang];
         }
     }
     
@@ -235,6 +273,46 @@ function initLanguageToggle() {
         if (path.includes('appointment')) return 'appointment';
         return 'index';
     }
+
+    // Helper function to generate language-specific URLs
+    function generateLanguageURL(targetLang, customPath = null) {
+        const currentPath = customPath || window.location.pathname;
+        const url = new URL(window.location.origin + currentPath);
+        
+        if (targetLang && targetLang !== 'en') {
+            url.searchParams.set('lang', targetLang);
+        } else {
+            url.searchParams.delete('lang');
+        }
+        
+        return url.toString();
+    }
+
+    // Function to update all navigation links with current language
+    function updateNavigationLinks() {
+        const currentLang = getCurrentLanguage();
+        
+        // Update all internal navigation links
+        const navLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="index.html"], a[href^="about.html"], a[href^="services.html"], a[href^="appointment.html"], a[href^="testimonials.html"]');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            // Skip if it's an external link or already has language parameter
+            if (href && !href.includes('lang=') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+                const newURL = generateLanguageURL(currentLang, href.startsWith('/') ? href : '/' + href);
+                link.setAttribute('href', newURL);
+            }
+        });
+    }
+
+    // Function to get current language
+    function getCurrentLanguage() {
+        return currentLang;
+    }
+
+    // Expose functions globally for external use
+    window.generateLanguageURL = generateLanguageURL;
+    window.getCurrentLanguage = getCurrentLanguage;
 }
 
 // Mobile Menu Functionality

@@ -433,6 +433,46 @@
         ]
     }
     </script>
+    
+    <!-- Language-aware URL Enhancement Script -->
+    <script>
+        // Update Open Graph and canonical URLs when language changes
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateMetaURLs() {
+                const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
+                const currentURL = window.generateLanguageURL ? window.generateLanguageURL(currentLang) : window.location.href;
+                
+                // Update canonical URL
+                let canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) {
+                    canonical.href = currentURL;
+                }
+                
+                // Update Open Graph URL
+                let ogUrl = document.querySelector('meta[property="og:url"]');
+                if (ogUrl) {
+                    ogUrl.content = currentURL;
+                }
+                
+                // Update Twitter URL if exists
+                let twitterUrl = document.querySelector('meta[name="twitter:url"]');
+                if (twitterUrl) {
+                    twitterUrl.content = currentURL;
+                }
+            }
+            
+            // Initial update
+            setTimeout(updateMetaURLs, 500);
+            
+            // Listen for language changes
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setTimeout(updateMetaURLs, 100);
+                });
+            });
+        });
+    </script>
 </head>
 <body class="lang-en">
     <!-- Header -->
