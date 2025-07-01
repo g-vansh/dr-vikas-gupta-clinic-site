@@ -215,11 +215,17 @@ function initLanguageToggle() {
         // Update page title if needed
         updatePageTitle(lang);
         
-        // Re-initialize carousel after language change to ensure proper functionality
+        // Trigger a simple reflow to ensure proper display after language change
         setTimeout(() => {
-            console.log('🎠 Re-initializing carousel after language change...');
-            initTestimonialsCarousel();
-        }, 150);
+            console.log('🎠 Triggering reflow after language change...');
+            const carousel = document.querySelector('.testimonials-carousel');
+            if (carousel) {
+                carousel.style.display = 'none';
+                carousel.offsetHeight; // Force reflow
+                carousel.style.display = '';
+                console.log('✅ Carousel reflow complete');
+            }
+        }, 100);
         
         // Final state check
         console.log('🏁 FINAL STATE:');
@@ -534,6 +540,8 @@ function initTestimonialsCarousel() {
     
     console.log('✅ Testimonials carousel initialization complete');
 }
+
+
 
 // Doctor Image Flip Animation (Front Page Only)
 // Simple Doctor Image Flip (CSS hover-based)
