@@ -282,7 +282,7 @@ p {
 .hero {
   background: linear-gradient(135deg, var(--primary-color) 0%, #1e5f74 100%);
   color: var(--white);
-  padding: 140px 0 80px;
+  padding: 160px 0 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -444,7 +444,7 @@ p {
 /* Hero Medal Ribbon Styling */
 .hero-medal {
   position: absolute;
-  top: 20px;
+  top: 40px;
   right: 20px;
   z-index: 10;
 }
@@ -1324,7 +1324,7 @@ p {
   }
   
   .hero {
-    padding: 120px 0 60px;
+    padding: 140px 0 60px;
   }
   
   .hero h1 {
@@ -1338,7 +1338,7 @@ p {
 
   /* Responsive Medal Styling */
   .hero-medal {
-    top: 10px;
+    top: 25px;
     right: 10px;
   }
 
@@ -1526,7 +1526,7 @@ p {
 
   /* Extra Small Mobile Medal Styling */
   .hero-medal {
-    top: 5px;
+    top: 15px;
     right: 5px;
   }
 
