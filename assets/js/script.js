@@ -651,8 +651,15 @@ function initMap() {
                     <div class="clinic-marker-pulse"></div>
                     <div class="clinic-marker-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white"/>
-                            <circle cx="12" cy="12" r="3" fill="white"/>
+                            <!-- Doctor with stethoscope icon -->
+                            <path d="M12 3C10.34 3 9 4.34 9 6V7H7C6.45 7 6 7.45 6 8V10C6 10.55 6.45 11 7 11H9V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V11H17C17.55 11 18 10.55 18 10V8C18 7.45 17.55 7 17 7H15V6C15 4.34 13.66 3 12 3Z" fill="white"/>
+                            <!-- Stethoscope -->
+                            <path d="M19 14C18.45 14 18 14.45 18 15S18.45 16 19 16S20 15.55 20 15S19.55 14 19 14Z" fill="white"/>
+                            <path d="M19 12C17.34 12 16 13.34 16 15C16 16.66 17.34 18 19 18C20.66 18 22 16.66 22 15C22 13.34 20.66 12 19 12ZM19 16.5C18.17 16.5 17.5 15.83 17.5 15S18.17 13.5 19 13.5S20.5 14.17 20.5 15S19.83 16.5 19 16.5Z" fill="white"/>
+                            <path d="M16 15C16 16.11 15.11 17 14 17H12V19H14C16.21 19 18 17.21 18 15" fill="white"/>
+                            <!-- Medical cross on chest -->
+                            <path d="M11 8H13V10H11V8Z" fill="#DC2626"/>
+                            <path d="M10 9H14V9.5H10V9Z" fill="#DC2626"/>
                         </svg>
                     </div>
                 </div>
