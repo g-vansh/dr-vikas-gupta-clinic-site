@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMap();
     initSmoothScrolling();
     initContactForms();
+    initWhatsAppAssistant();
     
     // Set active navigation
     setActiveNavigation();
@@ -1340,6 +1341,195 @@ window.masterDebug = function() {
         console.log('🌐 Try opening the same page in an incognito/private browser window');
     }, 2000);
 };
+
+// WhatsApp Floating Assistant
+function initWhatsAppAssistant() {
+    const assistant = document.getElementById('whatsappAssistant');
+    const chatBubble = document.getElementById('chatBubble');
+    const doctorAvatar = document.getElementById('doctorAvatar');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+
+    if (!assistant || !chatBubble || !doctorAvatar || !whatsappBtn || !closeChatBtn) {
+        console.log('WhatsApp Assistant: Required elements not found');
+        return;
+    }
+
+    let chatVisible = false;
+    let assistantHidden = false;
+    let lastScrollY = window.scrollY;
+
+    // Show assistant with animation after page load
+    setTimeout(() => {
+        assistant.classList.add('animate-in');
+        
+        // Show doctor avatar after button animation
+        setTimeout(() => {
+            doctorAvatar.classList.add('show');
+        }, 300);
+        
+        // Show chat bubble after avatar
+        setTimeout(() => {
+            showChatBubble();
+        }, 1000);
+    }, 2000);
+
+    // Show chat bubble function
+    function showChatBubble() {
+        if (!chatVisible && !assistantHidden) {
+            chatBubble.classList.add('show');
+            chatVisible = true;
+            
+            // Auto-hide bubble after 8 seconds
+            setTimeout(() => {
+                if (chatVisible) {
+                    hideChatBubble();
+                }
+            }, 8000);
+        }
+    }
+
+    // Hide chat bubble function
+    function hideChatBubble() {
+        chatBubble.classList.remove('show');
+        chatVisible = false;
+    }
+
+    // Close chat button functionality
+    closeChatBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hideChatBubble();
+    });
+
+    // Show chat bubble on WhatsApp button hover
+    whatsappBtn.addEventListener('mouseenter', () => {
+        if (!chatVisible && !assistantHidden) {
+            showChatBubble();
+        }
+    });
+
+    // Hide assistant on scroll down, show on scroll up
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 300) {
+                // Scrolling down
+                if (!assistantHidden) {
+                    assistant.classList.add('hidden');
+                    assistantHidden = true;
+                }
+            } else if (currentScrollY < lastScrollY) {
+                // Scrolling up
+                if (assistantHidden) {
+                    assistant.classList.remove('hidden');
+                    assistantHidden = false;
+                }
+            }
+            
+            lastScrollY = currentScrollY;
+        }, 100);
+    });
+
+    // Show bubble when page becomes visible
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !assistantHidden) {
+            setTimeout(() => {
+                showChatBubble();
+            }, 1000);
+        }
+    });
+
+    // Add click tracking for analytics (optional)
+    whatsappBtn.addEventListener('click', () => {
+        // Track WhatsApp click event
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'whatsapp_click', {
+                'event_category': 'engagement',
+                'event_label': 'floating_button'
+            });
+        }
+        
+        // Optional: Track in console for testing
+        console.log('WhatsApp assistant clicked - appointment booking initiated');
+    });
+
+    // Add different chat messages for variety
+    const chatMessages = [
+        {
+            en: "Hi! Need help booking an appointment? 👋",
+            hi: "नमस्ते! अपॉइंटमेंट बुक करने में मदद चाहिए? 👋"
+        },
+        {
+            en: "Ready for healthier skin? Let's chat! ✨",
+            hi: "स्वस्थ त्वचा के लिए तैयार हैं? आइए बात करते हैं! ✨"
+        },
+        {
+            en: "Have a skin concern? I'm here to help! 🩺",
+            hi: "त्वचा की कोई समस्या है? मैं मदद के लिए यहाँ हूँ! 🩺"
+        },
+        {
+            en: "Book your consultation with Dr. Vikas! 📅",
+            hi: "डॉ विकास के साथ अपना परामर्श बुक करें! 📅"
+        }
+    ];
+
+    // Rotate chat messages periodically
+    let messageIndex = 0;
+    function rotateChatMessage() {
+        const message = chatMessages[messageIndex];
+        const bubbleText = chatBubble.querySelector('.bubble-text');
+        
+        if (bubbleText) {
+            bubbleText.innerHTML = `
+                <span class="lang-en">${message.en}</span>
+                <span class="lang-hi">${message.hi}</span>
+            `;
+        }
+        
+        messageIndex = (messageIndex + 1) % chatMessages.length;
+    }
+
+    // Change message every 30 seconds when visible
+    setInterval(() => {
+        if (chatVisible && !assistantHidden) {
+            rotateChatMessage();
+        }
+    }, 30000);
+
+    // Typing animation (optional enhancement)
+    function showTypingAnimation() {
+        const bubbleText = chatBubble.querySelector('.bubble-text');
+        if (bubbleText) {
+            bubbleText.innerHTML = `
+                <span class="lang-en">Dr. Vikas is typing</span>
+                <span class="lang-hi">डॉ विकास टाइप कर रहे हैं</span>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                rotateChatMessage();
+            }, 2000);
+        }
+    }
+
+    // Show typing animation occasionally for engagement
+    setInterval(() => {
+        if (chatVisible && !assistantHidden && Math.random() > 0.7) {
+            showTypingAnimation();
+        }
+    }, 45000);
+
+    console.log('WhatsApp Assistant initialized successfully');
+}
 
 // Emergency fix function for blank page issue
 window.emergencyFixHindi = function() {
