@@ -477,9 +477,9 @@ function initMap() {
     if (!mapContainer || typeof L === 'undefined') return;
     
     try {
-        // Initialize map centered on Moradabad with modern styling
+        // Initialize map centered on clinic with modern styling
         const map = L.map('patientMap', {
-            center: [28.84, 78.78],
+            center: [28.8285263, 78.7752077],
             zoom: 7,
             zoomControl: false,
             scrollWheelZoom: true,
@@ -500,14 +500,14 @@ function initMap() {
             subdomains: 'abcd'
         }).addTo(map);
         
-        // Clinic coordinates (Dr. Gupta's location)
-        const clinicCoords = [28.84, 78.78];
+        // Clinic coordinates (Dr. Gupta's location) - Updated with precise coordinates
+        const clinicCoords = [28.8285263, 78.7752077];
         
         // Extended list of cities where patients come from (within ~300km radius)
         const cities = [
             { 
                 name: "Dr. Gupta's Skin Care Clinic", 
-                coords: [28.84, 78.78], 
+                coords: [28.8285263, 78.7752077], 
                 isClinic: true,
                 description: "Leading Dermatologist in Moradabad",
                 patients: "1000+"
@@ -706,41 +706,154 @@ function initMap() {
             }
         });
         
-        // Create animated connecting lines from clinic to all patient cities
+        // Create real road route lines from clinic to all patient cities using OSRM
         const connectionLines = [];
         
-        patientCities.forEach((city, index) => {
-            // Create curved line for visual appeal
-            const latlngs = [clinicCoords, city.coords];
-            
-            // Add intermediate points for curved effect
-            const midLat = (clinicCoords[0] + city.coords[0]) / 2;
-            const midLng = (clinicCoords[1] + city.coords[1]) / 2;
-            const offset = 0.1; // Curve offset
-            const curvedLatlngs = [
-                clinicCoords,
-                [midLat + offset, midLng],
-                city.coords
-            ];
-            
-            // Create the connecting line with modern styling
-            const line = L.polyline(curvedLatlngs, {
-                color: '#3B82F6',
-                weight: 2,
-                opacity: 0.7,
-                smoothFactor: 1.0,
-                className: 'connection-line'
-            }).addTo(map);
-            
-            connectionLines.push(line);
-            
-            // Add animation delay based on index
-            setTimeout(() => {
-                if (line.getElement()) {
-                    line.getElement().style.animation = `drawLine 2s ease-in-out ${index * 0.1}s both`;
+        // Function to fetch route from OSRM
+        async function fetchRoute(start, end) {
+            try {
+                const startCoords = `${start[1]},${start[0]}`; // OSRM expects lon,lat
+                const endCoords = `${end[1]},${end[0]}`;
+                const url = `https://router.project-osrm.org/route/v1/driving/${startCoords};${endCoords}?alternatives=false&geometries=geojson&overview=full`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.routes && data.routes.length > 0) {
+                    // Convert coordinates from [lon, lat] to [lat, lon] for Leaflet
+                    const coordinates = data.routes[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                    return coordinates;
                 }
-            }, 100);
-        });
+                return null;
+            } catch (error) {
+                console.warn('OSRM route fetch failed:', error);
+                return null;
+            }
+        }
+        
+        // Show loading indicator in console
+        console.log('🔄 Loading real road routes from OSRM...');
+        
+        // Create routes for each patient city with progressive loading
+        const createRoutes = async () => {
+            let successCount = 0;
+            let totalCities = patientCities.length;
+            
+            for (let index = 0; index < patientCities.length; index++) {
+                const city = patientCities[index];
+                
+                try {
+                    // Show temporary loading line
+                    const loadingLine = L.polyline([clinicCoords, city.coords], {
+                        color: '#10B981',
+                        weight: 2,
+                        opacity: 0.4,
+                        className: 'connection-line route-loading',
+                        dashArray: '10, 5'
+                    }).addTo(map);
+                    
+                    // Fetch real route from OSRM
+                    const routeCoords = await fetchRoute(clinicCoords, city.coords);
+                    
+                    // Remove loading line
+                    map.removeLayer(loadingLine);
+                    
+                    if (routeCoords && routeCoords.length > 0) {
+                        // Create the connecting line with real route data
+                        const line = L.polyline(routeCoords, {
+                            color: '#3B82F6',
+                            weight: 2,
+                            opacity: 0.7,
+                            smoothFactor: 1.0,
+                            className: 'connection-line route-line'
+                        }).addTo(map);
+                        
+                        connectionLines.push(line);
+                        successCount++;
+                        
+                        // Add tooltip with route info
+                        line.bindTooltip(`
+                            <div style="text-align: center;">
+                                <strong>${city.name}</strong><br>
+                                <small>Real road route</small>
+                            </div>
+                        `, {
+                            permanent: false,
+                            direction: 'center'
+                        });
+                        
+                        // Add animation delay based on index
+                        setTimeout(() => {
+                            if (line.getElement()) {
+                                line.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                            }
+                        }, 100);
+                        
+                    } else {
+                        // Fallback to straight line if OSRM fails
+                        console.log(`📍 Using direct route for ${city.name}`);
+                        const fallbackLine = L.polyline([clinicCoords, city.coords], {
+                            color: '#6B7280',
+                            weight: 2,
+                            opacity: 0.6,
+                            smoothFactor: 1.0,
+                            className: 'connection-line fallback-line',
+                            dashArray: '8, 4'
+                        }).addTo(map);
+                        
+                        connectionLines.push(fallbackLine);
+                        
+                        // Add tooltip for fallback
+                        fallbackLine.bindTooltip(`
+                            <div style="text-align: center;">
+                                <strong>${city.name}</strong><br>
+                                <small>Direct route</small>
+                            </div>
+                        `, {
+                            permanent: false,
+                            direction: 'center'
+                        });
+                        
+                        // Add animation
+                        setTimeout(() => {
+                            if (fallbackLine.getElement()) {
+                                fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                            }
+                        }, 100);
+                    }
+                    
+                    // Small delay between requests to avoid rate limiting
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                    
+                } catch (error) {
+                    console.error(`❌ Error creating route for ${city.name}:`, error);
+                    
+                    // Create fallback straight line
+                    const fallbackLine = L.polyline([clinicCoords, city.coords], {
+                        color: '#6B7280',
+                        weight: 2,
+                        opacity: 0.6,
+                        smoothFactor: 1.0,
+                        className: 'connection-line fallback-line',
+                        dashArray: '8, 4'
+                    }).addTo(map);
+                    
+                    connectionLines.push(fallbackLine);
+                    
+                    // Add animation
+                    setTimeout(() => {
+                        if (fallbackLine.getElement()) {
+                            fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                        }
+                    }, 100);
+                }
+            }
+            
+            console.log(`✅ Routes complete: ${successCount}/${totalCities} real routes, ${totalCities - successCount} direct routes`);
+        };
+        
+        // Start creating routes
+        createRoutes();
         
         // Fit map to show all markers with padding
         const group = new L.featureGroup(markers);
@@ -766,8 +879,13 @@ function initMap() {
                 </div>
                 <div class="legend-item">
                     <div class="legend-line"></div>
-                    <span class="lang-en">Patient Connections</span>
-                    <span class="lang-hi">मरीज संपर्क</span>
+                    <span class="lang-en">Real Road Routes</span>
+                    <span class="lang-hi">वास्तविक सड़क मार्ग</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line fallback-style"></div>
+                    <span class="lang-en">Direct Routes</span>
+                    <span class="lang-hi">सीधे मार्ग</span>
                 </div>
                 <div class="legend-stats">
                     <div class="stat-item">
@@ -844,6 +962,9 @@ function initMap() {
                     <h3>🌟 Trusted Across North India</h3>
                     <p>Patients from 300+ km radius choose Dr. Gupta for expert skin care</p>
                     <div class="info-highlight">
+                        <span class="highlight-number">🛣️</span> Real road routes
+                    </div>
+                    <div class="info-highlight" style="margin-top: 8px;">
                         <span class="highlight-number">30+</span> years experience
                     </div>
                 </div>
@@ -852,7 +973,7 @@ function initMap() {
         };
         floatingInfo.addTo(map);
         
-        console.log('✅ Modern patient map initialized with', cities.length, 'locations');
+        console.log('✅ Enhanced patient map with OSRM routing initialized with', cities.length, 'locations');
         
     } catch (error) {
         console.error('Error initializing modern map:', error);
