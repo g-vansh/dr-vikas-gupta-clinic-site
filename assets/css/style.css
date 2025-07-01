@@ -1138,11 +1138,12 @@ p {
 
 /* Map Container */
 #patientMap {
-  height: 400px;
-  width: 100%;
+  height: 500px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  margin-top: 2rem;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .map-caption {
@@ -1150,6 +1151,10 @@ p {
   color: var(--text-light);
   margin-top: 1rem;
   font-style: italic;
+  background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
 }
 
 /* Google Maps Integration Styling */
@@ -1893,7 +1898,44 @@ p {
   }
   
   #patientMap {
-    height: 300px;
+    height: 350px;
+  }
+  
+  /* Mobile Modern Map Styles */
+  .modern-map-legend {
+    font-size: 12px;
+    padding: 15px;
+    min-width: 160px;
+  }
+  
+  .floating-map-info {
+    max-width: 240px;
+    padding: 15px;
+  }
+  
+  .clinic-marker-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .clinic-marker-pulse {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .clinic-marker-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .patient-marker-container {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .patient-marker-icon {
+    width: 22px;
+    height: 22px;
   }
   
   .testimonial-container {
@@ -2121,6 +2163,31 @@ p {
   
   .google-map-container-appointment .map-wrapper iframe {
     height: 300px;
+  }
+  
+  /* Extra Small Mobile Modern Map */
+  #patientMap {
+    height: 300px;
+  }
+  
+  .modern-map-legend {
+    font-size: 11px;
+    padding: 12px;
+    min-width: 140px;
+  }
+  
+  .floating-map-info {
+    max-width: 200px;
+    padding: 12px;
+  }
+  
+  .legend-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .stat-item strong {
+    font-size: 16px;
   }
   
   .map-overlay,
@@ -2551,4 +2618,311 @@ textarea:focus {
         background: rgba(255, 255, 255, 0.3);
         border-radius: 3px;
     }
+}
+
+/* Modern Map Styles - Enhanced */
+
+/* Modern Map Markers */
+.custom-clinic-marker {
+  background: none;
+  border: none;
+}
+
+.clinic-marker-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clinic-marker-pulse {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.clinic-marker-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+  border: 3px solid white;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.clinic-marker-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(239, 68, 68, 0.6);
+}
+
+.custom-patient-marker {
+  background: none;
+  border: none;
+}
+
+.patient-marker-container {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.patient-marker-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 15px rgba(59, 130, 246, 0.3);
+  border: 2px solid white;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.patient-marker-icon:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Connecting Lines Animation */
+.connection-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Modern Map Legend with Glassmorphism */
+.modern-map-legend {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: #1F2937;
+  min-width: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.legend-header h4 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.legend-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.clinic-legend {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.patient-legend {
+  background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.legend-line {
+  width: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+  border-radius: 2px;
+  position: relative;
+}
+
+.legend-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #3B82F6, transparent);
+  border-radius: 2px;
+  animation: shimmer 2s infinite;
+}
+
+.legend-stats {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-item strong {
+  display: block;
+  font-size: 18px;
+  color: #EF4444;
+  font-weight: 700;
+}
+
+/* Floating Info Box */
+.floating-map-info {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 280px;
+}
+
+.info-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.info-content p {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.info-highlight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  border-radius: 8px;
+  border: 1px solid #F59E0B;
+}
+
+.highlight-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #B45309;
+}
+
+/* Modern Popup Styles */
+.modern-popup-container .leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 0;
+}
+
+.modern-popup-container .leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modern-popup h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.modern-popup p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.patient-count {
+  display: inline-block;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Custom Zoom Controls */
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #374151 !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  color: #111827 !important;
+  transform: scale(1.05);
 }
