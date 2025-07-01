@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScrolling();
     initContactForms();
     initWhatsAppAssistant();
+    initDoctorImageFlip();
     
     // Set active navigation
     setActiveNavigation();
@@ -461,6 +462,102 @@ function initTestimonialsCarousel() {
             startRotation();
         }
     });
+}
+
+// Doctor Image Flip Animation (Front Page Only)
+function initDoctorImageFlip() {
+    // Helper function to get current page
+    function getCurrentPage() {
+        const path = window.location.pathname;
+        if (path.includes('about')) return 'about';
+        if (path.includes('services')) return 'services';
+        if (path.includes('testimonials')) return 'testimonials';
+        if (path.includes('appointment')) return 'appointment';
+        return 'index';
+    }
+    
+    // Only run on the front page (index.html)
+    const currentPage = getCurrentPage();
+    if (currentPage !== 'index') return;
+    
+    const flipContainer = document.querySelector('.flip-container');
+    if (!flipContainer) return;
+    
+    let isFlipped = false;
+    let flipInterval;
+    
+    // Function to toggle flip state
+    function toggleFlip() {
+        isFlipped = !isFlipped;
+        flipContainer.classList.toggle('flipped', isFlipped);
+        
+        // Add subtle animation feedback
+        if (isFlipped) {
+            flipContainer.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                flipContainer.style.transform = 'scale(1)';
+            }, 200);
+        }
+    }
+    
+    // Start periodic flipping every 5 seconds
+    function startPeriodicFlip() {
+        flipInterval = setInterval(() => {
+            toggleFlip();
+        }, 5000);
+    }
+    
+    // Stop periodic flipping
+    function stopPeriodicFlip() {
+        if (flipInterval) {
+            clearInterval(flipInterval);
+            flipInterval = null;
+        }
+    }
+    
+    // Manual flip on click/hover
+    flipContainer.addEventListener('click', () => {
+        stopPeriodicFlip();
+        toggleFlip();
+        // Restart periodic flipping after 10 seconds
+        setTimeout(startPeriodicFlip, 10000);
+    });
+    
+    // Pause animation when user hovers (for better UX)
+    flipContainer.addEventListener('mouseenter', () => {
+        flipContainer.style.animationPlayState = 'paused';
+    });
+    
+    flipContainer.addEventListener('mouseleave', () => {
+        flipContainer.style.animationPlayState = 'running';
+    });
+    
+    // Pause when page is not visible (performance optimization)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopPeriodicFlip();
+        } else {
+            startPeriodicFlip();
+        }
+    });
+    
+    // Start the periodic flipping after a 3-second delay
+    setTimeout(startPeriodicFlip, 3000);
+    
+    // Add intersection observer for better performance
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!flipInterval) startPeriodicFlip();
+                } else {
+                    stopPeriodicFlip();
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(flipContainer);
+    }
 }
 
 // Interactive Patient Origin Map
