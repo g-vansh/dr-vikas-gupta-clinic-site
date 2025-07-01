@@ -163,7 +163,7 @@ body.lang-hi .lang-hi {
 /* Google Maps Integration Styling - ADJUSTED WIDTH DISTRIBUTION */
 .location-info-grid {
   display: grid;
-  grid-template-columns: 0.83fr 1.17fr; /* Clinic Address 17% narrower, Google Maps 17% wider */
+  grid-template-columns: 0.8fr 1.2fr; /* Clinic Address 20% narrower, Google Maps 20% wider */
   gap: 3rem;
   align-items: stretch;
   margin-top: 2rem;
@@ -1155,7 +1155,7 @@ p {
 /* Google Maps Integration Styling */
 .location-info-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   gap: 3rem;
   align-items: stretch;
   margin-top: 2rem;
