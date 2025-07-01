@@ -826,7 +826,7 @@ p {
 .map-overlay {
   position: absolute;
   top: 15px;
-  left: 15px;
+  right: 15px;
   background: var(--white);
   padding: 10px 15px;
   border-radius: var(--border-radius);
@@ -864,7 +864,7 @@ p {
 .map-overlay-appointment {
   position: absolute;
   top: 20px;
-  left: 20px;
+  right: 20px;
   background: var(--primary-color);
   color: var(--white);
   padding: 12px 18px;
@@ -1461,14 +1461,14 @@ p {
   
   .map-overlay {
     top: 10px;
-    left: 10px;
+    right: 10px;
     padding: 8px 12px;
     max-width: 200px;
   }
   
   .map-overlay-appointment {
     top: 15px;
-    left: 15px;
+    right: 15px;
     padding: 10px 14px;
     max-width: 220px;
   }
