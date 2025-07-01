@@ -527,42 +527,42 @@ function initMap() {
                 coords: [28.58, 78.55], 
                 isClinic: false,
                 description: "Patients from Sambhal district",
-                patients: "120+"
+                patients: "5,000+"
             },
             { 
                 name: "Rampur", 
                 coords: [28.80, 79.02], 
                 isClinic: false,
                 description: "Regular patients from Rampur",
-                patients: "95+"
+                patients: "8,000+"
             },
             { 
                 name: "Badaun", 
                 coords: [28.03, 79.13], 
                 isClinic: false,
                 description: "Patients from Badaun region",
-                patients: "75+"
+                patients: "5,000+"
             },
             { 
                 name: "Bareilly", 
                 coords: [28.37, 79.43], 
                 isClinic: false,
                 description: "Regular visitors from Bareilly",
-                patients: "150+"
+                patients: "9,000+"
             },
             { 
                 name: "Meerut", 
                 coords: [28.98, 77.70], 
                 isClinic: false,
                 description: "Patients from Meerut district",
-                patients: "80+"
+                patients: "10,000+"
             },
             { 
-                name: "Delhi NCR", 
+                name: "New Delhi", 
                 coords: [28.68, 77.10], 
                 isClinic: false,
-                description: "Patients from Delhi metropolitan area",
-                patients: "200+"
+                description: "Patients from New Delhi metropolitan area",
+                patients: "10,000+"
             },
             // New cities within 300km radius
             { 
@@ -570,56 +570,56 @@ function initMap() {
                 coords: [29.22, 79.52], 
                 isClinic: false,
                 description: "Patients from Haldwani, Uttarakhand",
-                patients: "65+"
+                patients: "3,000+"
             },
             { 
                 name: "Rudrapur", 
                 coords: [28.98, 79.40], 
                 isClinic: false,
                 description: "Patients from Rudrapur, Uttarakhand",
-                patients: "55+"
+                patients: "2,000+"
             },
             { 
                 name: "Bijnor", 
                 coords: [29.37, 78.13], 
                 isClinic: false,
                 description: "Patients from Bijnor district",
-                patients: "70+"
+                patients: "3,000+"
             },
             { 
                 name: "Gurugram", 
                 coords: [28.46, 77.03], 
                 isClinic: false,
                 description: "Patients from Gurugram, Haryana",
-                patients: "45+"
+                patients: "4,000+"
             },
             { 
                 name: "Kashipur", 
                 coords: [29.21, 78.96], 
                 isClinic: false,
                 description: "Patients from Kashipur, Uttarakhand",
-                patients: "40+"
+                patients: "4000+"
             },
             { 
                 name: "Noida", 
                 coords: [28.58, 77.33], 
                 isClinic: false,
                 description: "Patients from Noida, UP",
-                patients: "85+"
+                patients: "12,000+"
             },
             { 
                 name: "Ghaziabad", 
                 coords: [28.67, 77.43], 
                 isClinic: false,
                 description: "Patients from Ghaziabad, UP",
-                patients: "90+"
+                patients: "12,000+"
             },
             { 
                 name: "Faridabad", 
                 coords: [28.41, 77.31], 
                 isClinic: false,
                 description: "Patients from Faridabad, Haryana",
-                patients: "50+"
+                patients: "8,000+"
             },
             // Additional nearby important cities
             { 
@@ -627,28 +627,28 @@ function initMap() {
                 coords: [27.88, 78.08], 
                 isClinic: false,
                 description: "Patients from Aligarh district",
-                patients: "60+"
+                patients: "9,000+"
             },
             { 
                 name: "Muzaffarnagar", 
                 coords: [29.47, 77.70], 
                 isClinic: false,
                 description: "Patients from Muzaffarnagar",
-                patients: "35+"
+                patients: "6,000+"
             },
             { 
                 name: "Saharanpur", 
                 coords: [29.97, 77.55], 
                 isClinic: false,
                 description: "Patients from Saharanpur district",
-                patients: "45+"
+                patients: "7,000+"
             },
             { 
                 name: "Haridwar", 
                 coords: [29.95, 78.16], 
                 isClinic: false,
                 description: "Patients from Haridwar, Uttarakhand",
-                patients: "30+"
+                patients: "3000+"
             }
         ];
         
