@@ -518,7 +518,10 @@ function initMap() {
                 name: "Dr. Gupta's Skin Care Clinic", 
                 coords: [28.8285263, 78.7752077], 
                 isClinic: true,
-                description: "Leading Dermatologist in Moradabad",
+                description: {
+                    en: "Leading Dermatologist in Moradabad",
+                    hi: "मुरादाबाद के प्रमुख त्वचा विशेषज्ञ"
+                },
                 patients: "500,000+"
             },
             // Existing nearby cities
@@ -526,42 +529,60 @@ function initMap() {
                 name: "Sambhal", 
                 coords: [28.58, 78.55], 
                 isClinic: false,
-                description: "Patients from Sambhal district",
+                description: {
+                    en: "Patients from Sambhal district",
+                    hi: "संभल जिले के मरीज़"
+                },
                 patients: "5,000+"
             },
             { 
                 name: "Rampur", 
                 coords: [28.80, 79.02], 
                 isClinic: false,
-                description: "Regular patients from Rampur",
+                description: {
+                    en: "Regular patients from Rampur",
+                    hi: "रामपुर के नियमित मरीज़"
+                },
                 patients: "8,000+"
             },
             { 
                 name: "Badaun", 
                 coords: [28.03, 79.13], 
                 isClinic: false,
-                description: "Patients from Badaun region",
+                description: {
+                    en: "Patients from Badaun region",
+                    hi: "बदायूं क्षेत्र के मरीज़"
+                },
                 patients: "5,000+"
             },
             { 
                 name: "Bareilly", 
                 coords: [28.37, 79.43], 
                 isClinic: false,
-                description: "Regular visitors from Bareilly",
+                description: {
+                    en: "Regular visitors from Bareilly",
+                    hi: "बरेली के नियमित आगंतुक"
+                },
                 patients: "9,000+"
             },
             { 
                 name: "Meerut", 
                 coords: [28.98, 77.70], 
                 isClinic: false,
-                description: "Patients from Meerut district",
+                description: {
+                    en: "Patients from Meerut district",
+                    hi: "मेरठ जिले के मरीज़"
+                },
                 patients: "10,000+"
             },
             { 
                 name: "Delhi NCR", 
                 coords: [28.68, 77.10], 
                 isClinic: false,
-                description: "Patients from New Delhi metropolitan area",
+                description: {
+                    en: "Patients from New Delhi metropolitan area",
+                    hi: "नई दिल्ली महानगरीय क्षेत्र के मरीज़"
+                },
                 patients: "10,000+"
             },
             // New cities within 300km radius
@@ -569,56 +590,80 @@ function initMap() {
                 name: "Haldwani", 
                 coords: [29.22, 79.52], 
                 isClinic: false,
-                description: "Patients from Haldwani, Uttarakhand",
+                description: {
+                    en: "Patients from Haldwani, Uttarakhand",
+                    hi: "हल्द्वानी, उत्तराखंड के मरीज़"
+                },
                 patients: "3,000+"
             },
             { 
                 name: "Rudrapur", 
                 coords: [28.98, 79.40], 
                 isClinic: false,
-                description: "Patients from Rudrapur, Uttarakhand",
+                description: {
+                    en: "Patients from Rudrapur, Uttarakhand",
+                    hi: "रुद्रपुर, उत्तराखंड के मरीज़"
+                },
                 patients: "2,000+"
             },
             { 
                 name: "Bijnor", 
                 coords: [29.37, 78.13], 
                 isClinic: false,
-                description: "Patients from Bijnor district",
+                description: {
+                    en: "Patients from Bijnor district",
+                    hi: "बिजनौर जिले के मरीज़"
+                },
                 patients: "3,000+"
             },
             { 
                 name: "Gurugram", 
                 coords: [28.46, 77.03], 
                 isClinic: false,
-                description: "Patients from Gurugram, Haryana",
+                description: {
+                    en: "Patients from Gurugram, Haryana",
+                    hi: "गुरुग्राम, हरियाणा के मरीज़"
+                },
                 patients: "4,000+"
             },
             { 
                 name: "Kashipur", 
                 coords: [29.21, 78.96], 
                 isClinic: false,
-                description: "Patients from Kashipur, Uttarakhand",
+                description: {
+                    en: "Patients from Kashipur, Uttarakhand",
+                    hi: "काशीपुर, उत्तराखंड के मरीज़"
+                },
                 patients: "4000+"
             },
             { 
                 name: "Noida", 
                 coords: [28.58, 77.33], 
                 isClinic: false,
-                description: "Patients from Noida, UP",
+                description: {
+                    en: "Patients from Noida, UP",
+                    hi: "नोएडा, UP के मरीज़"
+                },
                 patients: "12,000+"
             },
             { 
                 name: "Ghaziabad", 
                 coords: [28.67, 77.43], 
                 isClinic: false,
-                description: "Patients from Ghaziabad, UP",
+                description: {
+                    en: "Patients from Ghaziabad, UP",
+                    hi: "गाजियाबाद, UP के मरीज़"
+                },
                 patients: "12,000+"
             },
             { 
                 name: "Faridabad", 
                 coords: [28.41, 77.31], 
                 isClinic: false,
-                description: "Patients from Faridabad, Haryana",
+                description: {
+                    en: "Patients from Faridabad, Haryana",
+                    hi: "फरीदाबाद, हरियाणा के मरीज़"
+                },
                 patients: "8,000+"
             },
             // Additional nearby important cities
@@ -626,28 +671,40 @@ function initMap() {
                 name: "Aligarh", 
                 coords: [27.88, 78.08], 
                 isClinic: false,
-                description: "Patients from Aligarh district",
+                description: {
+                    en: "Patients from Aligarh district",
+                    hi: "अलीगढ़ जिले के मरीज़"
+                },
                 patients: "9,000+"
             },
             { 
                 name: "Muzaffarnagar", 
                 coords: [29.47, 77.70], 
                 isClinic: false,
-                description: "Patients from Muzaffarnagar",
+                description: {
+                    en: "Patients from Muzaffarnagar",
+                    hi: "मुजफ्फरनगर के मरीज़"
+                },
                 patients: "6,000+"
             },
             { 
                 name: "Saharanpur", 
                 coords: [29.97, 77.55], 
                 isClinic: false,
-                description: "Patients from Saharanpur district",
+                description: {
+                    en: "Patients from Saharanpur district",
+                    hi: "सहारनपुर जिले के मरीज़"
+                },
                 patients: "7,000+"
             },
             { 
                 name: "Haridwar", 
                 coords: [29.95, 78.16], 
                 isClinic: false,
-                description: "Patients from Haridwar, Uttarakhand",
+                description: {
+                    en: "Patients from Haridwar, Uttarakhand",
+                    hi: "हरिद्वार, उत्तराखंड के मरीज़"
+                },
                 patients: "3000+"
             }
         ];
@@ -696,8 +753,11 @@ function initMap() {
                 .bindPopup(`
                     <div class="modern-popup">
                         <h3>${city.name}</h3>
-                        <p>${city.description}</p>
-                        ${city.patients ? `<div class="patient-count">${city.patients} patients</div>` : ''}
+                        <p>
+                            <span class="lang-en">${typeof city.description === 'object' ? city.description.en : city.description}</span>
+                            <span class="lang-hi">${typeof city.description === 'object' ? city.description.hi : city.description}</span>
+                        </p>
+                        ${city.patients ? `<div class="patient-count">${city.patients} <span class="lang-en">patients</span><span class="lang-hi">मरीज़</span></div>` : ''}
                     </div>
                 `, {
                     className: 'modern-popup-container',
@@ -753,7 +813,10 @@ function initMap() {
                         line.bindTooltip(`
                             <div style="text-align: center;">
                                 <strong>${city.name}</strong><br>
-                                <small>Real road route</small>
+                                <small>
+                                    <span class="lang-en">Real road route</span>
+                                    <span class="lang-hi">वास्तविक सड़क मार्ग</span>
+                                </small>
                             </div>
                         `, {
                             permanent: false,
@@ -785,7 +848,10 @@ function initMap() {
                         fallbackLine.bindTooltip(`
                             <div style="text-align: center;">
                                 <strong>${city.name}</strong><br>
-                                <small>Direct route</small>
+                                <small>
+                                    <span class="lang-en">Direct route</span>
+                                    <span class="lang-hi">सीधा मार्ग</span>
+                                </small>
                             </div>
                         `, {
                             permanent: false,
@@ -842,7 +908,10 @@ function initMap() {
             const div = L.DomUtil.create('div', 'modern-map-legend');
             div.innerHTML = `
                 <div class="legend-header">
-                    <h4>Patient Network</h4>
+                    <h4>
+                        <span class="lang-en">Patient Network</span>
+                        <span class="lang-hi">मरीज़ों का नेटवर्क</span>
+                    </h4>
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon clinic-legend"></div>
@@ -857,10 +926,14 @@ function initMap() {
 
                 <div class="legend-stats">
                     <div class="stat-item">
-                        <strong>18+</strong> Cities
+                        <strong>18+</strong> 
+                        <span class="lang-en">Cities</span>
+                        <span class="lang-hi">शहर</span>
                     </div>
                     <div class="stat-item">
-                        <strong>500,000+</strong> Patients
+                        <strong>500,000+</strong> 
+                        <span class="lang-en">Patients</span>
+                        <span class="lang-hi">मरीज़</span>
                     </div>
                 </div>
             `;
@@ -927,11 +1000,19 @@ function initMap() {
             const div = L.DomUtil.create('div', 'floating-map-info');
             div.innerHTML = `
                 <div class="info-content">
-                    <h3>🌟 Trusted Across North India</h3>
-                    <p>Patients from 300+ km radius choose Dr. Gupta for expert skin care</p>
+                    <h3>
+                        <span class="lang-en">🌟 Trusted Across North India</span>
+                        <span class="lang-hi">🌟 उत्तर भारत में भरोसेमंद</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Patients from 300+ km radius choose Dr. Gupta for expert skin care</span>
+                        <span class="lang-hi">300+ किमी की दूरी के मरीज़ विशेषज्ञ त्वचा देखभाल के लिए डॉ गुप्ता को चुनते हैं</span>
+                    </p>
 
                     <div class="info-highlight" style="margin-top: 8px;">
-                        <span class="highlight-number">30+</span> years experience
+                        <span class="highlight-number">30+</span> 
+                        <span class="lang-en">years experience</span>
+                        <span class="lang-hi">साल का अनुभव</span>
                     </div>
                 </div>
             `;
