@@ -493,8 +493,8 @@ function initMap() {
             position: 'bottomleft'
         }).addTo(map);
         
-        // Add modern dark tile layer for sleek look
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+        // Add tile layer with city labels
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '',
             maxZoom: 18,
             subdomains: 'abcd'
@@ -502,6 +502,15 @@ function initMap() {
         
         // Clinic coordinates (Dr. Gupta's location) - Updated with precise coordinates
         const clinicCoords = [28.8285263, 78.7752077];
+        
+        // Hardcoded route data reference - full data loaded from external file
+        // Note: Full route data is loaded from hardcoded_routes.js
+        let HARDCODED_ROUTES = {};
+        
+        // Helper function to get hardcoded route for a city
+        function getHardcodedRoute(cityName) {
+            return HARDCODED_ROUTES[cityName] || null;
+        }
         
         // Extended list of cities where patients come from (within ~300km radius)
         const cities = [
@@ -643,24 +652,14 @@ function initMap() {
             }
         ];
         
-        // Create modern custom icons with gradients and shadows
+        // Create modern custom icons with Font Awesome
         const clinicIcon = L.divIcon({
             className: 'custom-clinic-marker',
             html: `
                 <div class="clinic-marker-container">
                     <div class="clinic-marker-pulse"></div>
                     <div class="clinic-marker-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <!-- Doctor with stethoscope icon -->
-                            <path d="M12 3C10.34 3 9 4.34 9 6V7H7C6.45 7 6 7.45 6 8V10C6 10.55 6.45 11 7 11H9V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V11H17C17.55 11 18 10.55 18 10V8C18 7.45 17.55 7 17 7H15V6C15 4.34 13.66 3 12 3Z" fill="white"/>
-                            <!-- Stethoscope -->
-                            <path d="M19 14C18.45 14 18 14.45 18 15S18.45 16 19 16S20 15.55 20 15S19.55 14 19 14Z" fill="white"/>
-                            <path d="M19 12C17.34 12 16 13.34 16 15C16 16.66 17.34 18 19 18C20.66 18 22 16.66 22 15C22 13.34 20.66 12 19 12ZM19 16.5C18.17 16.5 17.5 15.83 17.5 15S18.17 13.5 19 13.5S20.5 14.17 20.5 15S19.83 16.5 19 16.5Z" fill="white"/>
-                            <path d="M16 15C16 16.11 15.11 17 14 17H12V19H14C16.21 19 18 17.21 18 15" fill="white"/>
-                            <!-- Medical cross on chest -->
-                            <path d="M11 8H13V10H11V8Z" fill="#DC2626"/>
-                            <path d="M10 9H14V9.5H10V9Z" fill="#DC2626"/>
-                        </svg>
+                        <i class="fa-solid fa-user-doctor"></i>
                     </div>
                 </div>
             `,
@@ -713,57 +712,29 @@ function initMap() {
             }
         });
         
-        // Create real road route lines from clinic to all patient cities using OSRM
+        // Create route lines from clinic to all patient cities using hardcoded routes
         const connectionLines = [];
         
-        // Function to fetch route from OSRM
-        async function fetchRoute(start, end) {
-            try {
-                const startCoords = `${start[1]},${start[0]}`; // OSRM expects lon,lat
-                const endCoords = `${end[1]},${end[0]}`;
-                const url = `https://router.project-osrm.org/route/v1/driving/${startCoords};${endCoords}?alternatives=false&geometries=geojson&overview=full`;
-                
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                if (data.routes && data.routes.length > 0) {
-                    // Convert coordinates from [lon, lat] to [lat, lon] for Leaflet
-                    const coordinates = data.routes[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
-                    return coordinates;
-                }
-                return null;
-            } catch (error) {
-                console.warn('OSRM route fetch failed:', error);
-                return null;
-            }
+        // Load hardcoded routes from external script if available
+        if (typeof window.HARDCODED_ROUTES !== 'undefined') {
+            HARDCODED_ROUTES = window.HARDCODED_ROUTES;
+        } else if (typeof HARDCODED_ROUTES === 'undefined') {
+            // Fallback: try to load from global scope or provide empty object
+            HARDCODED_ROUTES = {};
+            console.warn('⚠️ Hardcoded routes not found, using fallback to direct routes');
         }
         
-        // Show loading indicator in console
-        console.log('🔄 Loading real road routes from OSRM...');
+        console.log('�️ Loading hardcoded real road routes...');
         
-        // Create routes for each patient city with progressive loading
-        const createRoutes = async () => {
+        // Create routes for each patient city instantly
+        const createRoutes = () => {
             let successCount = 0;
             let totalCities = patientCities.length;
             
-            for (let index = 0; index < patientCities.length; index++) {
-                const city = patientCities[index];
-                
+            patientCities.forEach((city, index) => {
                 try {
-                    // Show temporary loading line
-                    const loadingLine = L.polyline([clinicCoords, city.coords], {
-                        color: '#10B981',
-                        weight: 2,
-                        opacity: 0.4,
-                        className: 'connection-line route-loading',
-                        dashArray: '10, 5'
-                    }).addTo(map);
-                    
-                    // Fetch real route from OSRM
-                    const routeCoords = await fetchRoute(clinicCoords, city.coords);
-                    
-                    // Remove loading line
-                    map.removeLayer(loadingLine);
+                    // Get hardcoded route for this city
+                    const routeCoords = getHardcodedRoute(city.name);
                     
                     if (routeCoords && routeCoords.length > 0) {
                         // Create the connecting line with real route data
@@ -794,10 +765,10 @@ function initMap() {
                             if (line.getElement()) {
                                 line.getElement().style.animation = `drawLine 2s ease-in-out both`;
                             }
-                        }, 100);
+                        }, index * 100);
                         
                     } else {
-                        // Fallback to straight line if OSRM fails
+                        // Fallback to straight line if no hardcoded route available
                         console.log(`📍 Using direct route for ${city.name}`);
                         const fallbackLine = L.polyline([clinicCoords, city.coords], {
                             color: '#6B7280',
@@ -826,11 +797,8 @@ function initMap() {
                             if (fallbackLine.getElement()) {
                                 fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
                             }
-                        }, 100);
+                        }, index * 100);
                     }
-                    
-                    // Small delay between requests to avoid rate limiting
-                    await new Promise(resolve => setTimeout(resolve, 150));
                     
                 } catch (error) {
                     console.error(`❌ Error creating route for ${city.name}:`, error);
@@ -852,9 +820,9 @@ function initMap() {
                         if (fallbackLine.getElement()) {
                             fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
                         }
-                    }, 100);
+                    }, index * 100);
                 }
-            }
+            });
             
             console.log(`✅ Routes complete: ${successCount}/${totalCities} real routes, ${totalCities - successCount} direct routes`);
         };
@@ -886,16 +854,7 @@ function initMap() {
                     <span class="lang-en">Patient Origins</span>
                     <span class="lang-hi">मरीजों के शहर</span>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-line"></div>
-                    <span class="lang-en">Real Road Routes</span>
-                    <span class="lang-hi">वास्तविक सड़क मार्ग</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-line fallback-style"></div>
-                    <span class="lang-en">Direct Routes</span>
-                    <span class="lang-hi">सीधे मार्ग</span>
-                </div>
+
                 <div class="legend-stats">
                     <div class="stat-item">
                         <strong>18+</strong> Cities
@@ -970,9 +929,7 @@ function initMap() {
                 <div class="info-content">
                     <h3>🌟 Trusted Across North India</h3>
                     <p>Patients from 300+ km radius choose Dr. Gupta for expert skin care</p>
-                    <div class="info-highlight">
-                        <span class="highlight-number">🛣️</span> Real road routes
-                    </div>
+
                     <div class="info-highlight" style="margin-top: 8px;">
                         <span class="highlight-number">30+</span> years experience
                     </div>
