@@ -1912,6 +1912,63 @@ p {
     grid-template-columns: 1fr;
   }
   
+  /* Mobile-friendly hours table */
+  .hours-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: none;
+  }
+  
+  .hours-table thead {
+    display: none;
+  }
+  
+  .hours-table tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  .hours-table tr {
+    display: block;
+    background: var(--white);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    white-space: normal;
+  }
+  
+  .hours-table td {
+    display: block;
+    text-align: left;
+    border: none;
+    padding: 0.5rem 0;
+    position: relative;
+  }
+  
+  .hours-table td:before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    color: var(--primary-color);
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+  
+  .hours-table td:first-child:before {
+    content: "📅 ";
+  }
+  
+  .hours-table td:nth-child(2):before {
+    content: "🏥 ";
+  }
+  
+  .hours-table td:nth-child(3):before {
+    content: "💻 ";
+  }
+  
   .contact-grid {
     grid-template-columns: 1fr;
   }
@@ -2294,6 +2351,20 @@ p {
   
   .direction-item p {
     font-size: 0.8rem;
+  }
+  
+  /* Extra small mobile - hours table */
+  .hours-table tr {
+    padding: 0.8rem;
+  }
+  
+  .hours-table td {
+    padding: 0.4rem 0;
+    font-size: var(--font-size-sm);
+  }
+  
+  .hours-table td:before {
+    font-size: var(--font-size-sm);
   }
 }
 
