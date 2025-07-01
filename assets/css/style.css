@@ -886,30 +886,32 @@ p {
   box-shadow: var(--shadow);
 }
 
-/* Simple Flip Animation for Doctor Image */
-.simple-flip-card {
+/* 3D Flip Animation for Doctor Image */
+.flip-container {
+  perspective: 1000px;
   width: 100%;
   max-width: 300px;
   height: 300px;
   margin: 0 auto;
-  perspective: 1000px;
+  cursor: pointer;
 }
 
-.simple-flip-inner {
+.flip-inner {
   position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.8s ease;
   transform-style: preserve-3d;
-  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.simple-flip-card:hover .simple-flip-inner {
+.flip-container.flipped .flip-inner {
   transform: rotateY(180deg);
 }
 
-.simple-flip-front, .simple-flip-back {
+.flip-front, .flip-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -923,26 +925,27 @@ p {
   overflow: hidden;
 }
 
-.simple-flip-front {
+.flip-front {
   background: var(--white);
 }
 
-.simple-flip-back {
+.flip-back {
   background: linear-gradient(135deg, var(--primary-color) 0%, #1e5f74 100%);
   color: var(--white);
   transform: rotateY(180deg);
   padding: 2rem;
+  /* Ensure the back is clearly visible when flipped */
   border: 2px solid var(--white);
 }
 
-.simple-flip-front img {
+.flip-front img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: var(--border-radius);
 }
 
-.simple-flip-back img {
+.flip-back img {
   width: 80px;
   height: 80px;
   margin-bottom: 1rem;
@@ -951,12 +954,45 @@ p {
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-.simple-flip-back h3 {
+.flip-back h3 {
   color: var(--white);
   font-size: var(--font-size-lg);
   text-align: center;
   margin: 0;
   line-height: 1.4;
+}
+
+/* Hover effect disabled to allow JavaScript-controlled flipping */
+/* 
+.flip-container:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-container.flipped:hover .flip-inner {
+  transform: rotateY(180deg);
+} 
+*/
+
+/* Subtle glow animation when flipping */
+.flip-container.flipped {
+  animation: flip-glow 0.8s ease-out;
+}
+
+@keyframes flip-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(46, 134, 171, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(46, 134, 171, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(46, 134, 171, 0);
+  }
+}
+
+/* Enhanced shadow effect during flip */
+.flip-container.flipped .flip-inner {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .doctor-bio h2 {
