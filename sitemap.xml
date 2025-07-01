@@ -178,7 +178,7 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://www.drvikasgupta.skin/faq.html"/>
         <image:image>
             <image:loc>https://www.drvikasgupta.skin/assets/images/dr-vikas-gupta.jpg</image:loc>
-            <image:title>Dermatology FAQ - Common Skin Problems Answered in English & Hindi</image:title>
+            <image:title>Dermatology FAQ - Common Skin Problems Answered in English &amp; Hindi</image:title>
             <image:caption>Frequently asked questions about skin, hair, and nail problems answered by Dr. Vikas Gupta. Available in English and Hindi for better understanding of patients across India.</image:caption>
         </image:image>
     </url>
