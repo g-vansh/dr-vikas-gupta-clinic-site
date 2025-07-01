@@ -2773,6 +2773,11 @@ textarea:focus {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
   transition: all 0.3s ease;
+  animation: none;
+}
+
+.connection-line.animate {
+  animation: drawLine 2s ease-in-out forwards;
 }
 
 .route-line {

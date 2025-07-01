@@ -763,7 +763,7 @@ function initMap() {
                         // Add animation delay based on index
                         setTimeout(() => {
                             if (line.getElement()) {
-                                line.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                                line.getElement().classList.add('animate');
                             }
                         }, index * 100);
                         
@@ -795,7 +795,7 @@ function initMap() {
                         // Add animation
                         setTimeout(() => {
                             if (fallbackLine.getElement()) {
-                                fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                                fallbackLine.getElement().classList.add('animate');
                             }
                         }, index * 100);
                     }
@@ -818,7 +818,7 @@ function initMap() {
                     // Add animation
                     setTimeout(() => {
                         if (fallbackLine.getElement()) {
-                            fallbackLine.getElement().style.animation = `drawLine 2s ease-in-out both`;
+                            fallbackLine.getElement().classList.add('animate');
                         }
                     }, index * 100);
                 }
