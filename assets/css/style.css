@@ -283,6 +283,21 @@ body.lang-hi .lang-hi {
   text-align: left;
 }
 
+.map-info-btn {
+  display: block;
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: var(--font-size-sm);
+  text-align: left;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.map-info-btn:hover {
+  color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
 /* Appointment Page Google Maps Styling */
 .google-map-container-appointment {
   background: var(--white);
@@ -320,6 +335,26 @@ body.lang-hi .lang-hi {
   font-size: var(--font-size-sm);
   text-align: left;
   line-height: 1.4;
+}
+
+.map-info-appointment-btn {
+  display: block;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  line-height: 1.4;
+  text-decoration: none;
+  color: var(--white);
+  transition: var(--transition);
+}
+
+.map-info-appointment-btn:hover {
+  color: var(--primary-color);
+  background: var(--white);
+  border-radius: var(--border-radius);
+  padding: 12px 18px;
+  margin: -12px -18px;
+  transform: scale(1.05);
 }
 
 .map-directions-info {
@@ -1997,28 +2032,40 @@ p {
   
   /* Restore missing map overlay styles */
   .map-overlay {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
     background: var(--white);
-    padding: 8px 12px;
+    padding: 12px 16px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     z-index: 10;
     border: 2px solid var(--primary-color);
-    max-width: 200px;
+    max-width: none;
+    margin: 1rem auto 0;
+    text-align: center;
+    width: fit-content;
   }
   
   .map-overlay-appointment {
-    top: 15px;
-    right: 15px;
-    padding: 10px 14px;
-    max-width: 220px;
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
+    padding: 12px 16px;
+    max-width: none;
+    margin: 1rem auto 0;
+    text-align: center;
+    width: fit-content;
   }
   
   .map-info,
-  .map-info-appointment {
+  .map-info-appointment,
+  .map-info-btn,
+  .map-info-appointment-btn {
     font-size: 0.8rem;
+    text-align: center;
   }
   
   .map-directions-info {
@@ -2216,11 +2263,21 @@ p {
   
   .map-overlay,
   .map-overlay-appointment {
-    position: relative;
-    top: auto;
-    left: auto;
-    margin-bottom: 1rem;
-    max-width: 100%;
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    margin: 1rem auto;
+    max-width: 95%;
+    width: fit-content;
+    text-align: center;
+    padding: 10px 14px;
+  }
+  
+  .map-info-btn,
+  .map-info-appointment-btn {
+    text-align: center;
+    font-size: 0.75rem;
   }
   
   .map-directions-info {
