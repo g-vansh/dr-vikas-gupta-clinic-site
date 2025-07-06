@@ -467,8 +467,17 @@ function initTestimonialsCarousel() {
 // Doctor Image Flip Animation (Front Page Only)
 // Simple Doctor Image Flip (CSS hover-based)
 function initDoctorImageFlip() {
-    console.log('✅ Simple flip animation enabled (CSS hover-based)');
-    // No JavaScript needed - flip is handled by CSS :hover
+    const coin = document.querySelector('.coin');
+    if (!coin) return;
+    
+    console.log('✅ Coin flip animation initialized');
+    
+    // Start coin flip animation after a delay
+    setTimeout(() => {
+        setInterval(() => {
+            coin.classList.toggle('flipped');
+        }, 3000); // Flip every 3 seconds
+    }, 3000); // Start after 3 seconds
 }
 
 // Interactive Patient Origin Map with Modern Design

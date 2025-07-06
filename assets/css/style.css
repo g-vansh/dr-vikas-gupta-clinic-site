@@ -881,13 +881,59 @@ p {
   margin-right: auto;
 }
 
-.doctor-photo {
+/* Coin Flip Animation for Doctor Photo */
+.coin-container {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
-  border: 5px solid var(--white);
+  perspective: 800px;
   margin: 2rem auto;
+}
+
+.coin {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out;
+  border-radius: 50%;
+}
+
+.coin .front,
+.coin .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid var(--white);
   box-shadow: var(--shadow);
+}
+
+.coin .front img,
+.coin .back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.coin .front img {
+  background: var(--white);
+  padding: 20px;
+  object-fit: contain;
+}
+
+.coin .back {
+  transform: rotateY(180deg);
+}
+
+.coin .back img {
+  object-fit: cover;
+}
+
+.coin.flipped {
+  transform: rotateY(180deg);
 }
 
 /* Buttons */

@@ -1,0 +1,23 @@
+{
+  "name": "dr-vikas-gupta-clinic-site",
+  "version": "1.0.0",
+  "description": "Dr. Vikas Gupta Skin Care Clinic Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=8080 --open=/index.html",
+    "dev": "live-server --port=8080 --open=/index.html --watch=.",
+    "serve": "http-server -p 8080 -o"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "http-server": "^14.1.1"
+  },
+  "keywords": [
+    "dermatology",
+    "clinic",
+    "website",
+    "static"
+  ],
+  "author": "Dr. Vikas Gupta Skin Care Clinic",
+  "license": "MIT"
+} 
