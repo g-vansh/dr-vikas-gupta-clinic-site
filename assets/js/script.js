@@ -531,7 +531,7 @@ function initMap() {
                     en: "Leading Dermatologist in Moradabad",
                     hi: "मुरादाबाद के प्रमुख त्वचा विशेषज्ञ"
                 },
-                patients: "1,00,000+"
+                patients: "2,00,000+"
             },
             // Existing nearby cities
             { 
@@ -940,7 +940,7 @@ function initMap() {
                         <span class="lang-hi">शहर</span>
                     </div>
                     <div class="stat-item">
-                        <strong>1,00,000+</strong> 
+                        <strong>2,00,000+</strong> 
                         <span class="lang-en">Patients</span>
                         <span class="lang-hi">मरीज़</span>
                     </div>
