@@ -6,11 +6,13 @@
   "scripts": {
     "start": "live-server --port=8080 --open=/index.html",
     "dev": "live-server --port=8080 --open=/index.html --watch=.",
-    "serve": "http-server -p 8080 -o"
+    "serve": "http-server -p 8080 -o",
+    "test": "playwright test"
   },
   "devDependencies": {
-    "live-server": "^1.2.2",
-    "http-server": "^14.1.1"
+    "@playwright/test": "^1.53.2",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
   },
   "keywords": [
     "dermatology",
@@ -20,4 +22,4 @@
   ],
   "author": "Dr. Vikas Gupta Skin Care Clinic",
   "license": "MIT"
-} 
+}

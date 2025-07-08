@@ -72,7 +72,6 @@ dr-vikas-gupta-clinic-site/
 │   ├── js/
 │   │   └── script.js       # Main JavaScript
 │   └── images/
-│       └── placeholder.txt # Image requirements
 └── README.md              # This file
 ```
 
@@ -224,7 +223,7 @@ Opposite Wazid Nagar Complex
 
 ## 🧪 Testing Checklist
 
-Before going live, test:
+Before going live, test (see `TESTING.md` for a detailed sequence):
 - [ ] All pages load correctly
 - [ ] Language toggle works on all pages
 - [ ] Mobile responsiveness
@@ -235,6 +234,11 @@ Before going live, test:
 - [ ] SEO meta tags present
 - [ ] Page speed optimization
 - [ ] Cross-browser compatibility
+
+### Running Automated Tests
+
+1. Install dependencies with `npm install` (this will also download a headless Chromium browser for Playwright).
+2. Run `npm test` to start a local server and execute the automated Playwright suite. The tests verify that key pages load and that the language toggle switches to Hindi correctly.
 
 ## 📈 Analytics Setup
 
