@@ -1181,7 +1181,9 @@ function initScrollAnimations() {
     }, observerOptions);
     
     // Observe elements for animation
-    const animateElements = document.querySelectorAll('.service-card, .highlight-item, .testimonial-slide');
+    // Exclude testimonial slides from this generic animation observer
+    // to avoid interfering with the carousel's own fade logic
+    const animateElements = document.querySelectorAll('.service-card, .highlight-item');
     animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
