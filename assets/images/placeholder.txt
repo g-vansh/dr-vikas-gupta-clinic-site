@@ -2,7 +2,7 @@
 
 This directory contains all the images used on the website. Below are the images that need to be added:
 
-## Required Images:
+## Required Images
 
 ### 1. Dr. Vikas Gupta Photos
 - **dr-vikas-gupta.jpg** (150x150px) - Main doctor photo for hero section
@@ -19,25 +19,25 @@ This directory contains all the images used on the website. Below are the images
   - Star ratings (⭐)
   - Contact icons (📞, 📍, etc.)
 
-## Image Guidelines:
+## Image Guidelines
 - Format: JPG for photos, PNG for graphics with transparency
 - Optimization: Compress images for web (under 500KB each)
 - Responsive: Provide high-resolution images that scale well
 - Alt text: All images must have descriptive alt attributes
 
-## Fallback Images:
+## Fallback Images
 If actual photos are not available, the website will work with:
 - Default placeholder backgrounds
 - CSS-generated icons and symbols
 - Professional medical stock images (ensure licensing)
 
-## Implementation Notes:
+## Implementation Notes
 - Images are referenced in HTML with proper alt text
 - CSS handles responsive scaling
 - Lazy loading is implemented for performance
 - Images support both light and professional medical aesthetic
 
-## Missing Images Handling:
+## Missing Images Handling
 The website is designed to work gracefully without images:
 - Text content is comprehensive and standalone
 - Color scheme and typography carry the professional appearance

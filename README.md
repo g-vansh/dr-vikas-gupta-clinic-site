@@ -2,6 +2,8 @@
 
 A comprehensive, bilingual (English/Hindi) website for Dr. Vikas Gupta's dermatology practice in Moradabad, designed for high conversion and excellent SEO performance.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and contribution tips.
+
 ## 🌟 Project Overview
 
 This website serves as a digital front for Dr. Vikas Gupta's Skin Care Clinic, featuring:
@@ -90,16 +92,19 @@ dr-vikas-gupta-clinic-site/
    cd dr-vikas-gupta-clinic-site
    ```
 
-2. Open `index.html` in your browser or use a local server:
+2. Install dependencies:
    ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node.js
-   npx http-server
+   npm install
    ```
 
-3. Navigate to `http://localhost:8000`
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   npm run serve
+   ```
+
+4. Navigate to `http://localhost:8080`
 
 ## 📸 Adding Images
 
@@ -264,6 +269,14 @@ For technical issues or questions about this implementation:
 - Ensure all files are properly uploaded
 - Verify DNS settings are correct
 - Test thoroughly before announcing the website
+
+## 📝 Contributing
+
+General development guidelines are available in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 🤖 AI Contribution Guide
+
+See [AGENTS.md](AGENTS.md) for guidelines when using automated coding tools. Run `npm install` and `npm run dev` to preview the site locally. Preserve all existing features and SEO tags.
 
 ## 📄 License
 
