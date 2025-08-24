@@ -8,7 +8,7 @@ module.exports = defineConfig({
     headless: true,
   },
   webServer: {
-    command: 'npx http-server -p 8080',
+    command: 'npx http-server -p 8080 -c-1',
     port: 8080,
     reuseExistingServer: !process.env.CI,
   },

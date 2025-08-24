@@ -4,9 +4,9 @@
   "description": "Dr. Vikas Gupta Skin Care Clinic Website",
   "main": "index.html",
   "scripts": {
-    "start": "live-server --port=8080 --open=/index.html",
-    "dev": "live-server --port=8080 --open=/index.html --watch=.",
-    "serve": "http-server -p 8080 -o",
+    "start": "http-server -p 8080 -o -c-1",
+    "dev": "http-server -p 8080 -o -c-1",
+    "serve": "http-server -p 8080 -o -c-1",
     "test": "playwright test"
   },
   "devDependencies": {
