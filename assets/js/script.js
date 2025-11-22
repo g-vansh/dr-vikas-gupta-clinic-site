@@ -1879,24 +1879,44 @@ function initWhatsAppAssistant() {
         return;
     }
 
+    // Check if we're on the index page and on mobile
+    const isIndexPage = window.location.pathname === '/' || 
+                        window.location.pathname === '/index.html' || 
+                        window.location.pathname.endsWith('index.html');
+    const isMobile = window.innerWidth <= 768;
+    const shouldHideOnMobile = isIndexPage && isMobile;
+
+    // Add class to body if on index page
+    if (isIndexPage) {
+        document.body.classList.add('index-page');
+    }
+
+    // Add class to assistant if should hide on mobile
+    if (shouldHideOnMobile) {
+        assistant.classList.add('mobile-hidden-until-scroll');
+    }
+
     let chatVisible = false;
     let assistantHidden = false;
     let lastScrollY = window.scrollY;
+    let hasScrolled = false;
 
-    // Show assistant with animation after page load
-    setTimeout(() => {
-        assistant.classList.add('animate-in');
-        
-        // Show doctor avatar after button animation
+    // Show assistant with animation after page load (only if not hiding on mobile)
+    if (!shouldHideOnMobile) {
         setTimeout(() => {
-            doctorAvatar.classList.add('show');
-        }, 300);
-        
-        // Show chat bubble after avatar
-        setTimeout(() => {
-            showChatBubble();
-        }, 1000);
-    }, 2000);
+            assistant.classList.add('animate-in');
+            
+            // Show doctor avatar after button animation
+            setTimeout(() => {
+                doctorAvatar.classList.add('show');
+            }, 300);
+            
+            // Show chat bubble after avatar
+            setTimeout(() => {
+                showChatBubble();
+            }, 1000);
+        }, 2000);
+    }
 
     // Show chat bubble function
     function showChatBubble() {
@@ -1941,15 +1961,35 @@ function initWhatsAppAssistant() {
         scrollTimeout = setTimeout(() => {
             const currentScrollY = window.scrollY;
             
+            // For mobile on index page: show button after scrolling down
+            if (shouldHideOnMobile && !hasScrolled && currentScrollY > 200) {
+                hasScrolled = true;
+                assistant.classList.add('show-on-scroll');
+                // Show assistant with animation after page load
+                setTimeout(() => {
+                    assistant.classList.add('animate-in');
+                    
+                    // Show doctor avatar after button animation
+                    setTimeout(() => {
+                        doctorAvatar.classList.add('show');
+                    }, 300);
+                    
+                    // Show chat bubble after avatar
+                    setTimeout(() => {
+                        showChatBubble();
+                    }, 1000);
+                }, 100);
+            }
+            
             if (currentScrollY > lastScrollY && currentScrollY > 300) {
                 // Scrolling down
-                if (!assistantHidden) {
+                if (!assistantHidden && !shouldHideOnMobile) {
                     assistant.classList.add('hidden');
                     assistantHidden = true;
                 }
             } else if (currentScrollY < lastScrollY) {
                 // Scrolling up
-                if (assistantHidden) {
+                if (assistantHidden && !shouldHideOnMobile) {
                     assistant.classList.remove('hidden');
                     assistantHidden = false;
                 }

@@ -2727,6 +2727,19 @@ textarea:focus {
         top: -20px;
         left: -12px;
     }
+    
+    /* Hide WhatsApp button on mobile for index page until scroll */
+    body.index-page .whatsapp-assistant.mobile-hidden-until-scroll {
+        opacity: 0;
+        transform: translateY(100px);
+        pointer-events: none;
+    }
+    
+    body.index-page .whatsapp-assistant.mobile-hidden-until-scroll.show-on-scroll {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
 }
 
 @media (max-width: 480px) {
