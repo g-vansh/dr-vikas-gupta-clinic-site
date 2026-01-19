@@ -180,7 +180,7 @@ The website is designed to work without images, but adding professional photos w
 
 ### Eka Care Booking
 - Update the Eka Care URL in `appointment.html`
-- Current link: `https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad%2Fcalendar`
+- Current link: `https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad`
 
 ### Phone Number
 - All phone links use: `+918273112888`
