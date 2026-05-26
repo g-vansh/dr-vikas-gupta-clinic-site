@@ -596,7 +596,7 @@
                     </div>
                     
                     <div style="margin-top: 2rem;">
-                        <a href="https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad" target="_blank" class="btn btn-primary btn-lg">
+                        <a href="#book-online" class="btn btn-primary btn-lg">
                             <span class="lang-en">📅 Book Appointment</span>
                             <span class="lang-hi">📅 अपॉइंटमेंट बुक करें</span>
                         </a>
@@ -1077,11 +1077,40 @@
                     </div>
                 </div>
                 
-                <div style="margin-top: 2rem;">
-                    <a href="https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad" target="_blank" class="btn btn-primary btn-lg">
-                        <span class="lang-en">📅 Book Online Appointment</span>
-                        <span class="lang-hi">📅 ऑनलाइन अपॉइंटमेंट बुक करें</span>
-                    </a>
+                <!-- Online Booking Widget (Eka Care) -->
+                <div id="book-online" class="eka-widget-section" style="margin-top: 2.5rem;">
+                    <h3 style="text-align: center; margin-bottom: 1.25rem;">
+                        <span class="lang-en">📅 Book Your Appointment Online</span>
+                        <span class="lang-hi">📅 अपना अपॉइंटमेंट ऑनलाइन बुक करें</span>
+                    </h3>
+
+                    <div id="eka-appointment-widget-container" class="eka-widget-container"></div>
+                    <script>
+                        window.ekaconfig = {
+                            bid: "b-172456924056164",
+                            cid: "66cad6988ba488001d0db6d7",
+                            oid: "172456924056164",
+                            allowAnonymousBooking: true,
+                            containerID: '#eka-appointment-widget-container'
+                        };
+                        (function (w, d) {
+                            var s = d.createElement("script");
+                            s.src = "https://elixir-dr.eka.care/appointment-widget-init-script/main/eka-widget-init.js";
+                            s.async = true;
+                            d.head.appendChild(s);
+                        })(window, document);
+                    </script>
+
+                    <div style="margin-top: 1.25rem; text-align: center;">
+                        <a href="https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <span class="lang-en">📅 Book Online Appointment</span>
+                            <span class="lang-hi">📅 ऑनलाइन अपॉइंटमेंट बुक करें</span>
+                        </a>
+                        <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+                            <span class="lang-en">Widget not loading? Use the button above to book on Eka Care.</span>
+                            <span class="lang-hi">विजेट लोड नहीं हो रहा? एका केयर पर बुक करने के लिए ऊपर दिए बटन का उपयोग करें।</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
