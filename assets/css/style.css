@@ -3330,6 +3330,16 @@ textarea:focus {
   color: var(--text-light);
 }
 
+/* Smart fallback: hidden until the widget is slow to paint or fails to load */
+.booking-fallback.is-collapsed {
+  display: none;
+}
+
+/* Sticky mobile booking bar (phones only) */
+.sticky-book-bar {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .booking-section {
     padding: 40px 0;
@@ -3346,6 +3356,60 @@ textarea:focus {
   .booking-fallback .btn {
     width: 100%;
     max-width: 320px;
+  }
+
+  .sticky-book-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem 0.8rem;
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.97);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    z-index: 9998;
+    transform: translateY(130%);
+    transition: transform 0.3s ease;
+  }
+
+  .sticky-book-bar.is-visible {
+    transform: translateY(0);
+  }
+
+  .sticky-book-btn {
+    flex: 1 1 auto;
+    padding: 13px 16px;
+    margin: 0;
+  }
+
+  .sticky-book-call {
+    flex: 0 0 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    font-size: 1.35rem;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: var(--white);
+  }
+
+  /* Lift the WhatsApp floating button above the sticky bar when it is showing */
+  body.has-sticky-book .whatsapp-assistant {
+    bottom: 88px;
+    transition: bottom 0.3s ease;
+  }
+
+  /* Reserve space so the fixed bar never covers footer content */
+  body.has-sticky-book {
+    padding-bottom: 76px;
   }
 }
 

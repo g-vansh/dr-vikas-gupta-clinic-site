@@ -409,7 +409,27 @@
                 "sameAs": [
                     "https://www.drvikasgupta.skin",
                     "https://www.google.com/maps/place/Dr+Vikas+Gupta+Skin+Care+Clinic"
-                ]
+                ],
+                "potentialAction": {
+                    "@type": "ReserveAction",
+                    "name": "Book an Appointment",
+                    "description": "Book an in-clinic or Pan-India video consultation with Dr. Vikas Gupta.",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://www.drvikasgupta.skin/appointment.html",
+                        "inLanguage": ["en-IN", "hi-IN"],
+                        "actionPlatform": [
+                            "http://schema.org/DesktopWebPlatform",
+                            "http://schema.org/MobileWebPlatform",
+                            "http://schema.org/AndroidPlatform",
+                            "http://schema.org/IOSPlatform"
+                        ]
+                    },
+                    "result": {
+                        "@type": "Reservation",
+                        "name": "Dermatology Consultation (In-Clinic or Video)"
+                    }
+                }
             },
             {
                 "@type": "WebSite",
@@ -596,7 +616,7 @@
                     </div>
                     
                     <div style="margin-top: 2rem;">
-                        <a href="#book-online" class="btn btn-primary btn-lg">
+                        <a href="#book-online" class="btn btn-primary btn-lg" data-booking-cta="hero">
                             <span class="lang-en">📅 Book Appointment</span>
                             <span class="lang-hi">📅 अपॉइंटमेंट बुक करें</span>
                         </a>
@@ -729,28 +749,13 @@
                 </div>
 
                 <div id="eka-appointment-widget-container" class="eka-widget-container"></div>
-                <script>
-                    window.ekaconfig = {
-                        bid: "b-172456924056164",
-                        cid: "66cad6988ba488001d0db6d7",
-                        oid: "172456924056164",
-                        allowAnonymousBooking: true,
-                        containerID: '#eka-appointment-widget-container'
-                    };
-                    (function (w, d) {
-                        var s = d.createElement("script");
-                        s.src = "https://elixir-dr.eka.care/appointment-widget-init-script/main/eka-widget-init.js";
-                        s.async = true;
-                        d.head.appendChild(s);
-                    })(window, document);
-                </script>
 
-                <div class="booking-fallback">
-                    <a href="https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                <div id="booking-fallback" class="booking-fallback is-collapsed">
+                    <a href="https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-booking-cta="eka-direct">
                         <span class="lang-en">📅 Book on Eka Care</span>
                         <span class="lang-hi">📅 एका केयर पर बुक करें</span>
                     </a>
-                    <a href="tel:+918273112888" class="btn btn-secondary btn-lg">
+                    <a href="tel:+918273112888" class="btn btn-secondary btn-lg" data-booking-cta="call">
                         <span class="lang-en">📞 Call to Book</span>
                         <span class="lang-hi">📞 कॉल करके बुक करें</span>
                     </a>
@@ -1144,7 +1149,7 @@
                 </div>
                 
                 <div style="margin-top: 2.5rem; text-align: center;">
-                    <a href="#book-online" class="btn btn-light btn-lg">
+                    <a href="#book-online" class="btn btn-light btn-lg" data-booking-cta="contact">
                         <span class="lang-en">📅 Book Your Appointment Now</span>
                         <span class="lang-hi">📅 अभी अपना अपॉइंटमेंट बुक करें</span>
                     </a>
@@ -1259,6 +1264,116 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Hardcoded Routes Data -->
     <script src="hardcoded_routes.js?v=1"></script>
+    <!-- Sticky mobile booking bar (phones only) -->
+    <div class="sticky-book-bar" id="stickyBookBar" aria-hidden="true">
+        <a href="tel:+918273112888" class="sticky-book-call" data-booking-cta="sticky-call" aria-label="Call clinic to book">
+            <span aria-hidden="true">📞</span>
+        </a>
+        <a href="#book-online" class="btn btn-primary sticky-book-btn" data-booking-cta="sticky">
+            <span class="lang-en">📅 Book Appointment</span>
+            <span class="lang-hi">📅 अपॉइंटमेंट बुक करें</span>
+        </a>
+    </div>
+
+    <!-- Appointment booking: lazy-load widget, smart fallback, sticky bar, analytics -->
+    <script>
+    (function (w, d) {
+        w.ekaconfig = {
+            bid: "b-172456924056164",
+            cid: "66cad6988ba488001d0db6d7",
+            oid: "172456924056164",
+            allowAnonymousBooking: true,
+            containerID: '#eka-appointment-widget-container'
+        };
+
+        var EKA_SRC = "https://elixir-dr.eka.care/appointment-widget-init-script/main/eka-widget-init.js";
+        var container = d.getElementById('eka-appointment-widget-container');
+        var fallback = d.getElementById('booking-fallback');
+        var section = d.getElementById('book-online');
+        var loaded = false;
+
+        function track(name, params) {
+            try {
+                w.dataLayer = w.dataLayer || [];
+                var payload = { event: name };
+                if (params) { for (var k in params) { if (params.hasOwnProperty(k)) { payload[k] = params[k]; } } }
+                w.dataLayer.push(payload);
+                if (typeof w.gtag === 'function') { w.gtag('event', name, params || {}); }
+            } catch (e) {}
+        }
+        w.trackBooking = track;
+
+        function widgetPainted() {
+            return !!(container && (container.querySelector('iframe') || container.children.length > 0));
+        }
+
+        function showFallback(reason) {
+            if (fallback) { fallback.classList.remove('is-collapsed'); }
+            track('booking_fallback_shown', { reason: reason });
+        }
+
+        function loadWidget(source) {
+            if (loaded) { return; }
+            loaded = true;
+            track('booking_widget_load', { trigger: source || 'auto' });
+            var s = d.createElement('script');
+            s.src = EKA_SRC;
+            s.async = true;
+            s.onerror = function () { showFallback('script_error'); };
+            d.head.appendChild(s);
+            w.setTimeout(function () {
+                if (widgetPainted()) { track('booking_widget_ready'); }
+                else { showFallback('timeout'); }
+            }, 7000);
+        }
+        w.loadEkaWidget = loadWidget;
+
+        // Lazy-load the heavy third-party script only as the booking area nears the viewport.
+        if ('IntersectionObserver' in w && section) {
+            var io = new IntersectionObserver(function (entries, obs) {
+                for (var i = 0; i < entries.length; i++) {
+                    if (entries[i].isIntersecting) { loadWidget('scroll'); obs.disconnect(); break; }
+                }
+            }, { rootMargin: '400px 0px' });
+            io.observe(section);
+        } else {
+            loadWidget('no-observer');
+        }
+
+        // Any in-page "book" CTA loads the widget immediately and is tracked.
+        d.addEventListener('click', function (ev) {
+            var el = ev.target && ev.target.closest ? ev.target.closest('[data-booking-cta]') : null;
+            if (!el) { return; }
+            track('booking_cta_click', { cta: el.getAttribute('data-booking-cta') });
+            if (el.getAttribute('href') === '#book-online') { loadWidget('cta'); }
+        });
+
+        // Sticky mobile bar: shown while the booking section is off-screen.
+        var bar = d.getElementById('stickyBookBar');
+        if (bar && 'IntersectionObserver' in w && section) {
+            var mq = w.matchMedia('(max-width: 768px)');
+            var sectionOffscreen = true;
+            function applyBar() {
+                if (sectionOffscreen && mq.matches) {
+                    bar.classList.add('is-visible');
+                    d.body.classList.add('has-sticky-book');
+                    bar.setAttribute('aria-hidden', 'false');
+                } else {
+                    bar.classList.remove('is-visible');
+                    d.body.classList.remove('has-sticky-book');
+                    bar.setAttribute('aria-hidden', 'true');
+                }
+            }
+            var barIo = new IntersectionObserver(function (entries) {
+                for (var i = 0; i < entries.length; i++) { sectionOffscreen = !entries[i].isIntersecting; }
+                applyBar();
+            }, { threshold: 0 });
+            barIo.observe(section);
+            if (mq.addEventListener) { mq.addEventListener('change', applyBar); }
+        }
+    })(window, document);
+    </script>
+
     <script src="assets/js/script.js?v=1"></script>
 </body>
 </html>
