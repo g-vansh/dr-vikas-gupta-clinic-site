@@ -69,37 +69,32 @@ Automated smoke tests are available via [Playwright](https://playwright.dev/). A
 1. On the homepage, watch the doctor image to confirm it flips every few seconds.
 2. Ensure the animation does not interfere with page layout on mobile.
 
-## 9. WhatsApp Assistant
-
-1. Click the WhatsApp floating button.
-2. Verify that a new tab opens to `https://wa.me/918273112888` with a pre-filled greeting.
-
-## 10. Links and Phone Numbers
+## 9. Links and Phone Numbers
 
 1. Test all external links (Eka Care, social media, maps) to ensure they open in a new tab.
 2. Click the phone number links on mobile to confirm they prompt a call.
 
-## 11. Responsive Design
+## 10. Responsive Design
 
 1. Test the site in common resolutions: 320&nbsp;px, 768&nbsp;px, 1024&nbsp;px, and 1920&nbsp;px.
 2. Check that text remains legible and that no layout elements overlap or break.
 
-## 12. Cross-Browser Compatibility
+## 11. Cross-Browser Compatibility
 
 1. Repeat these tests in the latest versions of Chrome, Firefox, and Edge.
 2. Optionally test on Safari on macOS/iOS if available.
 
-## 13. Accessibility Checks
+## 12. Accessibility Checks
 
 1. Use browser dev tools or extensions (e.g., Lighthouse, axe) to scan each page.
 2. Verify color contrast, keyboard navigation, and alt text for images.
 
-## 14. Performance Checks
+## 13. Performance Checks
 
 1. Run Lighthouse performance reports for the homepage and note the score.
 2. Ensure page load time is under two seconds on a typical broadband connection.
 
-## 15. Broken Link Scan (Optional)
+## 14. Broken Link Scan (Optional)
 
 Run `npx linkinator http://localhost:8080` to scan for broken internal and external links.
 
