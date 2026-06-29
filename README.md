@@ -182,7 +182,7 @@ The website is designed to work without images, but adding professional photos w
 - Embedded Eka Care booking is retained for in-clinic appointments.
 - Teleconsultation booking should use the external Eka Care direct link because it cannot currently be completed inside the embedded applet.
 - Update the Eka Care URL in `appointment.html` and `index.html`
-- Current link: `https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad`
+- Current link: `https://www.eka.care/dr-vikas-gupta-dermatology-moradabad`
 
 ### Phone Number
 - All phone links use: `+918273112888`

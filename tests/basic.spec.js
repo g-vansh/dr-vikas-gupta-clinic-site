@@ -12,7 +12,7 @@ const pages = [
   '/faq.html'
 ];
 
-const teleconsultationUrl = 'https://login.eka.care/workspace/patient-sign-in?mobileonly=true&next=https%3A%2F%2Fwww.eka.care%2Fdoctor%2Fdr-vikas-gupta-dermatology-moradabad';
+const teleconsultationUrl = 'https://www.eka.care/dr-vikas-gupta-dermatology-moradabad';
 
 for (const path of pages) {
   test(`page ${path} loads`, async ({ page }) => {
