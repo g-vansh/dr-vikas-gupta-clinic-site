@@ -1263,11 +1263,15 @@
     <!-- Appointment booking: lazy-load widget, smart fallback, sticky bar, analytics -->
     <script>
     (function (w, d) {
+        // allowAnonymousBooking is off so Eka makes the patient identify themselves
+        // (mobile + OTP) before booking, which is what forces a contact number onto
+        // every appointment. The widget's own phone field is optional and sits in a
+        // cross-origin iframe, so it cannot be made required from this page.
         w.ekaconfig = {
             bid: "b-172456924056164",
             cid: "66cad6988ba488001d0db6d7",
             oid: "172456924056164",
-            allowAnonymousBooking: true,
+            allowAnonymousBooking: false,
             containerID: '#eka-appointment-widget-container'
         };
 

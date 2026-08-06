@@ -183,6 +183,11 @@ The website is designed to work without images, but adding professional photos w
 - Teleconsultation booking should use the external Eka Care direct link because it cannot currently be completed inside the embedded applet.
 - Update the Eka Care URL in `appointment.html` and `index.html`
 - Current link: `https://www.eka.care/dr-vikas-gupta-dermatology-moradabad`
+- `allowAnonymousBooking` in the `ekaconfig` block is set to `false` so patients must
+  identify themselves with Eka (mobile + OTP) before booking. This is what makes a
+  contact number mandatory: the widget renders in a cross-origin iframe from
+  `widget.eka.care`, so its own optional phone field cannot be validated by our code.
+  Setting it back to `true` restores no-login booking and phone numbers become optional again.
 
 ### Phone Number
 - All phone links use: `+918273112888`
