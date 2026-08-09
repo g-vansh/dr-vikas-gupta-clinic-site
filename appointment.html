@@ -171,55 +171,30 @@
                     </p>
                 </div>
 
-                <!-- Online Booking Widget (Eka Care) -->
-                <div id="book-online" class="eka-widget-section" role="region" aria-label="Online appointment booking">
+                <!-- Primary booking action: Eka Care handles both consultation modes -->
+                <div id="book-online" class="booking-cta-section" role="region" aria-label="Online appointment booking">
                     <h2 style="text-align: center; margin-bottom: 0.5rem;">
                         <span class="lang-en">📅 Book Your Appointment Online</span>
                         <span class="lang-hi">📅 अपना अपॉइंटमेंट ऑनलाइन बुक करें</span>
                     </h2>
                     <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-light);">
-                        <span class="lang-en">Select a date and time below to book an in-clinic visit instantly. For teleconsultation, use the Eka Care link below the applet.</span>
-                        <span class="lang-hi">क्लिनिक विज़िट तुरंत बुक करने के लिए नीचे तारीख और समय चुनें। वीडियो परामर्श के लिए, ऐपलेट के नीचे दिए गए एका केयर लिंक का उपयोग करें।</span>
+                        <span class="lang-en">Book an in-clinic visit or a video consultation on Eka Care. Choose your date and time there, and you will get a confirmation on your phone.</span>
+                        <span class="lang-hi">एका केयर पर क्लिनिक विज़िट या वीडियो परामर्श बुक करें। वहाँ अपनी तारीख और समय चुनें, आपको फ़ोन पर पुष्टि मिल जाएगी।</span>
                     </p>
 
-                    <div id="eka-appointment-widget-container" class="eka-widget-container"></div>
-                    <script>
-                        window.ekaconfig = {
-                            bid: "b-172456924056164",
-                            cid: "66cad6988ba488001d0db6d7",
-                            oid: "172456924056164",
-                            allowAnonymousBooking: true,
-                            containerID: '#eka-appointment-widget-container'
-                        };
-                        (function (w, d) {
-                            var s = d.createElement("script");
-                            s.src = "https://elixir-dr.eka.care/appointment-widget-init-script/main/eka-widget-init.js";
-                            s.async = true;
-                            d.head.appendChild(s);
-                        })(window, document);
-                    </script>
-
-                    <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                        <span class="lang-en">Widget not loading? <a href="https://www.eka.care/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener">Book directly on Eka Care →</a></span>
-                        <span class="lang-hi">विजेट लोड नहीं हो रहा? <a href="https://www.eka.care/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener">एका केयर पर सीधे बुक करें →</a></span>
-                    </p>
-
-                    <div class="teleconsultation-callout" aria-label="Teleconsultation booking">
-                        <div class="teleconsultation-callout-icon" aria-hidden="true">💻</div>
-                        <div class="teleconsultation-callout-content">
-                            <h3>
-                                <span class="lang-en">Booking a teleconsultation?</span>
-                                <span class="lang-hi">वीडियो परामर्श बुक करना है?</span>
-                            </h3>
-                            <p>
-                                <span class="lang-en">Teleconsultation cannot currently be booked inside the embedded Eka Care applet. Please use the Eka Care link below to book your video consultation.</span>
-                                <span class="lang-hi">वीडियो परामर्श अभी एम्बेडेड एका केयर ऐपलेट के अंदर बुक नहीं किया जा सकता। कृपया वीडियो परामर्श बुक करने के लिए नीचे दिए गए एका केयर लिंक का उपयोग करें।</span>
-                            </p>
-                            <a href="https://www.eka.care/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg teleconsultation-btn">
-                                <span class="lang-en">Book Teleconsultation on Eka Care</span>
-                                <span class="lang-hi">एका केयर पर वीडियो परामर्श बुक करें</span>
-                            </a>
-                        </div>
+                    <div class="booking-actions">
+                        <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" data-booking-cta="appointment-primary">
+                            <span class="lang-en">📅 Book on Eka Care</span>
+                            <span class="lang-hi">📅 एका केयर पर बुक करें</span>
+                        </a>
+                        <a href="tel:+918273112888" class="btn btn-secondary btn-lg" data-booking-cta="appointment-call">
+                            <span class="lang-en">📞 Call to Book</span>
+                            <span class="lang-hi">📞 कॉल करके बुक करें</span>
+                        </a>
+                        <p class="booking-actions-note">
+                            <span class="lang-en">Booking opens on Eka Care in a new tab.</span>
+                            <span class="lang-hi">बुकिंग एका केयर पर नए टैब में खुलेगी।</span>
+                        </p>
                     </div>
                 </div>
 
@@ -249,7 +224,7 @@
                                 <span class="lang-hi">✓ डिजिटल प्रिस्क्रिप्शन</span>
                             </li>
                         </ul>
-                        <a href="https://www.eka.care/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+                        <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
                             <span class="lang-en">📱 Book Teleconsultation</span>
                             <span class="lang-hi">📱 वीडियो परामर्श बुक करें</span>
                         </a>
@@ -284,7 +259,7 @@
                                 <span class="lang-hi">✓ विस्तृत त्वचा विश्लेषण</span>
                             </li>
                         </ul>
-                        <a href="#book-online" class="btn btn-secondary btn-lg">
+                        <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg" data-booking-cta="in-clinic-card">
                             <span class="lang-en">📱 Book In-Clinic Now</span>
                             <span class="lang-hi">📱 अभी क्लिनिक विज़िट बुक करें</span>
                         </a>
@@ -468,7 +443,7 @@
                             </p>
                             
                             <div style="margin-top: 1rem;">
-                                <a href="#book-online" class="btn btn-primary">
+                                <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-booking-cta="clinic-hours">
                                     <span class="lang-en">📱 Book Appointment</span>
                                     <span class="lang-hi">📱 अपॉइंटमेंट बुक करें</span>
                                 </a>
@@ -624,7 +599,7 @@
                 </p>
                 
                 <div style="margin-top: 2rem;">
-                    <a href="#book-online" class="btn btn-primary btn-lg">
+                    <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" data-booking-cta="appointment-final">
                         <span class="lang-en">📱 Book Your Appointment Now</span>
                         <span class="lang-hi">📱 अभी अपना अपॉइंटमेंट बुक करें</span>
                     </a>

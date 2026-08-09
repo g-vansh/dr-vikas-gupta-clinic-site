@@ -38,7 +38,7 @@ This website serves as a digital front for Dr. Vikas Gupta's Skin Care Clinic, f
 ### 🎯 High Conversion Features
 - **Interactive patient origin map** (Leaflet.js)
 - **Auto-rotating testimonials carousel**
-- **Integrated Eka Care booking**
+- **Eka Care booking links** (booking happens on Eka Care, not embedded on-site)
 - Clear call-to-action buttons
 - Trust indicators and social proof
 
@@ -179,10 +179,43 @@ The website is designed to work without images, but adding professional photos w
 ## 📞 Contact Integration
 
 ### Eka Care Booking
-- Embedded Eka Care booking is retained for in-clinic appointments.
-- Teleconsultation booking should use the external Eka Care direct link because it cannot currently be completed inside the embedded applet.
-- Update the Eka Care URL in `appointment.html` and `index.html`
-- Current link: `https://www.eka.care/dr-vikas-gupta-dermatology-moradabad`
+
+All booking happens on Eka Care. Every "book appointment" CTA on the site is a plain link to:
+
+```
+https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad
+```
+
+Both in-clinic visits and video consultations are booked there — the site no longer treats them
+as separate flows. Links open in a new tab with `rel="noopener noreferrer"`, and each carries a
+`data-booking-cta` attribute so the click is tracked in `dataLayer`/`gtag` before the patient
+leaves. To change the destination, update that URL in the HTML files and in
+`tests/basic.spec.js` (`bookingUrl`).
+
+Note the `/doctor/` path segment: the older `eka.care/dr-vikas-gupta-...` form 301-redirects to
+it, so linking to the canonical URL avoids a redirect hop.
+
+#### Why the embedded applet was removed
+
+The site used to embed Eka's appointment widget (`elixir-dr.eka.care/.../eka-widget-init.js`,
+rendering an iframe from `widget.eka.care`). It was removed because it let patients book
+**without leaving a phone number**, which the clinic needs in order to confirm visits.
+
+The widget's guest form badged its Phone Number field "Optional": the submit gate was
+name + age + gender only, and the payload was built as
+`{fn, gen, ageInM, ...(phone && {mobile})}` — so a blank phone meant the `mobile` key never
+reached Eka's API at all. This could not be fixed from our side; the form lived in a
+cross-origin iframe where `contentDocument` is `null` and every access throws `DOMException`,
+and the parent/iframe `postMessage` channel carried only payment events.
+
+The one config lever, `allowAnonymousBooking: false`, would have forced a login that captures a
+verified number — but that login is branded "Login using ABHA" (India's national health
+account, OTP from the NHA), which is heavy friction for a walk-in dermatology patient. Linking
+straight to Eka Care avoids both problems and drops ~156KB of third-party JavaScript from the
+booking path.
+
+`tests/basic.spec.js` guards against the applet returning and against CTAs drifting off the
+canonical URL.
 
 ### Phone Number
 - All phone links use: `+918273112888`

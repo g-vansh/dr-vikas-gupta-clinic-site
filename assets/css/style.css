@@ -2959,7 +2959,8 @@ textarea:focus {
   box-shadow: var(--shadow);
 }
 
-.booking-fallback {
+/* Primary booking actions. Booking happens on Eka Care, so these are the real CTAs. */
+.booking-actions {
   text-align: center;
   margin-top: 1.75rem;
   display: flex;
@@ -2969,16 +2970,23 @@ textarea:focus {
   gap: 1rem;
 }
 
-.booking-fallback-note {
+.booking-actions-note {
   flex-basis: 100%;
   margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-light);
 }
 
-/* Smart fallback: hidden until the widget is slow to paint or fails to load */
-.booking-fallback.is-collapsed {
-  display: none;
+/* Inline tel: link sits inside muted note text, so keep it in the same colour */
+.booking-actions-note a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.booking-actions-note a:hover,
+.booking-actions-note a:focus {
+  color: var(--primary-color);
 }
 
 /* Sticky mobile booking bar (phones only) */
@@ -2999,7 +3007,7 @@ textarea:focus {
     font-size: var(--font-size-base);
   }
 
-  .booking-fallback .btn {
+  .booking-actions .btn {
     width: 100%;
     max-width: 320px;
   }
@@ -3053,121 +3061,8 @@ textarea:focus {
   }
 }
 
-.eka-widget-section {
+/* Booking call-to-action block on the appointment page */
+.booking-cta-section {
   margin: 3rem auto;
   scroll-margin-top: 100px; /* offset for fixed header on anchor jump */
-}
-
-.eka-widget-container {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  min-height: 720px;
-  margin: 0 auto;
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-/* Loading spinner shown behind the iframe until Eka's widget paints over it */
-.eka-widget-container::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 44px;
-  height: 44px;
-  margin: -22px 0 0 -22px;
-  border: 4px solid rgba(46, 134, 171, 0.2); /* primary-color tint */
-  border-top-color: var(--primary-color);
-  border-radius: 50%;
-  animation: eka-widget-spin 0.9s linear infinite;
-  z-index: 0;
-}
-
-.eka-widget-container iframe {
-  position: relative;
-  display: block;
-  width: 100%;
-  min-height: 720px;
-  border: 0;
-  z-index: 1; /* sits above the loading spinner */
-}
-
-.teleconsultation-callout {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 900px;
-  margin: 1.5rem auto 0;
-  padding: 1.25rem;
-  background: rgba(46, 134, 171, 0.08);
-  border: 1px solid rgba(46, 134, 171, 0.2);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-}
-
-.teleconsultation-callout-icon {
-  flex: 0 0 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: var(--white);
-  border-radius: 50%;
-  font-size: 1.5rem;
-}
-
-.teleconsultation-callout-content {
-  flex: 1;
-  text-align: left;
-}
-
-.teleconsultation-callout h3 {
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-.teleconsultation-callout p {
-  margin-bottom: 1rem;
-  color: var(--text-dark);
-}
-
-.teleconsultation-btn {
-  margin: 0;
-}
-
-@keyframes eka-widget-spin {
-  to { transform: rotate(360deg); }
-}
-
-@media (max-width: 768px) {
-  .eka-widget-container,
-  .eka-widget-container iframe {
-    min-height: 640px;
-  }
-
-  .teleconsultation-callout {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .teleconsultation-callout-content {
-    text-align: center;
-  }
-
-  .teleconsultation-btn {
-    width: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eka-widget-container::after {
-    animation: none;
-  }
 }

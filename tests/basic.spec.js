@@ -12,7 +12,8 @@ const pages = [
   '/faq.html'
 ];
 
-const teleconsultationUrl = 'https://www.eka.care/dr-vikas-gupta-dermatology-moradabad';
+// Canonical Eka Care profile. The pre-/doctor/ form 301s here, so link straight to this one.
+const bookingUrl = 'https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad';
 
 for (const path of pages) {
   test(`page ${path} loads`, async ({ page }) => {
@@ -31,32 +32,67 @@ test('language toggle switches to Hindi', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
 });
 
-test('appointment page shows teleconsultation fallback in English', async ({ page }) => {
-  await page.goto(baseURL + '/appointment.html');
+// The embedded Eka Care applet was removed: it let patients book without a phone number,
+// and the field could not be made required from our side (cross-origin iframe). Booking now
+// happens on Eka Care itself. These tests keep the applet from creeping back in and keep every
+// booking CTA pointed at the canonical URL.
 
-  const callout = page.locator('.teleconsultation-callout').first();
-  await expect(callout.locator('p .lang-en')).toContainText('Teleconsultation cannot currently be booked inside the embedded Eka Care applet');
+const widgetPages = ['/', '/appointment.html'];
 
-  const button = callout.locator('a.teleconsultation-btn');
-  await expect(button).toHaveAttribute('href', teleconsultationUrl);
-  await expect(button).toHaveAttribute('target', '_blank');
-  await expect(button).toHaveAttribute('rel', /noopener/);
-  await expect(button).toHaveAttribute('rel', /noreferrer/);
+for (const path of widgetPages) {
+  test(`${path} embeds no Eka booking widget`, async ({ page }) => {
+    await page.goto(baseURL + path);
+    // Give any stray lazy-loader a chance to run before asserting absence.
+    await page.waitForTimeout(1000);
+
+    expect(await page.locator('iframe[src*="eka.care"]').count()).toBe(0);
+    expect(await page.locator('#eka-appointment-widget-container').count()).toBe(0);
+    expect(await page.evaluate(() => typeof window.ekaconfig)).toBe('undefined');
+    expect(await page.evaluate(
+      () => [...document.scripts].some(s => s.src.includes('eka-widget-init'))
+    )).toBe(false);
+  });
+
+  test(`${path} sends every booking CTA to Eka Care in a new tab`, async ({ page }) => {
+    await page.goto(baseURL + path);
+
+    const ctas = page.locator('a[data-booking-cta]:not([href^="tel:"])');
+    const count = await ctas.count();
+    expect(count, 'page should have booking CTAs').toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const cta = ctas.nth(i);
+      const label = await cta.getAttribute('data-booking-cta');
+      await expect(cta, `CTA "${label}"`).toHaveAttribute('href', bookingUrl);
+      await expect(cta, `CTA "${label}"`).toHaveAttribute('target', '_blank');
+      await expect(cta, `CTA "${label}"`).toHaveAttribute('rel', /noopener/);
+      await expect(cta, `CTA "${label}"`).toHaveAttribute('rel', /noreferrer/);
+    }
+  });
+}
+
+test('no booking link points at the removed on-page widget anchor', async ({ page }) => {
+  for (const path of ['/', '/appointment.html']) {
+    await page.goto(baseURL + path);
+    expect(
+      await page.locator('a[href="#book-online"]').count(),
+      `${path} should have no #book-online links left`
+    ).toBe(0);
+  }
 });
 
-test('appointment page teleconsultation fallback switches to Hindi', async ({ page }) => {
+test('both appointment options book on Eka Care', async ({ page }) => {
+  await page.goto(baseURL + '/appointment.html');
+
+  const options = page.locator('.appointment-option');
+  await expect(options.first().locator('a.btn')).toHaveAttribute('href', bookingUrl);
+  await expect(options.nth(1).locator('a.btn')).toHaveAttribute('href', bookingUrl);
+});
+
+test('booking CTA copy renders in Hindi', async ({ page }) => {
   await page.goto(baseURL + '/appointment.html');
   await page.locator('.lang-btn[data-lang="hi"]').click();
 
-  const callout = page.locator('.teleconsultation-callout').first();
-  await expect(callout.locator('p .lang-hi')).toContainText('वीडियो परामर्श अभी एम्बेडेड एका केयर ऐपलेट के अंदर बुक नहीं किया जा सकता');
   await expect(page.locator('body')).toHaveClass(/lang-hi/);
-});
-
-test('teleconsultation and in-clinic CTAs keep separate destinations', async ({ page }) => {
-  await page.goto(baseURL + '/appointment.html');
-
-  await expect(page.locator('.appointment-option').first().locator('a.btn')).toHaveAttribute('href', teleconsultationUrl);
-  await expect(page.locator('.appointment-option').first().locator('a.btn')).toHaveAttribute('target', '_blank');
-  await expect(page.locator('.appointment-option').nth(1).locator('a.btn')).toHaveAttribute('href', '#book-online');
+  await expect(page.locator('.booking-actions .lang-hi').first()).toContainText('एका केयर पर बुक करें');
 });
