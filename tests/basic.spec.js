@@ -56,7 +56,7 @@ for (const path of widgetPages) {
   test(`${path} sends every booking CTA to Eka Care in a new tab`, async ({ page }) => {
     await page.goto(baseURL + path);
 
-    const ctas = page.locator('a[data-booking-cta]:not([href^="tel:"])');
+    const ctas = page.locator('a[data-booking-cta]');
     const count = await ctas.count();
     expect(count, 'page should have booking CTAs').toBeGreaterThan(0);
 
@@ -67,6 +67,41 @@ for (const path of widgetPages) {
       await expect(cta, `CTA "${label}"`).toHaveAttribute('target', '_blank');
       await expect(cta, `CTA "${label}"`).toHaveAttribute('rel', /noopener/);
       await expect(cta, `CTA "${label}"`).toHaveAttribute('rel', /noreferrer/);
+    }
+  });
+
+  // The clinic does not want bookings taken over the phone, so no booking CTA may be a
+  // tel: link and no button may invite the patient to call in order to book.
+  test(`${path} offers no way to book by phone`, async ({ page }) => {
+    await page.goto(baseURL + path);
+
+    expect(
+      await page.locator('a[data-booking-cta][href^="tel:"]').count(),
+      'no booking CTA should be a phone link'
+    ).toBe(0);
+
+    const bookByPhoneCopy = page.getByText(/Call to Book|कॉल करके बुक/);
+    expect(await bookByPhoneCopy.count(), 'no "Call to Book" copy').toBe(0);
+  });
+
+  test(`${path} offers directions via the canonical Google Maps route link`, async ({ page }) => {
+    await page.goto(baseURL + path);
+
+    const dirs = page.locator('a[data-directions-cta]');
+    const count = await dirs.count();
+    expect(count, 'page should offer directions').toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const d = dirs.nth(i);
+      const label = await d.getAttribute('data-directions-cta');
+      const href = await d.getAttribute('href');
+
+      // Must be the directions endpoint, not a place page: /maps/dir/ with api=1.
+      expect(href, `directions "${label}" uses the Maps URLs API`).toContain('google.com/maps/dir/?api=1');
+      expect(href, `directions "${label}" names the clinic`).toContain('Skin%20Care%20Clinic');
+      await expect(d, `directions "${label}"`).toHaveAttribute('target', '_blank');
+      await expect(d, `directions "${label}"`).toHaveAttribute('rel', /noopener/);
+      await expect(d, `directions "${label}"`).toHaveAttribute('rel', /noreferrer/);
     }
   });
 }

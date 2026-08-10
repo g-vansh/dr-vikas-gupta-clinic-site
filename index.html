@@ -749,13 +749,13 @@
                         <span class="lang-en">📅 Book on Eka Care</span>
                         <span class="lang-hi">📅 एका केयर पर बुक करें</span>
                     </a>
-                    <a href="tel:+918273112888" class="btn btn-secondary btn-lg" data-booking-cta="call">
-                        <span class="lang-en">📞 Call to Book</span>
-                        <span class="lang-hi">📞 कॉल करके बुक करें</span>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Dr%20Vikas%20Gupta%20Skin%20Care%20Clinic%2C%20A-73%2C%20Prince%20Road%2C%20Gandhi%20Nagar%2C%20Moradabad%2C%20Uttar%20Pradesh%20244001&travelmode=driving" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg" data-directions-cta="booking">
+                        <span class="lang-en">🗺️ Get Directions</span>
+                        <span class="lang-hi">🗺️ दिशा निर्देश पाएं</span>
                     </a>
                     <p class="booking-actions-note">
-                        <span class="lang-en">Booking opens on Eka Care in a new tab. Prefer to talk to us? Call <a href="tel:+918273112888">8273112888</a> during clinic hours.</span>
-                        <span class="lang-hi">बुकिंग एका केयर पर नए टैब में खुलेगी। बात करना चाहते हैं? क्लिनिक समय में <a href="tel:+918273112888">8273112888</a> पर कॉल करें।</span>
+                        <span class="lang-en">Booking opens on Eka Care in a new tab. Directions open in Google Maps.</span>
+                        <span class="lang-hi">बुकिंग एका केयर पर नए टैब में खुलेगी। दिशा निर्देश गूगल मैप्स में खुलेंगे।</span>
                     </p>
                 </div>
             </div>
@@ -1050,7 +1050,7 @@
                             </div>
                             
                             <div class="quick-actions">
-                                <a href="https://www.google.com/maps/dir//Dr+Vikas+Gupta+Skin+Care+Clinic,+A+-+73,+Prince+Rd,+opposite+Wazid+Nagar+Complex,+Gandhi+Nagar,+Moradabad,+Uttar+Pradesh+244001/@28.82852,78.7340079,13z/data=!4m9!4m8!1m0!1m5!1m1!1s0x390afbbed7350391:0x2a1463f8d1daaba2!2m2!1d78.7752151!2d28.8285634!3e0?entry=ttu&g_ep=EgoyMDI1MDYyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-primary">
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=Dr%20Vikas%20Gupta%20Skin%20Care%20Clinic%2C%20A-73%2C%20Prince%20Road%2C%20Gandhi%20Nagar%2C%20Moradabad%2C%20Uttar%20Pradesh%20244001&travelmode=driving" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-directions-cta="location">
                                     <span class="lang-en">🗺️ Get Directions</span>
                                     <span class="lang-hi">🗺️ दिशा निर्देश पाएं</span>
                                 </a>
@@ -1227,8 +1227,8 @@
     <script src="hardcoded_routes.js?v=1"></script>
     <!-- Sticky mobile booking bar (phones only) -->
     <div class="sticky-book-bar" id="stickyBookBar" aria-hidden="true">
-        <a href="tel:+918273112888" class="sticky-book-call" data-booking-cta="sticky-call" aria-label="Call clinic to book">
-            <span aria-hidden="true">📞</span>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Dr%20Vikas%20Gupta%20Skin%20Care%20Clinic%2C%20A-73%2C%20Prince%20Road%2C%20Gandhi%20Nagar%2C%20Moradabad%2C%20Uttar%20Pradesh%20244001&travelmode=driving" target="_blank" rel="noopener noreferrer" class="sticky-book-directions" data-directions-cta="sticky" aria-label="Get directions to the clinic">
+            <span aria-hidden="true">🗺️</span>
         </a>
         <a href="https://www.eka.care/doctor/dr-vikas-gupta-dermatology-moradabad" target="_blank" rel="noopener noreferrer" class="btn btn-primary sticky-book-btn" data-booking-cta="sticky">
             <span class="lang-en">📅 Book Appointment</span>
@@ -1253,11 +1253,14 @@
         }
         w.trackBooking = track;
 
-        // Every "book" CTA is tracked so we can still see which entry point converts.
+        // Book and directions CTAs are tracked so we can still see which entry point converts
+        // once the visitor leaves for Eka Care or Google Maps.
         d.addEventListener('click', function (ev) {
-            var el = ev.target && ev.target.closest ? ev.target.closest('[data-booking-cta]') : null;
-            if (!el) { return; }
-            track('booking_cta_click', { cta: el.getAttribute('data-booking-cta') });
+            if (!ev.target || !ev.target.closest) { return; }
+            var book = ev.target.closest('[data-booking-cta]');
+            if (book) { track('booking_cta_click', { cta: book.getAttribute('data-booking-cta') }); return; }
+            var dir = ev.target.closest('[data-directions-cta]');
+            if (dir) { track('directions_cta_click', { cta: dir.getAttribute('data-directions-cta') }); }
         });
 
         // Sticky mobile bar: shown while the booking section is off-screen.

@@ -217,8 +217,37 @@ booking path.
 `tests/basic.spec.js` guards against the applet returning and against CTAs drifting off the
 canonical URL.
 
+### Directions
+
+Booking is not taken over the phone, so the secondary button beside every "Book on Eka Care"
+CTA is **Get Directions**, not a call link. All directions links use one canonical URL:
+
+```
+https://www.google.com/maps/dir/?api=1&destination=Dr%20Vikas%20Gupta%20Skin%20Care%20Clinic%2C%20A-73%2C%20Prince%20Road%2C%20Gandhi%20Nagar%2C%20Moradabad%2C%20Uttar%20Pradesh%20244001&travelmode=driving
+```
+
+This is Google's documented [Maps URLs](https://developers.google.com/maps/documentation/urls/get-started)
+form. `api=1` is required; `/maps/dir/` opens turn-by-turn navigation with the visitor's own
+location as origin, and it deep-links into the Maps app on iOS/Android. No API key needed.
+
+Verified: this URL resolves to the clinic's Google feature id
+`0x390afbbed7350391:0x2a1463f8d1daaba2` (lat 28.8285263, lng 78.7752077).
+
+Two earlier variants were replaced by it, because they did not behave the same way:
+- a `/maps/dir//…` link carrying expiring session params (`entry=ttu&g_ep=…`)
+- a `maps.app.goo.gl` short link that actually resolved to the **place page**, not a route —
+  so a button labelled "Get Directions" did not give directions
+
+Unrelated short links are intentionally left alone: the "Leave a Google Review" link and the
+map caption link are meant to open a place/review page, not a route.
+
+Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
+tracking script only exists on `index.html`; the appointment page is not instrumented.
+
 ### Phone Number
 - All phone links use: `+918273112888`
+- These are for general enquiries. Booking-by-phone CTAs were deliberately removed — see
+  Directions above. `tests/basic.spec.js` asserts no `data-booking-cta` is a `tel:` link.
 - Update in HTML files if number changes
 
 ### Clinic Address
