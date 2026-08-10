@@ -1,30 +1,10 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Note: do NOT disallow /assets/css/ or /assets/js/.
+# Google must fetch CSS and JS to render the page. Blocking them previously meant
+# Googlebot could not see the site as visitors do -- and because the Hindi/English
+# toggle is CSS-driven, it saw both languages' text at once. Nothing under /assets/
+# is sensitive; this is a public static site.
+
 Sitemap: https://www.drvikasgupta.skin/sitemap.xml
-
-# Block access to sensitive files
-Disallow: /assets/css/
-Disallow: /assets/js/
-Disallow: /*.css$
-Disallow: /*.js$
-
-# Allow specific important files
-Allow: /assets/images/
-Allow: /favicon.ico
-Allow: /apple-touch-icon.png
-Allow: /android-chrome-*.png
-Allow: /site.webmanifest
-
-# Crawl delay (optional - helps with server load)
-Crawl-delay: 1
-
-# Specific bot instructions
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1 

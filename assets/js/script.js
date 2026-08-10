@@ -240,22 +240,33 @@ function initLanguageToggle() {
         const currentPage = getCurrentPage();
         
         // Title mappings for different pages and languages
+        // Must stay in sync with each page's <title>, and stay under ~60 characters:
+        // Googlebot renders JS, so whatever this sets is what gets indexed. Overlong
+        // titles truncate in mobile results, where 96.7% of this site's clicks come from.
         const pageTitles = {
             'index': {
-                'en': 'Dr. Vikas Gupta - Best Dermatologist Moradabad | मुरादाबाद के शीर्ष त्वचा विशेषज्ञ',
-                'hi': 'डॉ विकास गुप्ता - मुरादाबाद के सर्वश्रेष्ठ त्वचा विशेषज्ञ | Best Dermatologist'
+                'en': 'Dermatologist in Moradabad — Dr. Vikas Gupta, MD',
+                'hi': 'मुरादाबाद में त्वचा विशेषज्ञ — डॉ विकास गुप्ता'
             },
             'about': {
-                'en': 'About Dr. Vikas Gupta - Leading Dermatologist | 30+ Years Experience',
-                'hi': 'डॉ विकास गुप्ता के बारे में - प्रमुख त्वचा विशेषज्ञ | 30+ वर्ष अनुभव'
+                'en': 'About Dr. Vikas Gupta, MD — Dermatologist in Moradabad',
+                'hi': 'डॉ विकास गुप्ता के बारे में — त्वचा विशेषज्ञ'
             },
             'services': {
-                'en': 'Dermatology Services - Dr. Vikas Gupta | Skin, Hair & Nail Treatment',
-                'hi': 'त्वचा रोग सेवाएं - डॉ विकास गुप्ता | त्वचा, बाल और नाखून उपचार'
+                'en': 'Skin, Hair and Laser Treatments — Dr. Vikas Gupta',
+                'hi': 'त्वचा, बाल और लेज़र उपचार — डॉ विकास गुप्ता'
             },
             'appointment': {
-                'en': 'Book Appointment - Dr. Vikas Gupta | Online & In-Person Consultation',
-                'hi': 'अपॉइंटमेंट बुक करें - डॉ विकास गुप्ता | ऑनलाइन और व्यक्तिगत परामर्श'
+                'en': 'Book an Appointment — Dr. Vikas Gupta, Moradabad',
+                'hi': 'अपॉइंटमेंट बुक करें — डॉ विकास गुप्ता'
+            },
+            'testimonials': {
+                'en': 'Patient Reviews — Dr. Vikas Gupta, Moradabad | 4.6★',
+                'hi': 'मरीज़ों की समीक्षाएं — डॉ विकास गुप्ता | 4.6★'
+            },
+            'faq': {
+                'en': 'FAQs — Dr. Vikas Gupta, Dermatologist in Moradabad',
+                'hi': 'सामान्य प्रश्न — डॉ विकास गुप्ता, त्वचा विशेषज्ञ'
             }
         };
         
@@ -271,6 +282,7 @@ function initLanguageToggle() {
         if (path.includes('services')) return 'services';
         if (path.includes('testimonials')) return 'testimonials';
         if (path.includes('appointment')) return 'appointment';
+        if (path.includes('faq')) return 'faq';
         return 'index';
     }
 

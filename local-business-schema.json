@@ -51,8 +51,8 @@
   "currenciesAccepted": "INR",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": 4.8,
-    "reviewCount": 114,
+    "ratingValue": 4.6,
+    "reviewCount": 619,
     "bestRating": 5,
     "worstRating": 1
   },

@@ -269,6 +269,33 @@ Opposite Wazid Nagar Complex
 - Open Graph tags for social sharing
 - Keywords include English and Hindi terms
 
+#### Titles and descriptions — keep them short, and change them in TWO places
+
+**Budget: titles ≤ 60 characters, descriptions ≤ 160.** Google truncates around there, and
+sooner on mobile — which is 96.7% of this site's clicks. Before August 2026 titles ran 73–141
+chars and descriptions 178–426, so the useful part never rendered.
+
+**A title lives in two places and both must match:**
+
+1. the `<title>` tag in the page's HTML, and
+2. the `pageTitles` map in `assets/js/script.js`.
+
+That map rewrites `document.title` on every language switch *including initial load*. Googlebot
+executes JavaScript, so **the map wins** — editing only the HTML tag changes nothing that Google
+sees. `getCurrentPage()` in the same file must also have a branch for the page, or it falls
+through to `'index'` and the page inherits the homepage's title. (`faq.html` did exactly that
+until August 2026.)
+
+`tests/seo.spec.js` asserts the *rendered* title, so it catches a drift between the two.
+
+**Write them for the searcher, not for us.** Lead with the phrase people actually type
+("Dermatologist in Moradabad"), then the proof that earns the click — MD, 30+ years, 619
+reviews. Do not spend the character budget on internal phrasing like "200km Service Area" or
+"Pan-India Video Consultations", and no ⭐ strings: they read as spam and crowd out real content.
+
+**Do not mix English and Hindi in one title.** It serves neither reader. Hindi gets its own
+titles when `/hi/` URLs land — see the Hindi section of the audit.
+
 ### Performance
 - Optimized images and assets
 - Minimal external dependencies
