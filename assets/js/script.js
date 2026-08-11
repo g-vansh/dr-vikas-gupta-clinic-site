@@ -20,43 +20,42 @@ function initLanguageToggle() {
     const langBtns = document.querySelectorAll('.lang-btn');
     const body = document.body;
     
-    // Function to get URL parameter
-    function getURLParameter(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
+    // Language is decided by the URL PATH, not a query parameter. /hi/... is Hindi, anything
+    // else is English. Each language has its own indexable URL with its own canonical and
+    // hreflang, which is what lets Google show a Hindi searcher a Hindi snippet.
+    function pathLanguage() {
+        return window.location.pathname.indexOf('/hi/') === 0 ? 'hi' : 'en';
     }
-    
-    // Function to update URL with language parameter (optional - for persistence)
-    function updateURL(lang) {
-        const url = new URL(window.location);
-        if (lang && lang !== 'en') {
-            url.searchParams.set('lang', lang);
-        } else {
-            url.searchParams.delete('lang');
-        }
-        // Update URL without page reload
-        window.history.replaceState({}, '', url);
+
+    // The same page in the other language.
+    function urlForLanguage(lang) {
+        const match = window.location.pathname.replace(/^\/hi\//, '/').match(/[^/]+\.html$/);
+        const file = match ? match[0] : '';
+        return (lang === 'hi' ? '/hi/' : '/') + file;
     }
-    
-    // Determine language preference with priority order:
-    // 1. URL parameter (highest priority)
-    // 2. Saved localStorage preference
-    // 3. Default to English
-    let currentLang = getURLParameter('lang') || localStorage.getItem('prefLang') || 'en';
-    
-    // Validate language code
-    if (!['en', 'hi'].includes(currentLang)) {
-        currentLang = 'en';
+    window.urlForLanguage = urlForLanguage;
+
+    // ?lang=hi URLs are still indexed and earned 249 clicks in the last quarter. Rather than
+    // let them 404 into irrelevance, forward them to the real Hindi page.
+    var legacyLang = new URLSearchParams(window.location.search).get('lang');
+    if (legacyLang === 'hi' && pathLanguage() !== 'hi') {
+        window.location.replace(urlForLanguage('hi'));
+        return;
     }
-    
+
+    let currentLang = pathLanguage();
+
     // Apply language on load
     setLanguage(currentLang);
-    
-    // Add click event listeners
+
+    // The toggle NAVIGATES rather than swapping a CSS class, so the URL, the <html lang>,
+    // the title and the canonical all change together -- and the back button works.
     langBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const newLang = this.dataset.lang;
-            setLanguage(newLang);
+            if (newLang === currentLang) { return; }
+            try { localStorage.setItem('prefLang', newLang); } catch (e) {}
+            window.location.href = urlForLanguage(newLang);
         });
     });
     
@@ -199,15 +198,12 @@ function initLanguageToggle() {
         
         // Save preference
         localStorage.setItem('prefLang', lang);
-        
-        // Update URL to reflect current language (optional - remove if you don't want URL to change)
-        updateURL(lang);
-        
-        // Update all navigation links
-        updateNavigationLinks();
-        
+
+        // No URL rewriting here any more. The language IS the URL (/ vs /hi/), so mutating
+        // the address bar or the nav hrefs at runtime can only desynchronise them from the
+        // canonical and hreflang tags -- which is what created the ?lang=hi duplicates.
+
         // Update page title if needed
-        updatePageTitle(lang);
         
         // Final state check
         console.log('🏁 FINAL STATE:');
@@ -235,87 +231,16 @@ function initLanguageToggle() {
         console.log('✅ setLanguage COMPLETE for:', lang);
     }
     
-    function updatePageTitle(lang) {
-        // Get current page for title mapping
-        const currentPage = getCurrentPage();
-        
-        // Title mappings for different pages and languages
-        // Must stay in sync with each page's <title>, and stay under ~60 characters:
-        // Googlebot renders JS, so whatever this sets is what gets indexed. Overlong
-        // titles truncate in mobile results, where 96.7% of this site's clicks come from.
-        const pageTitles = {
-            'index': {
-                'en': 'Dermatologist in Moradabad — Dr. Vikas Gupta, MD',
-                'hi': 'मुरादाबाद में त्वचा विशेषज्ञ — डॉ विकास गुप्ता'
-            },
-            'about': {
-                'en': 'About Dr. Vikas Gupta, MD — Dermatologist in Moradabad',
-                'hi': 'डॉ विकास गुप्ता के बारे में — त्वचा विशेषज्ञ'
-            },
-            'services': {
-                'en': 'Skin, Hair and Laser Treatments — Dr. Vikas Gupta',
-                'hi': 'त्वचा, बाल और लेज़र उपचार — डॉ विकास गुप्ता'
-            },
-            'appointment': {
-                'en': 'Book an Appointment — Dr. Vikas Gupta, Moradabad',
-                'hi': 'अपॉइंटमेंट बुक करें — डॉ विकास गुप्ता'
-            },
-            'testimonials': {
-                'en': 'Patient Reviews — Dr. Vikas Gupta, Moradabad | 4.6★',
-                'hi': 'मरीज़ों की समीक्षाएं — डॉ विकास गुप्ता | 4.6★'
-            },
-            'faq': {
-                'en': 'FAQs — Dr. Vikas Gupta, Dermatologist in Moradabad',
-                'hi': 'सामान्य प्रश्न — डॉ विकास गुप्ता, त्वचा विशेषज्ञ'
-            }
-        };
-        
-        // Update page title if mapping exists
-        if (pageTitles[currentPage] && pageTitles[currentPage][lang]) {
-            document.title = pageTitles[currentPage][lang];
-        }
-    }
-    
-    function getCurrentPage() {
-        const path = window.location.pathname;
-        if (path.includes('about')) return 'about';
-        if (path.includes('services')) return 'services';
-        if (path.includes('testimonials')) return 'testimonials';
-        if (path.includes('appointment')) return 'appointment';
-        if (path.includes('faq')) return 'faq';
-        return 'index';
-    }
+    // updatePageTitle() and its pageTitles map were removed in Aug 2026. They rewrote
+    // document.title on every language set, silently overriding each page’s real title
+    // tag. Now that / and /hi/ are separate URLs and the toggle navigates, every page
+    // loads with its correct static title -- nothing left to rewrite, and one fewer
+    // place for titles to drift out of sync.
 
-    // Helper function to generate language-specific URLs
-    function generateLanguageURL(targetLang, customPath = null) {
-        const currentPath = customPath || window.location.pathname;
-        const url = new URL(window.location.origin + currentPath);
-        
-        if (targetLang && targetLang !== 'en') {
-            url.searchParams.set('lang', targetLang);
-        } else {
-            url.searchParams.delete('lang');
-        }
-        
-        return url.toString();
-    }
-
-    // Function to update all navigation links with current language
-    function updateNavigationLinks() {
-        const currentLang = getCurrentLanguage();
-        
-        // Update all internal navigation links
-        const navLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="index.html"], a[href^="about.html"], a[href^="services.html"], a[href^="appointment.html"], a[href^="testimonials.html"]');
-        
-        navLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            // Skip if it's an external link or already has language parameter
-            if (href && !href.includes('lang=') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
-                const newURL = generateLanguageURL(currentLang, href.startsWith('/') ? href : '/' + href);
-                link.setAttribute('href', newURL);
-            }
-        });
-    }
+    // generateLanguageURL() and updateNavigationLinks() were removed in Aug 2026. They
+    // appended ?lang= to the address bar and to every internal link, which is how a
+    // parallel set of ?lang=hi URLs got indexed. Navigation links are now already correct
+    // for their language because /hi/ is generated with its own hrefs (see build-hi.js).
 
     // Function to get current language
     function getCurrentLanguage() {
@@ -323,7 +248,6 @@ function initLanguageToggle() {
     }
 
     // Expose functions globally for external use
-    window.generateLanguageURL = generateLanguageURL;
     window.getCurrentLanguage = getCurrentLanguage;
 }
 

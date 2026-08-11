@@ -244,6 +244,46 @@ map caption link are meant to open a place/review page, not a route.
 Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
 tracking script only exists on `index.html`; the appointment page is not instrumented.
 
+### Bilingual site — `/` and `/hi/`
+
+**The Hindi site under `/hi/` is generated. Never edit it by hand.**
+
+```bash
+npm run build:hi     # regenerate /hi/, sitemap.xml, and hreflang on the English pages
+```
+
+It also runs automatically before `npm test`, and `tests/hindi.spec.js` fails if the committed
+`/hi/` is stale — so edit an English page, re-run the build, and commit both.
+
+**How it works.** Every page already contains both languages as `.lang-en` / `.lang-hi` spans, so
+`build-hi.js` does not translate anything. It takes each English page and produces a Hindi twin
+with `lang="hi"`, `body.lang-hi`, a Hindi `<title>`/description, its own canonical, reciprocal
+`hreflang`, root-relative asset paths, and nav links that stay inside `/hi/`. Hindi titles and
+descriptions live in the `META` table at the top of that file — that is where to edit them.
+
+**Why it exists.** Before August 2026 both languages shared one URL. `/` and `/?lang=hi` returned
+byte-identical HTML, both declaring `<html lang="en">`, with no `hreflang` anywhere. Search
+Console showed the cost precisely: Hindi queries ranked on page one — **position 1.0** for
+स्किन रोग विशेषज्ञ, **1.5** for डर्मेटोलॉजिस्ट near me — and earned essentially no clicks,
+because the snippet Google displayed was in English. Roughly 68% of Indian internet users prefer
+native-language content, and that preference is strongest in tier-2 cities and in healthcare.
+
+**Two things that must never come back:**
+
+1. **Nothing may rewrite `canonical` or `og:url` at runtime.** A script in `index.html` used to
+   set `canonical.href` to whatever `generateLanguageURL()` returned, which appended `?lang=hi`.
+   The static canonical was correct, but Googlebot renders JS and saw the rewritten one — which is
+   how `/?lang=hi` was indexed as its own page and accumulated 12,317 impressions.
+2. **The language toggle navigates; it does not swap a CSS class.** Clicking हिंदी goes to the
+   `/hi/` URL. That keeps the URL, `<html lang>`, title, canonical and hreflang in agreement.
+
+Legacy `?lang=hi` URLs are forwarded in JS to their `/hi/` equivalent rather than dropped — they
+were indexed and earned 249 clicks in the quarter before the change.
+
+**Known limitation:** the `/hi/` pages still carry the English spans in their DOM (hidden by CSS),
+and vice versa. Google renders CSS so it sees only the right language, but stripping the unused
+half would cut page weight. Worth doing if the pages grow.
+
 ### Clinic facts — single source of truth
 
 These drifted badly before August 2026: the opening hours existed in **five** contradictory
@@ -318,18 +358,13 @@ Opposite Wazid Nagar Complex
 sooner on mobile — which is 96.7% of this site's clicks. Before August 2026 titles ran 73–141
 chars and descriptions 178–426, so the useful part never rendered.
 
-**A title lives in two places and both must match:**
+**Titles now live in exactly one place per URL.** English titles are the `<title>` tag in each
+page; Hindi titles are in the `META` table in `build-hi.js`. The `pageTitles` map that used to
+rewrite `document.title` from JavaScript was removed in August 2026 — it silently overrode every
+page's real title, and because Googlebot renders JS, *it* was what got indexed. Nothing may
+rewrite the title, canonical, or `og:url` at runtime again.
 
-1. the `<title>` tag in the page's HTML, and
-2. the `pageTitles` map in `assets/js/script.js`.
-
-That map rewrites `document.title` on every language switch *including initial load*. Googlebot
-executes JavaScript, so **the map wins** — editing only the HTML tag changes nothing that Google
-sees. `getCurrentPage()` in the same file must also have a branch for the page, or it falls
-through to `'index'` and the page inherits the homepage's title. (`faq.html` did exactly that
-until August 2026.)
-
-`tests/seo.spec.js` asserts the *rendered* title, so it catches a drift between the two.
+`tests/seo.spec.js` asserts the *rendered* title, so any reintroduced runtime rewriting fails.
 
 **Write them for the searcher, not for us.** Lead with the phrase people actually type
 ("Dermatologist in Moradabad"), then the proof that earns the click — MD, 30+ years, 619
