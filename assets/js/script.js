@@ -428,34 +428,51 @@ function initTestimonialsCarousel() {
     `;
     
     slides.forEach((_, index) => {
+        // The button is a 44px transparent hit area; the visible dot is the ::before-style
+        // inner span. WCAG 2.2 requires at least 24px, and this audience skews older.
         const dot = document.createElement('button');
         dot.className = 'testimonial-dot';
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Show review ${index + 1} of ${slides.length}`);
+        dot.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
         dot.style.cssText = `
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        `;
+
+        const pip = document.createElement('span');
+        pip.className = 'testimonial-dot-pip';
+        pip.setAttribute('aria-hidden', 'true');
+        pip.style.cssText = `
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            border: none;
-            background: #ddd;
-            cursor: pointer;
+            background: ${index === 0 ? 'var(--primary-color)' : '#ddd'};
             transition: background 0.3s ease;
         `;
-        
-        if (index === 0) {
-            dot.style.background = 'var(--primary-color)';
-        }
-        
+        dot.appendChild(pip);
+
         dot.addEventListener('click', () => {
             stopRotation();
             currentSlide = index;
             showSlide(currentSlide);
             startRotation();
-            
+
             // Update dot states
             dotsContainer.querySelectorAll('.testimonial-dot').forEach((d, i) => {
-                d.style.background = i === index ? 'var(--primary-color)' : '#ddd';
+                d.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+                const p = d.querySelector('.testimonial-dot-pip');
+                if (p) { p.style.background = i === index ? 'var(--primary-color)' : '#ddd'; }
             });
         });
-        
+
         dotsContainer.appendChild(dot);
     });
     
@@ -733,10 +750,16 @@ function initMap() {
         const clinicIcon = L.divIcon({
             className: 'custom-clinic-marker',
             html: `
-                <div class="clinic-marker-container">
+                <div class="clinic-marker-container" aria-hidden="true">
                     <div class="clinic-marker-pulse"></div>
                     <div class="clinic-marker-icon">
-                        <i class="fa-solid fa-user-doctor"></i>
+                        <!-- Inline SVG so the 154KB Font Awesome webfont is not loaded for one icon -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                            <circle cx="12" cy="7" r="3.4" fill="currentColor"/>
+                            <path d="M5 20.5v-1.7A5.3 5.3 0 0 1 10.3 13.5h3.4A5.3 5.3 0 0 1 19 18.8v1.7"
+                                  stroke="currentColor" stroke-width="2.1" stroke-linecap="round" fill="none"/>
+                            <path d="M12 15.6v4.9M9.6 18h4.8" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/>
+                        </svg>
                     </div>
                 </div>
             `,
@@ -768,7 +791,12 @@ function initMap() {
         
         cities.forEach(city => {
             const icon = city.isClinic ? clinicIcon : patientIcon;
-            const marker = L.marker(city.coords, { icon })
+            // Leaflet exposes `alt` as the marker's accessible name. Without it every
+            // marker is an unlabelled interactive element to a screen reader.
+            const alt = city.isClinic
+                ? 'Dr. Vikas Gupta Skin Care Clinic, Moradabad'
+                : `Patients from ${city.name}`;
+            const marker = L.marker(city.coords, { icon, alt, title: alt })
                 .addTo(map)
                 .bindPopup(`
                     <div class="modern-popup">

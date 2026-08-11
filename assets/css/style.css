@@ -2,11 +2,11 @@
 
 /* CSS Variables for consistent theming */
 :root {
-  --primary-color: #2E86AB;      /* Medical blue */
+  --primary-color: #2A7B9D;      /* Medical blue */
   --secondary-color: #A23B72;    /* Accent color */
-  --success-color: #28A745;      /* Success green */
+  --success-color: #218838;      /* Success green */
   --text-dark: #2C3E50;          /* Dark text */
-  --text-light: #6C757D;         /* Light text */
+  --text-light: #6B747C;         /* Light text */
   --bg-light: #F8F9FA;           /* Light background */
   --white: #FFFFFF;
   --shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -409,13 +409,15 @@ body.lang-hi .lang-hi {
   font-weight: 600;
   display: inline-block;
   padding: 10px 20px;
-  background: rgba(255,255,255,0.1);
+  /* A translucent WHITE panel lightened this link's own background and pushed its
+     white text down to 3.96:1. Tinting dark instead darkens the ground and lifts it. */
+  background: rgba(0,0,0,0.18);
   border-radius: var(--border-radius);
   transition: var(--transition);
 }
 
 .phone-link:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.28);
 }
 
 /* Services Grid - IMPROVED HEIGHT MATCHING */
@@ -516,7 +518,7 @@ body.lang-hi .lang-hi {
   flex-shrink: 0;
 }
 
-.highlight-item h3 {
+.highlight-item .highlight-title {
   color: var(--primary-color);
   font-size: var(--font-size-lg);
   margin-bottom: 0.5rem;
@@ -557,7 +559,9 @@ body.lang-hi .lang-hi {
 
 .contact-item p,
 .contact-item a {
-  color: rgba(255,255,255,0.9);
+  /* Was rgba(255,255,255,0.9): the 10% transparency dropped this to 4.19:1 over the
+     section gradient. Full white is the highest contrast available on that ground. */
+  color: var(--white);
   text-decoration: none;
   flex-grow: 1;
 }
@@ -742,7 +746,7 @@ p {
   gap: 2px;
 }
 
-.logo-text h1 {
+.logo-text .logo-title {
   color: var(--primary-color);
   font-size: var(--font-size-xl);
   margin: 0;
@@ -758,7 +762,7 @@ p {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  opacity: 0.8;
+  /* No opacity: it lightened --text-light to ~#899096 and undid the contrast fix. */
 }
 
 .nav {
@@ -956,7 +960,7 @@ p {
 }
 
 .btn-primary:hover {
-  background: #218838;
+  background: #1B6E2E;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
@@ -1452,7 +1456,7 @@ p {
   flex-shrink: 0;
 }
 
-.highlight-item h3 {
+.highlight-item .highlight-title {
   color: var(--primary-color);
   font-size: var(--font-size-lg);
   margin-bottom: 0.5rem;
@@ -1493,7 +1497,9 @@ p {
 
 .contact-item p,
 .contact-item a {
-  color: rgba(255,255,255,0.9);
+  /* Was rgba(255,255,255,0.9): the 10% transparency dropped this to 4.19:1 over the
+     section gradient. Full white is the highest contrast available on that ground. */
+  color: var(--white);
   text-decoration: none;
   flex-grow: 1;
 }
@@ -1866,7 +1872,7 @@ p {
     height: 40px;
   }
   
-  .logo-text h1 {
+  .logo-text .logo-title {
     font-size: var(--font-size-lg);
   }
   
@@ -2242,7 +2248,7 @@ p {
     height: 35px;
   }
   
-  .logo-text h1 {
+  .logo-text .logo-title {
     font-size: var(--font-size-base);
   }
   
@@ -3065,4 +3071,22 @@ textarea:focus {
 .booking-cta-section {
   margin: 3rem auto;
   scroll-margin-top: 100px; /* offset for fixed header on anchor jump */
+}
+
+/* --- Footer contrast -------------------------------------------------------
+   The footer sits on --text-dark, so --text-light (tuned for light grounds)
+   drops to 2.3:1 there. This lighter muted tone reaches 4.5:1 on that ground. */
+.footer,
+.footer p,
+.footer li,
+.footer span:not(.lang-hi):not(.lang-en),
+.footer-section p,
+.footer-section li {
+  color: #9BA8B4;
+}
+
+.footer h1, .footer h2, .footer h3, .footer h4,
+.footer a,
+.footer strong {
+  color: var(--white);
 }

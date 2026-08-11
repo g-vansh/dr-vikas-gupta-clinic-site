@@ -244,6 +244,49 @@ map caption link are meant to open a place/review page, not a route.
 Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
 tracking script only exists on `index.html`; the appointment page is not instrumented.
 
+### Clinic facts — single source of truth
+
+These drifted badly before August 2026: the opening hours existed in **five** contradictory
+versions, the landmark was spelled differently from Google, and the coordinates put the clinic
+~1.3&nbsp;km from where it is. Change them here first, then everywhere.
+
+| Fact | Value | Notes |
+|---|---|---|
+| Address | A-73, Prince Road, Gandhi Nagar, Moradabad, UP 244001 | |
+| Landmark | Opposite **Wajid** Nagar Complex | Google spells it *Wajid*, not *Wazid*. Match Google exactly — NAP consistency is a local ranking factor, and there is a **second Dr. Vikas Gupta in Moradabad** (Shivam Herbal Care Clinic) drawing ~137 impressions on queries meant for this practice. |
+| Clinic coordinates | `28.8285263, 78.7752077` | Verified against Google's feature id `0x390afbbed7350391:0x2a1463f8d1daaba2`. Used by `geo.position`, `ICBM`, and `geo` in the schema. |
+| Service-area midpoint | `28.84, 78.78` | Deliberately rounded — it is the centre of a 200&nbsp;km circle, not an address. Do **not** "fix" this to the clinic coordinates. |
+| In-clinic hours | Mon–Sat 10:00–17:00 | |
+| Video hours | Mon–Sat 17:15–18:00 | |
+| Sunday | Video only, 11:00–11:30 | |
+| Experience | 31+ years | MBBS 1993, MD 1997 |
+| Rating | 4.6★ from 619 Google reviews | Refresh periodically; must match Google or it breaks structured-data policy. |
+| Consultation fee | ₹800 | |
+
+`local-business-schema.json` is **not referenced by any page** — `index.html` carries its own
+inline JSON-LD. Keep the two in sync, or fold the file into the pages and delete it.
+
+`tests/facts-a11y.spec.js` asserts all of the above.
+
+### Accessibility notes
+
+Lighthouse accessibility went 79 → 96 in August 2026. Two traps to avoid re-introducing:
+
+- **`opacity` silently breaks contrast.** Three separate fixes were undone by it: `.logo-subtitle`
+  had `opacity: 0.8`, and `.contact-item p/a` plus `.phone-link` used translucent white. Setting
+  a WCAG-passing colour and then fading it leaves you back where you started. Change the colour,
+  not the alpha.
+- **A translucent *white* panel lightens its own background.** `.phone-link` had
+  `background: rgba(255,255,255,0.1)`, which pushed its white text down to 3.96:1. It now tints
+  dark instead.
+
+Colour tokens are tuned to pass 4.5:1 on `--bg-light` (`#F8F9FA`), the worst-case light ground —
+not just on pure white. The footer overrides `--text-light` because that token is tuned for light
+grounds and only reaches 2.3:1 on the dark footer.
+
+Known remaining: four map markers fail Lighthouse's target-size check because cities cluster
+geographically. Fixing it would mean changing what the map shows.
+
 ### Phone Number
 - All phone links use: `+918273112888`
 - These are for general enquiries. Booking-by-phone CTAs were deliberately removed — see
