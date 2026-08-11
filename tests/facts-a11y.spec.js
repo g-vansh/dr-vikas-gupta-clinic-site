@@ -142,20 +142,31 @@ test('map markers carry accessible names', async ({ page }) => {
   }
 });
 
-test('the hero shows the doctor and nothing animates on a timer', async ({ page }) => {
-  // The hero image used to flip between the logo and the doctor's face every 3 seconds
-  // forever: the face was visible only half the time, a permanently moving element competed
-  // with the booking CTA, and the CSS reduced-motion rule killed the transition but not the
-  // timer -- so reduced-motion users got an abrupt swap instead of a smooth one.
+test('the hero coin flips on a timer, and holds still for reduced motion', async ({ page }) => {
+  // The auto-flip is wanted. What must not come back is the old behaviour for people who
+  // have asked their device for less motion: the CSS rule killed the transition but not the
+  // timer, so they got an abrupt swap every 3 seconds -- jerkier than the animation itself.
   await page.goto(baseURL + '/');
-  const front = page.locator('.coin .front img');
-  await expect(front).toHaveAttribute('src', /dr-vikas-gupta\.jpg/);
 
-  const before = await page.locator('.coin').getAttribute('class');
-  await page.waitForTimeout(4000);   // longer than the old 3s interval
-  const after = await page.locator('.coin').getAttribute('class');
-  expect(after, 'nothing in the hero may animate on a timer').toBe(before);
-
-  // Still flippable deliberately, and reachable by keyboard.
+  // The doctor's face leads: 60% of this site's impressions come from people searching his
+  // name, and a real photo of the clinician is the strongest trust signal a medical page has.
+  await expect(page.locator('.coin .front img')).toHaveAttribute('src', /dr-vikas-gupta\.jpg/);
   await expect(page.locator('.coin')).toHaveAttribute('tabindex', '0');
+
+  // It should be still on arrival, then start flipping.
+  expect(await page.locator('.coin').getAttribute('class')).not.toContain('flipped');
+  await page.waitForTimeout(4200);
+  expect(await page.locator('.coin').getAttribute('class'),
+    'the hero coin should flip on a timer').toContain('flipped');
+});
+
+test('the hero coin stays still when the visitor asks for reduced motion', async ({ browser }) => {
+  const ctx = await browser.newContext({ reducedMotion: 'reduce' });
+  const page = await ctx.newPage();
+  await page.goto(baseURL + '/');
+  const before = await page.locator('.coin').getAttribute('class');
+  await page.waitForTimeout(4200);
+  const after = await page.locator('.coin').getAttribute('class');
+  expect(after, 'nothing should auto-animate under prefers-reduced-motion').toBe(before);
+  await ctx.close();
 });

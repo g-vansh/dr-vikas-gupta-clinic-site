@@ -422,25 +422,39 @@ function initDoctorImageFlip() {
     const coin = document.querySelector('.coin');
     if (!coin) return;
 
-    // This used to setInterval a flip every 3 seconds, forever. Three problems: the doctor's
-    // face -- the strongest trust signal on a medical page -- was only visible half the time;
-    // a permanently moving element competed with the booking CTA for attention; and the CSS
-    // reduced-motion rule killed the transition but not the timer, so anyone who asked for
-    // less motion got an abrupt swap every 3 seconds instead of a smooth one.
-    //
-    // The flip is now user-initiated: hover, tap, or keyboard focus. Nothing moves on its own.
+    const FLIP_MS = 3000;
     const flip = () => coin.classList.toggle('flipped');
     const show = on => coin.classList.toggle('flipped', on);
 
-    coin.addEventListener('mouseenter', () => show(true));
-    coin.addEventListener('mouseleave', () => show(false));
-    coin.addEventListener('focus', () => show(true));
-    coin.addEventListener('blur', () => show(false));
-    coin.addEventListener('click', flip);
+    // Anyone who has asked their device for less motion gets a still image. Without this the
+    // CSS reduced-motion rule only kills the transition, not the timer, so they used to get an
+    // abrupt swap every 3 seconds -- jerkier than the animation it was meant to soften.
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let timer = null;
+    const start = () => {
+        if (timer || calm.matches) return;
+        timer = setInterval(flip, FLIP_MS);
+    };
+    const stop = () => { clearInterval(timer); timer = null; };
+
+    // Pause while someone is deliberately looking at it, or the tab is in the background.
+    coin.addEventListener('mouseenter', () => { stop(); show(true); });
+    coin.addEventListener('mouseleave', () => { show(false); start(); });
+    coin.addEventListener('focus', () => { stop(); show(true); });
+    coin.addEventListener('blur', () => { show(false); start(); });
+    coin.addEventListener('click', () => { stop(); flip(); });
     coin.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); stop(); flip(); }
     });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    calm.addEventListener('change', () => calm.matches ? (stop(), show(false)) : start());
+
+    // Hold on the doctor's face for one full beat before the first flip, so the strongest
+    // trust signal on the page is what a visitor sees on arrival.
+    setTimeout(start, FLIP_MS);
 }
+
 
 // Interactive Patient Origin Map with Modern Design
 function initMap() {
