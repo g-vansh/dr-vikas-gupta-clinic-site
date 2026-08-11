@@ -244,6 +244,44 @@ map caption link are meant to open a place/review page, not a route.
 Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
 tracking script only exists on `index.html`; the appointment page is not instrumented.
 
+### AI answer engines (GEO)
+
+Ranking on Google and being quoted by an AI assistant are now **different systems**. The overlap
+between Google's top organic results and AI-cited sources has fallen from roughly 70% to under
+20%, so the SEO work above does not carry over automatically.
+
+What the site does about it:
+
+- **Structured data on every page, in both languages.** All 20 pages carry valid JSON-LD.
+  Pages reference the Physician and MedicalBusiness entities by `@id` rather than restating
+  them, so there is one canonical description of the doctor and the clinic instead of ten
+  competing copies. `tests/geo.spec.js` fails if an `@id` reference dangles.
+- **FAQ blocks on every condition page**, marked up as `FAQPage`. Question-and-answer content
+  is the most frequently extracted format in AI Overviews. The questions come from Search
+  Console, not imagination — **fees account for 115 of 138 question-shaped impressions**
+  ("dr vikas gupta moradabad fees" alone is 82), so every condition page answers cost first.
+- **Answers live in the DOM**, inside `<details>`. Collapsed is fine — a crawler reads the
+  markup. Content injected by JavaScript would not be equally safe.
+- **AI crawlers named explicitly in `robots.txt`** so allowing them is a recorded decision:
+  GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended,
+  Applebot-Extended, Bingbot, CCBot.
+
+**There is deliberately no `llms.txt`.** Measured crawler logs show GPTBot, ClaudeBot,
+PerplexityBot and OAI-SearchBot overwhelmingly skip that file and read the HTML directly, and no
+major AI provider has committed to honouring it in production. A test asserts the file does not
+exist, with this reasoning attached. If a provider ever commits to it, add it then — with
+evidence, not because it is fashionable.
+
+#### One thing that needs doing outside this repo
+
+**Submit the sitemap to Bing Webmaster Tools.** ChatGPT's search runs on Bing's index, so a site
+absent from Bing is structurally invisible to it no matter how good the content is. This is a
+ten-minute job at bing.com/webmasters and cannot be done from the codebase.
+
+Also worth knowing: Perplexity cites roughly 21.9 sources per answer against ChatGPT's ~10.4,
+and the two share only about 11% of cited domains — so visibility in one says little about the
+other. Treat them as separate surfaces.
+
 ### Mobile is the primary layout
 
 **96.7% of this site's search clicks are mobile** (44,114 of 45,570 impressions in the quarter

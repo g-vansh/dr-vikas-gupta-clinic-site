@@ -3361,3 +3361,57 @@ textarea:focus {
     font-size: 1rem;
   }
 }
+
+/* --- Condition-page FAQ -----------------------------------------------------
+   Q&A blocks are the most frequently extracted content type in AI Overviews.
+   <details> keeps the page short for humans while leaving every answer in the
+   DOM for crawlers -- content hidden behind JS would not be. */
+.condition-faq {
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+}
+
+.faq-item {
+  border: 1px solid var(--rule, #d9e2e4);
+  border-radius: var(--border-radius);
+  margin-bottom: 0.75rem;
+  background: var(--white);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--primary-color);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.faq-item[open] summary::after { content: "−"; }
+
+.faq-item summary:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 1rem 1rem;
+  line-height: 1.65;
+  color: var(--text-dark);
+}

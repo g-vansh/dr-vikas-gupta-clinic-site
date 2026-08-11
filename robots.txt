@@ -7,4 +7,48 @@ Allow: /
 # toggle is CSS-driven, it saw both languages' text at once. Nothing under /assets/
 # is sensitive; this is a public static site.
 
+# --- AI answer engines ------------------------------------------------------
+# These are listed explicitly rather than left to the wildcard above, so the
+# decision to allow them is a recorded choice rather than an accident.
+#
+# A clinic wants to be the answer when someone asks an assistant "who is a good
+# dermatologist in Moradabad". Blocking these crawlers removes that possibility
+# entirely -- and the overlap between Google's top rankings and AI-cited sources
+# has fallen to under 20%, so ranking well is no longer a substitute.
+#
+# There is deliberately no llms.txt. Measured crawler logs show GPTBot,
+# ClaudeBot, PerplexityBot and OAI-SearchBot overwhelmingly skip that file and
+# read the HTML directly, and no major AI provider has committed to honouring
+# it. Structured data does the job it claims to do; see the JSON-LD on each page.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://www.drvikasgupta.skin/sitemap.xml

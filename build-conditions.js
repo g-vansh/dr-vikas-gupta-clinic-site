@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { CONDITIONS, REVIEWED_ON } = require('./conditions.data');
+const { CONDITIONS, REVIEWED_ON, FAQS } = require('./conditions.data');
 
 const ROOT = __dirname;
 const ORIGIN = 'https://www.drvikasgupta.skin';
@@ -32,14 +32,16 @@ function chrome() {
 const bi = (en, hi) => `<span class="lang-en">${en}</span><span class="lang-hi">${hi}</span>`;
 const list = (en, hi) => en.map((e, i) => `                        <li>${bi(e, hi[i])}</li>`).join('\n');
 
-function schema(c) {
-  return JSON.stringify({
-    '@context': 'https://schema.org',
+function schema(c, lang = 'en') {
+  const faqs = FAQS[c.slug] || [];
+  const hi = lang === 'hi';
+  const url = hi ? `${ORIGIN}/hi/${c.slug}` : `${ORIGIN}/${c.slug}`;
+  const page = {
     '@type': 'MedicalWebPage',
-    name: c.title.en,
-    description: c.desc.en,
-    url: `${ORIGIN}/${c.slug}`,
-    inLanguage: 'en-IN',
+    name: hi ? c.title.hi : c.title.en,
+    description: hi ? c.desc.hi : c.desc.en,
+    url,
+    inLanguage: hi ? 'hi-IN' : 'en-IN',
     lastReviewed: REVIEWED_ON.iso,
     about: { '@type': 'MedicalCondition', name: c.schemaName },
     // E-E-A-T: health content is held to Google's strictest standard, so the clinician
@@ -55,7 +57,25 @@ function schema(c) {
       worksFor: { '@type': 'MedicalBusiness', name: 'Dr. Vikas Gupta Skin Care Clinic' }
     },
     publisher: { '@type': 'MedicalBusiness', '@id': `${ORIGIN}/#localbusiness` }
-  }, null, 2);
+  };
+
+  // Question-and-answer blocks are the most frequently extracted content type in AI
+  // Overviews, and FAQPage is what makes them machine-readable. Emitted as an @graph
+  // alongside the page entity rather than a second <script>, so the two stay linked.
+  const graph = [page];
+  if (faqs.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      inLanguage: hi ? 'hi-IN' : 'en-IN',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: hi ? f.q.hi : f.q.en,
+        acceptedAnswer: { '@type': 'Answer', text: hi ? f.a.hi : f.a.en }
+      }))
+    });
+  }
+  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
 }
 
 function page(c, { header, footer }) {
@@ -153,6 +173,15 @@ ${list(c.seeDoctor.en, c.seeDoctor.hi)}
                     </p>
                 </div>
 
+${(FAQS[c.slug] || []).length ? `
+                <h2>${bi('Common questions', 'आम सवाल')}</h2>
+                <div class="condition-faq">
+${(FAQS[c.slug] || []).map(f => `                    <details class="faq-item">
+                        <summary>${bi(f.q.en, f.q.hi)}</summary>
+                        <p>${bi(f.a.en, f.a.hi)}</p>
+                    </details>`).join('\n')}
+                </div>
+` : ''}
                 <h2>${bi('Other conditions treated', 'अन्य स्थितियाँ जिनका इलाज होता है')}</h2>
                 <ul class="condition-list condition-crosslinks">
 ${CONDITIONS.filter(o => o.slug !== c.slug).map(o =>
@@ -177,15 +206,23 @@ ${footer}
 `;
 }
 
-const c = chrome();
-if (!c.header.trim() || !c.footer.trim()) {
-  console.error(`Could not lift header/footer from ${TEMPLATE}`);
-  process.exit(1);
+// Only generate when run directly. build-hi.js requires this module for schema(), and
+// importing it must not re-trigger a build as a side effect.
+if (require.main === module) {
+  const c = chrome();
+  if (!c.header.trim() || !c.footer.trim()) {
+    console.error(`Could not lift header/footer from ${TEMPLATE}`);
+    process.exit(1);
+  }
+
+  console.log('Generating condition pages');
+  for (const cond of CONDITIONS) {
+    fs.writeFileSync(path.join(ROOT, cond.slug), page(cond, c));
+    console.log(`  ${cond.slug.padEnd(46)} title ${cond.title.en.length} chars · desc ${cond.desc.en.length}`);
+  }
+  console.log(`\nReviewed-on date stamped: ${REVIEWED_ON.en} (set in conditions.data.js)`);
 }
 
-console.log('Generating condition pages');
-for (const cond of CONDITIONS) {
-  fs.writeFileSync(path.join(ROOT, cond.slug), page(cond, c));
-  console.log(`  ${cond.slug.padEnd(46)} title ${cond.title.en.length} chars · desc ${cond.desc.en.length}`);
-}
-console.log(`\nReviewed-on date stamped: ${REVIEWED_ON.en} (set in conditions.data.js)`);
+// Exported so build-hi.js can regenerate the block in Hindi: copying the HTML as text
+// would otherwise leave English structured data describing a Hindi page.
+module.exports = { schema };

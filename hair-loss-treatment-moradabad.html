@@ -40,39 +40,74 @@
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "MedicalWebPage",
-  "name": "Hair Loss Treatment in Moradabad — Dr. Vikas Gupta",
-  "description": "Hair fall, alopecia areata, dandruff and scalp infections assessed and treated by an MD dermatologist in Gandhi Nagar, Moradabad. Consultation ₹800.",
-  "url": "https://www.drvikasgupta.skin/hair-loss-treatment-moradabad.html",
-  "inLanguage": "en-IN",
-  "lastReviewed": "2026-08-11",
-  "about": {
-    "@type": "MedicalCondition",
-    "name": "Hair loss"
-  },
-  "author": {
-    "@type": "Physician",
-    "@id": "https://www.drvikasgupta.skin/#physician"
-  },
-  "reviewedBy": {
-    "@type": "Physician",
-    "@id": "https://www.drvikasgupta.skin/#physician",
-    "name": "Dr. Vikas Gupta",
-    "honorificSuffix": "MD",
-    "medicalSpecialty": "Dermatology",
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "S.N. Medical College, Agra"
+  "@graph": [
+    {
+      "@type": "MedicalWebPage",
+      "name": "Hair Loss Treatment in Moradabad — Dr. Vikas Gupta",
+      "description": "Hair fall, alopecia areata, dandruff and scalp infections assessed and treated by an MD dermatologist in Gandhi Nagar, Moradabad. Consultation ₹800.",
+      "url": "https://www.drvikasgupta.skin/hair-loss-treatment-moradabad.html",
+      "inLanguage": "en-IN",
+      "lastReviewed": "2026-08-11",
+      "about": {
+        "@type": "MedicalCondition",
+        "name": "Hair loss"
+      },
+      "author": {
+        "@type": "Physician",
+        "@id": "https://www.drvikasgupta.skin/#physician"
+      },
+      "reviewedBy": {
+        "@type": "Physician",
+        "@id": "https://www.drvikasgupta.skin/#physician",
+        "name": "Dr. Vikas Gupta",
+        "honorificSuffix": "MD",
+        "medicalSpecialty": "Dermatology",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "S.N. Medical College, Agra"
+        },
+        "worksFor": {
+          "@type": "MedicalBusiness",
+          "name": "Dr. Vikas Gupta Skin Care Clinic"
+        }
+      },
+      "publisher": {
+        "@type": "MedicalBusiness",
+        "@id": "https://www.drvikasgupta.skin/#localbusiness"
+      }
     },
-    "worksFor": {
-      "@type": "MedicalBusiness",
-      "name": "Dr. Vikas Gupta Skin Care Clinic"
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.drvikasgupta.skin/hair-loss-treatment-moradabad.html#faq",
+      "inLanguage": "en-IN",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does a hair loss consultation cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The consultation fee is ₹800, the same for an in-clinic visit or a video consultation. Any tests are charged separately by the laboratory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does hair loss treatment take to show results?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hair grows slowly, so hair conditions are judged over months rather than weeks. Dr. Gupta reviews progress at follow-up visits rather than expecting a change after a single consultation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can hair loss be assessed over a video consultation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A first assessment is usually better in clinic, because the scalp needs to be examined closely. Follow-up reviews often work well over video."
+          }
+        }
+      ]
     }
-  },
-  "publisher": {
-    "@type": "MedicalBusiness",
-    "@id": "https://www.drvikasgupta.skin/#localbusiness"
-  }
+  ]
 }
     </script>
 </head>
@@ -198,6 +233,23 @@
                     <p class="booking-actions-note">
                         <span class="lang-en">Booking opens on Eka Care in a new tab. Directions open in Google Maps.</span><span class="lang-hi">बुकिंग एका केयर पर नए टैब में खुलेगी। दिशा निर्देश गूगल मैप्स में खुलेंगे।</span>
                     </p>
+                </div>
+
+
+                <h2><span class="lang-en">Common questions</span><span class="lang-hi">आम सवाल</span></h2>
+                <div class="condition-faq">
+                    <details class="faq-item">
+                        <summary><span class="lang-en">What does a hair loss consultation cost?</span><span class="lang-hi">बाल झड़ने के परामर्श का शुल्क कितना है?</span></summary>
+                        <p><span class="lang-en">The consultation fee is ₹800, the same for an in-clinic visit or a video consultation. Any tests are charged separately by the laboratory.</span><span class="lang-hi">परामर्श शुल्क ₹800 है — क्लिनिक विज़िट और वीडियो परामर्श दोनों के लिए समान। जाँच का शुल्क लैब अलग से लेती है।</span></p>
+                    </details>
+                    <details class="faq-item">
+                        <summary><span class="lang-en">How long does hair loss treatment take to show results?</span><span class="lang-hi">बाल झड़ने के इलाज में असर दिखने में कितना समय लगता है?</span></summary>
+                        <p><span class="lang-en">Hair grows slowly, so hair conditions are judged over months rather than weeks. Dr. Gupta reviews progress at follow-up visits rather than expecting a change after a single consultation.</span><span class="lang-hi">बाल धीरे बढ़ते हैं, इसलिए बालों की स्थितियों का आकलन हफ़्तों में नहीं, महीनों में होता है। डॉ गुप्ता फ़ॉलो-अप में प्रगति देखते हैं, एक ही परामर्श के बाद बदलाव की उम्मीद नहीं करते।</span></p>
+                    </details>
+                    <details class="faq-item">
+                        <summary><span class="lang-en">Can hair loss be assessed over a video consultation?</span><span class="lang-hi">क्या बाल झड़ने की जाँच वीडियो परामर्श से हो सकती है?</span></summary>
+                        <p><span class="lang-en">A first assessment is usually better in clinic, because the scalp needs to be examined closely. Follow-up reviews often work well over video.</span><span class="lang-hi">पहली जाँच आमतौर पर क्लिनिक में बेहतर होती है, क्योंकि खोपड़ी को पास से देखना पड़ता है। बाद के फ़ॉलो-अप वीडियो पर अच्छे से हो जाते हैं।</span></p>
+                    </details>
                 </div>
 
                 <h2><span class="lang-en">Other conditions treated</span><span class="lang-hi">अन्य स्थितियाँ जिनका इलाज होता है</span></h2>

@@ -160,4 +160,79 @@ const CONDITIONS = [
   }
 ];
 
-module.exports = { CONDITIONS, REVIEWED_ON };
+/**
+ * FAQs for the condition pages.
+ *
+ * Question-and-answer blocks are the single most frequently extracted content type in Google
+ * AI Overviews, and FAQPage schema is what makes them machine-readable. These questions are
+ * taken from what people actually typed, not invented:
+ *
+ *   fees          115 of 138 question-shaped impressions ("dr vikas gupta moradabad fees" = 82)
+ *   timings       "milne ka time", "any dermatologist open on sunday", "skin care near me open now"
+ *   what-is-a-derm "charm rog kya hota hai", "dermatologist meaning hindi",
+ *                 "dermatologist doctor kya karte hain"
+ *
+ * Answers stay descriptive and route to consultation. No promised outcomes, no drug names,
+ * no dosages.
+ */
+const FAQS = {
+  'hair-loss-treatment-moradabad.html': [
+    { q: { en: 'What does a hair loss consultation cost?',
+           hi: 'बाल झड़ने के परामर्श का शुल्क कितना है?' },
+      a: { en: 'The consultation fee is ₹800, the same for an in-clinic visit or a video consultation. Any tests are charged separately by the laboratory.',
+           hi: 'परामर्श शुल्क ₹800 है — क्लिनिक विज़िट और वीडियो परामर्श दोनों के लिए समान। जाँच का शुल्क लैब अलग से लेती है।' } },
+    { q: { en: 'How long does hair loss treatment take to show results?',
+           hi: 'बाल झड़ने के इलाज में असर दिखने में कितना समय लगता है?' },
+      a: { en: 'Hair grows slowly, so hair conditions are judged over months rather than weeks. Dr. Gupta reviews progress at follow-up visits rather than expecting a change after a single consultation.',
+           hi: 'बाल धीरे बढ़ते हैं, इसलिए बालों की स्थितियों का आकलन हफ़्तों में नहीं, महीनों में होता है। डॉ गुप्ता फ़ॉलो-अप में प्रगति देखते हैं, एक ही परामर्श के बाद बदलाव की उम्मीद नहीं करते।' } },
+    { q: { en: 'Can hair loss be assessed over a video consultation?',
+           hi: 'क्या बाल झड़ने की जाँच वीडियो परामर्श से हो सकती है?' },
+      a: { en: 'A first assessment is usually better in clinic, because the scalp needs to be examined closely. Follow-up reviews often work well over video.',
+           hi: 'पहली जाँच आमतौर पर क्लिनिक में बेहतर होती है, क्योंकि खोपड़ी को पास से देखना पड़ता है। बाद के फ़ॉलो-अप वीडियो पर अच्छे से हो जाते हैं।' } }
+  ],
+  'skin-allergy-fungal-infection-moradabad.html': [
+    { q: { en: 'What does a consultation for itching or a rash cost?',
+           hi: 'खुजली या चकत्ते के परामर्श का शुल्क कितना है?' },
+      a: { en: 'The consultation fee is ₹800, the same for an in-clinic visit or a video consultation.',
+           hi: 'परामर्श शुल्क ₹800 है — क्लिनिक विज़िट और वीडियो परामर्श दोनों के लिए समान।' } },
+    { q: { en: 'Why does my ringworm keep coming back?',
+           hi: 'मेरा दाद बार-बार क्यों लौट आता है?' },
+      a: { en: 'Stopping treatment as soon as the skin looks normal is the most common reason a fungal infection returns. Treatment usually needs to continue for a set period after the rash has cleared, and household contacts and clothing matter too.',
+           hi: 'त्वचा ठीक दिखते ही इलाज बंद कर देना ही फंगल संक्रमण के लौटने का सबसे आम कारण है। चकत्ता ठीक होने के बाद भी इलाज एक तय अवधि तक चलाना पड़ता है, और घर के अन्य सदस्य तथा कपड़े भी मायने रखते हैं।' } },
+    { q: { en: 'Can I use a steroid cream for itching?',
+           hi: 'क्या मैं खुजली के लिए स्टेरॉयड क्रीम लगा सकता हूँ?' },
+      a: { en: 'Not without a diagnosis. A steroid cream settles an allergic rash but often makes a fungal infection spread further and become harder to clear, and the two can look similar. This is the single most common reason a simple rash becomes a long problem.',
+           hi: 'बिना जाँच के नहीं। स्टेरॉयड क्रीम एलर्जी के चकत्ते में आराम देती है, पर फंगल संक्रमण को अक्सर और फैला देती है और ठीक करना मुश्किल कर देती है — और दोनों दिखने में एक जैसे हो सकते हैं। यही वह सबसे आम कारण है जिससे एक साधारण चकत्ता लंबी समस्या बन जाता है।' } }
+  ],
+  'vitiligo-treatment-moradabad.html': [
+    { q: { en: 'Is vitiligo contagious?',
+           hi: 'क्या सफेद दाग छूत की बीमारी है?' },
+      a: { en: 'No. Vitiligo cannot be passed on by touch, by sharing food or utensils, or by living together. It is not caused by anything the patient ate or did.',
+           hi: 'नहीं। सफेद दाग छूने, साथ खाने या बर्तन साझा करने, या साथ रहने से नहीं फैलता। यह किसी खाने-पीने या किसी की गलती से नहीं होता।' } },
+    { q: { en: 'What does treatment for white patches cost?',
+           hi: 'सफेद दाग के इलाज का शुल्क कितना है?' },
+      a: { en: 'The consultation fee is ₹800, the same for an in-clinic visit or a video consultation. Vitiligo is managed over the long term, so plan for follow-up visits.',
+           hi: 'परामर्श शुल्क ₹800 है — क्लिनिक और वीडियो परामर्श दोनों के लिए समान। सफेद दाग का इलाज लंबे समय तक चलता है, इसलिए फ़ॉलो-अप की योजना रखें।' } },
+    { q: { en: 'Can white patches get their colour back?',
+           hi: 'क्या सफेद दागों में रंग वापस आ सकता है?' },
+      a: { en: 'Some patches repigment with treatment and some do not, and it depends on where they are, how long they have been present and whether they are still spreading. Treatment is judged over months by whether new patches stop appearing and whether colour returns gradually. Dr. Gupta will explain what is realistic for your case.',
+           hi: 'इलाज से कुछ दागों में रंग लौटता है और कुछ में नहीं — यह इस पर निर्भर करता है कि दाग कहाँ हैं, कब से हैं और अब भी फैल रहे हैं या नहीं। इलाज का आकलन महीनों में होता है: नए दाग बनना रुके या नहीं, और रंग धीरे-धीरे लौट रहा है या नहीं। डॉ गुप्ता आपके मामले में क्या संभव है, यह बताएँगे।' } }
+  ],
+  'acne-treatment-moradabad.html': [
+    { q: { en: 'What does acne treatment cost?',
+           hi: 'मुँहासों के इलाज का शुल्क कितना है?' },
+      a: { en: 'The consultation fee is ₹800, the same for an in-clinic visit or a video consultation.',
+           hi: 'परामर्श शुल्क ₹800 है — क्लिनिक विज़िट और वीडियो परामर्श दोनों के लिए समान।' } },
+    { q: { en: 'Will acne leave scars?',
+           hi: 'क्या मुँहासे निशान छोड़ेंगे?' },
+      a: { en: 'Deep, painful spots are the ones most likely to scar, and scarring is far easier to prevent than to correct later. That is the main reason to have persistent acne looked at rather than waiting for it to pass.',
+           hi: 'गहरे और दर्दनाक दानों से निशान बनने की आशंका सबसे ज़्यादा होती है, और निशान बनने से रोकना बाद में उन्हें ठीक करने से कहीं आसान है। यही मुख्य कारण है कि लगातार रहने वाले मुँहासे दिखा लेने चाहिए, अपने आप ठीक होने का इंतज़ार नहीं करना चाहिए।' } },
+    { q: { en: 'Is acne treated differently for teenagers and adults?',
+           hi: 'क्या किशोरों और वयस्कों में मुँहासों का इलाज अलग होता है?' },
+      a: { en: 'The approach differs, yes. Adult acne — particularly in women — can be linked to other things such as irregular periods, so Dr. Gupta asks about those where relevant.',
+           hi: 'हाँ, तरीक़ा अलग होता है। वयस्कों में — ख़ासकर महिलाओं में — मुँहासे कभी-कभी अनियमित माहवारी जैसी दूसरी बातों से जुड़े होते हैं, इसलिए ज़रूरत पड़ने पर डॉ गुप्ता इनके बारे में पूछते हैं।' } }
+  ]
+};
+
+module.exports = { CONDITIONS, REVIEWED_ON, FAQS };
+

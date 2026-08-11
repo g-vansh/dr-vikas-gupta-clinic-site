@@ -42,8 +42,12 @@ for (const c of CONDITIONS) {
     await expect(byline).toContainText('Dr. Vikas Gupta, MD');
     await expect(byline).toContainText(REVIEWED_ON.en);
 
-    const ld = JSON.parse(await page.locator('script[type="application/ld+json"]').first().textContent());
-    expect(ld['@type']).toBe('MedicalWebPage');
+    // The block is an @graph now: MedicalWebPage plus FAQPage, so they stay linked as one
+    // description of the page rather than two unrelated scripts.
+    const raw = JSON.parse(await page.locator('script[type="application/ld+json"]').first().textContent());
+    const graph = raw['@graph'] || [raw];
+    const ld = graph.find(e => e['@type'] === 'MedicalWebPage');
+    expect(ld, 'page should declare MedicalWebPage').toBeTruthy();
     expect(ld.lastReviewed).toBe(REVIEWED_ON.iso);
     expect(ld.about['@type']).toBe('MedicalCondition');
     expect(ld.reviewedBy['@type']).toBe('Physician');
