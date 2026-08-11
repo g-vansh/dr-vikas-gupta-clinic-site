@@ -95,12 +95,49 @@ test('condition pages state the clinic hours agreed in stage 2', async ({ page }
 test('no page claims a service the clinic does not list', () => {
   // Search demand showed 155 impressions for laser/cosmetic work, but the clinic lists no
   // such service. Wanting a treatment is not the same as offering it.
-  const files = fs.readdirSync(ROOT).filter(f => f.endsWith('.html'));
+  //
+  // This originally checked /laser/i only, which is Latin script — so लेज़र survived in the
+  // Hindi metadata and shipped. A guard that covers one of a bilingual site's two languages
+  // is not a guard. Devanagari nukta may be one codepoint or two (ज़ = U+095B, or
+  // U+091C U+093C), so the patterns are written to match either form.
+  const banned = [
+    [/laser/i, 'laser'],
+    [/botox/i, 'botox'],
+    [/ले(?:ज़|ज़|ज)र/, 'लेज़र (laser)'],
+    [/बोटो(?:क्स|ॅक्स)/, 'बोटोक्स (botox)'],
+    [/कीमिकल पील|केमिकल पील/, 'chemical peel'],
+  ];
+  // Scan the generated HTML only — both languages. The build scripts are excluded on purpose:
+  // their comments say the word "laser" precisely to warn future editors off it, and a guard
+  // that fails on its own documentation trains people to ignore it. `npm test` runs the build
+  // first, so anything introduced in the data files reaches the HTML before this runs.
+  const files = [
+    ...fs.readdirSync(ROOT).filter(f => f.endsWith('.html')),
+    ...fs.readdirSync(path.join(ROOT, 'hi')).filter(f => f.endsWith('.html')).map(f => 'hi/' + f),
+  ];
   for (const f of files) {
     const text = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    expect(text, `${f} claims laser treatment`).not.toMatch(/laser/i);
-    expect(text, `${f} claims botox`).not.toMatch(/botox/i);
+    for (const [re, label] of banned) {
+      expect(text, `${f} claims "${label}", which the clinic does not offer`).not.toMatch(re);
+    }
   }
+});
+
+test('Hindi metadata uses the term this clinic\'s searchers actually type', () => {
+  // चर्म रोग draws 36 impressions across 17 queries here; त्वचा रोग only 13 across 8.
+  // Both are correct Hindi, but the titles should lead with the one people type.
+  const hiFiles = fs.readdirSync(path.join(ROOT, 'hi')).filter(f => f.endsWith('.html'));
+  const titles = hiFiles.map(f => {
+    const m = fs.readFileSync(path.join(ROOT, 'hi', f), 'utf8').match(/<title>([\s\S]*?)<\/title>/);
+    return { f, t: m ? m[1] : '' };
+  });
+  const usingCharm = titles.filter(x => /चर्म रोग/.test(x.t)).length;
+  expect(usingCharm, 'at least some Hindi titles should use चर्म रोग').toBeGreaterThan(0);
+
+  // The biggest non-branded Hindi query on the site is सफेद दाग (31 impressions).
+  const vit = titles.find(x => x.f.startsWith('vitiligo'));
+  expect(vit.t, 'the vitiligo page must use the words patients type').toContain('सफेद दाग');
+  expect(vit.t, 'and name a डॉक्टर, which is what they search for').toContain('डॉक्टर');
 });
 
 test('condition pages are in sync with their source data', () => {

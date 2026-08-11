@@ -421,15 +421,25 @@ function initTestimonialsCarousel() {
 function initDoctorImageFlip() {
     const coin = document.querySelector('.coin');
     if (!coin) return;
-    
-    console.log('✅ Coin flip animation initialized');
-    
-    // Start coin flip animation after a delay
-    setTimeout(() => {
-        setInterval(() => {
-            coin.classList.toggle('flipped');
-        }, 3000); // Flip every 3 seconds
-    }, 3000); // Start after 3 seconds
+
+    // This used to setInterval a flip every 3 seconds, forever. Three problems: the doctor's
+    // face -- the strongest trust signal on a medical page -- was only visible half the time;
+    // a permanently moving element competed with the booking CTA for attention; and the CSS
+    // reduced-motion rule killed the transition but not the timer, so anyone who asked for
+    // less motion got an abrupt swap every 3 seconds instead of a smooth one.
+    //
+    // The flip is now user-initiated: hover, tap, or keyboard focus. Nothing moves on its own.
+    const flip = () => coin.classList.toggle('flipped');
+    const show = on => coin.classList.toggle('flipped', on);
+
+    coin.addEventListener('mouseenter', () => show(true));
+    coin.addEventListener('mouseleave', () => show(false));
+    coin.addEventListener('focus', () => show(true));
+    coin.addEventListener('blur', () => show(false));
+    coin.addEventListener('click', flip);
+    coin.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+    });
 }
 
 // Interactive Patient Origin Map with Modern Design

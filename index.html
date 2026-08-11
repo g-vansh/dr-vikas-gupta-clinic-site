@@ -574,13 +574,18 @@
                         <span class="lang-hi">व्यक्तिगत देखभाल और न्यूनतम दवाओं के साथ सभी त्वचा, बाल और नाखून की समस्याओं का विशेषज्ञ इलाज</span>
                     </p>
                     
+                    <!-- The doctor's face is the front. 60% of this site's impressions come from
+                         people searching his name, and a real photo of the clinician is the
+                         strongest trust signal a medical page has. The logo is on the reverse and
+                         flips on hover or tap -- user-initiated, not on a timer. -->
                     <div class="coin-container">
-                        <div class="coin">
+                        <div class="coin" tabindex="0" role="img"
+                             aria-label="Dr. Vikas Gupta, MD (Dermatology), dermatologist in Moradabad">
                             <div class="front">
-                                <img src="assets/images/clinic-logo.png" alt="Clinic Logo">
+                                <img src="assets/images/dr-vikas-gupta.jpg" alt="Dr. Vikas Gupta, MD (Dermatology), dermatologist in Moradabad">
                             </div>
                             <div class="back">
-                                <img src="assets/images/dr-vikas-gupta.jpg" alt="Dr. Vikas Gupta, MD (Dermatology), dermatologist in Moradabad">
+                                <img src="assets/images/clinic-logo.png" alt="" aria-hidden="true">
                             </div>
                         </div>
                     </div>

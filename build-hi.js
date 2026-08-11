@@ -33,31 +33,42 @@ const CORE_PAGES = ['index.html', 'about.html', 'services.html', 'testimonials.h
 // Hindi site gains a page every time the English one does.
 const PAGES = [...CORE_PAGES, ...CONDITIONS.map(c => c.slug)];
 
-// Hindi titles are written around the queries Search Console shows already ranking
-// (त्वचा रोग विशेषज्ञ, स्किन रोग विशेषज्ञ, चर्म रोग विशेषज्ञ), not translated from the English.
+// Hindi metadata is written around the words this clinic's searchers actually type, measured
+// across both scripts in Search Console (3 months to 10 Aug 2026):
+//
+//   चर्म रोग / charm rog     36 impressions across 17 queries   <- the leading term
+//   स्किन (in Hindi phrasing) 26 / 14
+//   डर्मेटोलॉजिस्ट           14 /  5
+//   त्वचा रोग / twacha       13 /  8
+//
+// चर्म रोग and त्वचा रोग are synonyms and both are standard, but चर्म रोग is typed nearly
+// three times as often here — so titles lead with it and descriptions carry the alternatives,
+// which is how a page covers all four without keyword-stuffing any one of them.
+//
+// Do NOT reintroduce लेज़र (laser): the clinic lists no such service. See conditions.data.js.
 const META = {
   'index.html': {
-    title: 'मुरादाबाद में त्वचा रोग विशेषज्ञ — डॉ विकास गुप्ता',
-    desc: 'गांधी नगर, मुरादाबाद में त्वचा, बाल और नाखून का इलाज। MD त्वचा रोग विशेषज्ञ, 31+ वर्ष अनुभव, 619 गूगल समीक्षाओं पर 4.6★।'
+    title: 'मुरादाबाद में चर्म रोग विशेषज्ञ — डॉ विकास गुप्ता',
+    desc: 'गांधी नगर, मुरादाबाद में त्वचा, बाल और नाखून का इलाज। MD चर्म एवं त्वचा रोग विशेषज्ञ, 31+ वर्ष अनुभव, 619 गूगल समीक्षाओं पर 4.6★।'
   },
   'about.html': {
-    title: 'डॉ विकास गुप्ता, MD — त्वचा रोग विशेषज्ञ, मुरादाबाद',
-    desc: 'एस.एन. मेडिकल कॉलेज, आगरा से MD (त्वचा रोग)। मुरादाबाद में 31+ वर्षों से त्वचा, बाल और नाखून के रोगों का इलाज। 619 समीक्षाओं पर 4.6★।'
+    title: 'डॉ विकास गुप्ता, MD — चर्म रोग विशेषज्ञ, मुरादाबाद',
+    desc: 'एस.एन. मेडिकल कॉलेज, आगरा से MD (त्वचा एवं चर्म रोग)। मुरादाबाद में 31+ वर्षों से त्वचा, बाल और नाखून के रोगों का इलाज। 4.6★, 619 समीक्षाएं।'
   },
   'services.html': {
-    title: 'त्वचा, बाल और लेज़र उपचार — डॉ विकास गुप्ता',
-    desc: 'मुंहासे, बाल झड़ना, सफेद दाग, सोरायसिस, एक्जिमा और लेज़र उपचार — गांधी नगर, मुरादाबाद। परामर्श शुल्क ₹800।'
+    title: 'त्वचा, बाल और नाखून के रोगों का इलाज — मुरादाबाद',
+    desc: 'मुंहासे, बाल झड़ना, सफेद दाग, सोरायसिस, एक्जिमा, दाद और खुजली का इलाज — गांधी नगर, मुरादाबाद। परामर्श शुल्क ₹800।'
   },
   'testimonials.html': {
     title: 'मरीज़ों की समीक्षाएं — डॉ विकास गुप्ता | 4.6★',
-    desc: '619 गूगल समीक्षाओं पर 4.6★। जानें मरीज़ डॉ विकास गुप्ता, मुरादाबाद के त्वचा रोग विशेषज्ञ के बारे में क्या कहते हैं।'
+    desc: '619 गूगल समीक्षाओं पर 4.6★। जानें मरीज़ डॉ विकास गुप्ता, मुरादाबाद के चर्म रोग विशेषज्ञ के बारे में क्या कहते हैं।'
   },
   'appointment.html': {
     title: 'अपॉइंटमेंट बुक करें — डॉ विकास गुप्ता, मुरादाबाद',
-    desc: 'डॉ विकास गुप्ता, गांधी नगर मुरादाबाद के त्वचा रोग विशेषज्ञ के साथ ऑनलाइन बुक करें। क्लिनिक और वीडियो परामर्श, ₹800, सोम–शनि।'
+    desc: 'डॉ विकास गुप्ता, गांधी नगर मुरादाबाद के चर्म रोग विशेषज्ञ के साथ ऑनलाइन बुक करें। क्लिनिक और वीडियो परामर्श, ₹800, सोम–शनि।'
   },
   'faq.html': {
-    title: 'सामान्य प्रश्न — डॉ विकास गुप्ता, त्वचा रोग विशेषज्ञ',
+    title: 'सामान्य प्रश्न — डॉ विकास गुप्ता, चर्म रोग विशेषज्ञ',
     desc: 'परामर्श शुल्क, क्लिनिक समय, क्या साथ लाएं और डॉ विकास गुप्ता, गांधी नगर मुरादाबाद के साथ अपॉइंटमेंट कैसे बुक करें।'
   }
 };

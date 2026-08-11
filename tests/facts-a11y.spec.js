@@ -141,3 +141,21 @@ test('map markers carry accessible names', async ({ page }) => {
     expect(t, `marker ${i} needs an accessible name`).toBeTruthy();
   }
 });
+
+test('the hero shows the doctor and nothing animates on a timer', async ({ page }) => {
+  // The hero image used to flip between the logo and the doctor's face every 3 seconds
+  // forever: the face was visible only half the time, a permanently moving element competed
+  // with the booking CTA, and the CSS reduced-motion rule killed the transition but not the
+  // timer -- so reduced-motion users got an abrupt swap instead of a smooth one.
+  await page.goto(baseURL + '/');
+  const front = page.locator('.coin .front img');
+  await expect(front).toHaveAttribute('src', /dr-vikas-gupta\.jpg/);
+
+  const before = await page.locator('.coin').getAttribute('class');
+  await page.waitForTimeout(4000);   // longer than the old 3s interval
+  const after = await page.locator('.coin').getAttribute('class');
+  expect(after, 'nothing in the hero may animate on a timer').toBe(before);
+
+  // Still flippable deliberately, and reachable by keyboard.
+  await expect(page.locator('.coin')).toHaveAttribute('tabindex', '0');
+});

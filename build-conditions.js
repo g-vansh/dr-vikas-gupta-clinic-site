@@ -128,7 +128,7 @@ ${schema(c)}
 ${list(c.treats.en, c.treats.hi)}
                 </ul>
 
-                <h2>${bi('When to see a dermatologist', 'त्वचा रोग विशेषज्ञ को कब दिखाएँ')}</h2>
+                <h2>${bi('When to see a dermatologist', 'चर्म रोग विशेषज्ञ को कब दिखाएँ')}</h2>
                 <ul class="condition-list">
 ${list(c.seeDoctor.en, c.seeDoctor.hi)}
                 </ul>
