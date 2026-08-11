@@ -244,6 +244,38 @@ map caption link are meant to open a place/review page, not a route.
 Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
 tracking script only exists on `index.html`; the appointment page is not instrumented.
 
+### Mobile is the primary layout
+
+**96.7% of this site's search clicks are mobile** (44,114 of 45,570 impressions in the quarter
+to 10 Aug 2026). The phone layout is not a fallback — it is the layout. `tests/mobile.spec.js`
+runs every page in both languages at phone width, plus a 320px pass.
+
+What that suite locks in:
+
+- **No horizontal scrolling** on any page at 320, 360, 375, 390 or 414px.
+- **Tap targets ≥ 44px.** WCAG 2.2 sets 24px as the floor; 44 is comfortable, and a
+  dermatology audience skews older. Links inline within a sentence are exempt under the
+  standard and are excluded from the check.
+- **Body copy ≥ 16px**, and no interface text below ~11px.
+- **Images carry `width`/`height`** so the layout does not jump as they load.
+- **The sticky bar never covers the last line** — `body.has-sticky-book` reserves clearance.
+
+Two traps worth knowing before editing mobile CSS:
+
+1. **Grid items default to `min-width: auto`.** They refuse to shrink below their min-content
+   width, so `repeat(2, 1fr)` does not give you two equal halves — each track bulges to fit its
+   longest unbreakable word and the row overflows. The stats strip burst a 375px screen by 5px
+   this way. `.highlight-item` now sets `min-width: 0`.
+2. **Not every overflow is a bug.** `.shine-effect`, `.trust-shine` and the Leaflet SVG all
+   measure wider than the viewport but sit inside `overflow: hidden` ancestors, so they never
+   scroll. Check `document.documentElement.scrollWidth` against `window.innerWidth` before
+   chasing an element that merely *looks* too wide.
+
+Scroll-reveal animation (`initScrollAnimations`) sets `opacity: 0` on `.service-card` and
+`.highlight-item` in JS and clears it on intersection. Jumping straight to the bottom of the
+page in a script outruns the observer and makes sections look blank — that is a testing
+artefact, not a user-facing bug. Scroll in steps when checking.
+
 ### Condition pages — generated, and medically reviewed
 
 ```bash
