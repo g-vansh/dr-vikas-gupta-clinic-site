@@ -244,6 +244,56 @@ map caption link are meant to open a place/review page, not a route.
 Directions clicks fire a `directions_cta_click` event via `data-directions-cta`. Note that this
 tracking script only exists on `index.html`; the appointment page is not instrumented.
 
+### Condition pages — generated, and medically reviewed
+
+```bash
+npm run build      # regenerates condition pages, then /hi/ and sitemap.xml — in that order
+```
+
+Content lives in **`conditions.data.js`**, never in the generated HTML. `build-conditions.js`
+lifts the header, nav and footer from `services.html` at build time, so these pages cannot drift
+out of sync with the rest of the site. Each one automatically gains a Hindi twin under `/hi/`.
+
+**Order matters.** `build-conditions.js` regenerates each English page from scratch, which drops
+the hreflang block, and `build-hi.js` puts it back. Run them together via `npm run build` — which
+`npm test` does for you.
+
+#### Which conditions, and why
+
+Chosen from Search Console demand for the 3 months to 10 Aug 2026, then filtered to conditions
+the clinic **already states it treats** on `services.html`:
+
+| Page | Impressions | Queries |
+|---|---|---|
+| Hair loss & alopecia | 622 | 109 |
+| Skin allergy & fungal infection | 296 | 47 |
+| Vitiligo | 43 | 9 |
+| Acne | 25 | 18 |
+
+**Laser and cosmetic procedures draw 155 impressions and there is deliberately no page for
+them** — the clinic lists no such service. Search demand tells you what people *want*, not what
+this practice *offers*; conflating the two puts a false claim on a medical site. A test asserts
+that no page mentions laser or botox. If the clinic does start offering a procedure, add it to
+`services.html` first, then write the page.
+
+#### The review byline is a claim — keep it true
+
+Every condition page carries "Reviewed by Dr. Vikas Gupta, MD" and a date, and repeats it in
+`MedicalWebPage` schema as `lastReviewed` + `reviewedBy`. That is what Google's YMYL standard
+expects of health content — and it is a factual assertion about a named doctor.
+
+**Set `REVIEWED_ON` in `conditions.data.js` to the date Dr. Gupta actually read the page**, and
+update it whenever the content changes materially. A review date for a review that never happened
+is a false credential, not an SEO tweak.
+
+#### Writing rules for medical content
+
+- Describe conditions and when to see a doctor. Do **not** promise outcomes.
+- No drug names or dosages — that is what the consultation is for.
+- Every page ends with a disclaimer that it is information, not diagnosis.
+- Both languages are written in `conditions.data.js`; the Hindi is not machine-translated at
+  build time, so it must be edited by someone who reads Hindi.
+
 ### Bilingual site — `/` and `/hi/`
 
 **The Hindi site under `/hi/` is generated. Never edit it by hand.**

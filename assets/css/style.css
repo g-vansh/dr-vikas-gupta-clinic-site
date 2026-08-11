@@ -3090,3 +3090,99 @@ textarea:focus {
 .footer strong {
   color: var(--white);
 }
+
+/* --- Condition pages -------------------------------------------------------
+   Health content is held to Google's strictest (YMYL) standard, so the reviewing
+   clinician and the review date are shown at the top of the page, not buried. */
+.medical-byline {
+  max-width: 760px;
+  margin: 0 auto 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-light);
+  border-left: 3px solid var(--primary-color);
+  border-radius: var(--border-radius);
+}
+
+.medical-byline p {
+  margin: 0;
+}
+
+.medical-byline-author {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+.medical-byline-date {
+  margin-top: 0.4rem !important;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.condition-intro {
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+}
+
+.content-section .condition-list {
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+  padding-left: 1.4rem;
+}
+
+.condition-list li {
+  margin-bottom: 0.6rem;
+  line-height: 1.6;
+}
+
+.condition-crosslinks a {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.content-section h2 {
+  max-width: 760px;
+  margin: 0 auto 1rem;
+  font-size: var(--font-size-2xl);
+}
+
+.content-section .condition-intro + h2 {
+  margin-top: 0;
+}
+
+.content-section > .container > p:not(.condition-intro):not(.medical-disclaimer) {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.medical-disclaimer {
+  max-width: 760px;
+  margin: 3rem auto 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+}
+
+.condition-quicklinks {
+  max-width: 760px;
+  margin: 0 auto 3rem;
+  padding: 1.5rem;
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+}
+
+.condition-quicklinks h2 {
+  margin-top: 0;
+  font-size: var(--font-size-xl);
+}
+
+.condition-quicklinks .condition-list {
+  margin-bottom: 0;
+}
