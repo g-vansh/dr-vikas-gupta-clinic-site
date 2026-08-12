@@ -113,3 +113,42 @@ test('the mobile booking path works end to end', async ({ page }) => {
   expect(dbox.height, 'sticky directions button height').toBeGreaterThanOrEqual(44);
   expect(dbox.width, 'sticky directions button width').toBeGreaterThanOrEqual(44);
 });
+
+test('no image is squashed out of its natural proportions', async ({ page }) => {
+  // width/height attributes are presentational HINTS, not inert metadata. Where CSS sets only
+  // the width, the attribute supplies the height and the image distorts -- the about-page
+  // portrait rendered 300x956 instead of 300x383 after intrinsic dimensions were added for
+  // layout stability. Images using object-fit are excluded: cover/contain change the box
+  // shape deliberately and handle the crop themselves.
+  for (const p of ALL) {
+    await page.goto(baseURL + p, { waitUntil: 'networkidle' });
+    const squashed = await page.evaluate(() =>
+      [...document.images]
+        .filter(i => i.naturalWidth && i.getBoundingClientRect().width)
+        .filter(i => getComputedStyle(i).objectFit === 'fill')
+        .map(i => {
+          const b = i.getBoundingClientRect();
+          return {
+            src: i.src.split('/').pop(),
+            rendered: Math.round(b.width) + 'x' + Math.round(b.height),
+            natural: i.naturalWidth + 'x' + i.naturalHeight,
+            off: Math.abs(b.width / b.height - i.naturalWidth / i.naturalHeight)
+          };
+        })
+        .filter(x => x.off > 0.02));
+    expect(squashed, `${p} renders distorted images: ${JSON.stringify(squashed)}`).toEqual([]);
+  }
+});
+
+test('the hero coin styles the photo and the logo by what they are', async ({ page }) => {
+  // These rules used to key off .front / .back, so swapping the doctor's photo to the front
+  // left it wearing the logo's treatment: letterboxed with 20px padding on a white ground.
+  await page.goto(baseURL + '/');
+  const s = await page.evaluate(() => {
+    const g = sel => { const e = document.querySelector(sel); const c = getComputedStyle(e); return { fit: c.objectFit, pad: c.padding }; };
+    return { photo: g('.coin img.coin-photo'), logo: g('.coin img.coin-logo') };
+  });
+  expect(s.photo.fit, 'a photograph should fill the circle').toBe('cover');
+  expect(s.photo.pad, 'a photograph needs no inset').toBe('0px');
+  expect(s.logo.fit, 'a logo should sit inside the circle whole').toBe('contain');
+});

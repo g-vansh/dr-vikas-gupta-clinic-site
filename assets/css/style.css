@@ -914,26 +914,33 @@ p {
   box-shadow: var(--shadow);
 }
 
+/* Styled by WHAT the image is, not which face it sits on. These rules used to key off
+   .front / .back, so swapping the doctor's photo to the front left it wearing the logo's
+   treatment -- letterboxed with 20px of padding on white. Tagging the images means the two
+   can be swapped again without the styling coming apart. */
 .coin .front img,
 .coin .back img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border-radius: 50%;
 }
 
-.coin .front img {
+/* A photograph fills the circle. */
+.coin img.coin-photo {
+  object-fit: cover;
+  background: transparent;
+  padding: 0;
+}
+
+/* A logo sits inside it, whole, on its own ground. */
+.coin img.coin-logo {
+  object-fit: contain;
   background: var(--white);
   padding: 20px;
-  object-fit: contain;
 }
 
 .coin .back {
   transform: rotateY(180deg);
-}
-
-.coin .back img {
-  object-fit: cover;
 }
 
 .coin.flipped {
@@ -3414,4 +3421,14 @@ textarea:focus {
   padding: 0 1rem 1rem;
   line-height: 1.65;
   color: var(--text-dark);
+}
+
+/* --- Image aspect ratio ------------------------------------------------------
+   width/height attributes are presentational HINTS, not just metadata for layout
+   stability. Where CSS sets only the width, the attribute supplies the height and
+   the image distorts: the about-page portrait rendered 300x956 instead of 300x382.
+   height:auto lets the aspect ratio win. Any rule that genuinely needs a fixed
+   height (the hero coin) sets one with higher specificity and still wins. */
+img {
+  height: auto;
 }
