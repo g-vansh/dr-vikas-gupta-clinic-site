@@ -52,7 +52,14 @@ for (const path of widgetPages) {
       () => [...document.scripts].some(s => s.src.includes('eka-widget-init'))
     )).toBe(false);
   });
+}
 
+// The CTA rules below apply to every page, not just the two that once carried the widget.
+// They originally ran over widgetPages only, and that blind spot let about/services/faq keep
+// a "Call Now" button sitting beside their booking button long after phone booking was dropped.
+const ctaPages = [...pages, ...pages.map(p => (p === '/' ? '/hi/' : '/hi' + p))];
+
+for (const path of ctaPages) {
   test(`${path} sends every booking CTA to Eka Care in a new tab`, async ({ page }) => {
     await page.goto(baseURL + path);
 
@@ -82,6 +89,25 @@ for (const path of widgetPages) {
 
     const bookByPhoneCopy = page.getByText(/Call to Book|कॉल करके बुक/);
     expect(await bookByPhoneCopy.count(), 'no "Call to Book" copy').toBe(0);
+
+    // A tel: BUTTON standing next to the booking button reads as "or just call us to book",
+    // which is the arrangement the clinic asked us to drop. A phone number written out in a
+    // contact block is ordinary detail, not a booking route, so only .btn links count here.
+    const callButtonsBesideBooking = await page.evaluate(() => {
+      const out = [];
+      for (const tel of document.querySelectorAll('a[href^="tel:"].btn')) {
+        if (tel.closest('footer')) continue;
+        const block = tel.closest('.booking-actions, .cta-content, section, div');
+        if (block && block.querySelector('a[href*="eka.care/doctor"]')) {
+          out.push((tel.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 30));
+        }
+      }
+      return out;
+    });
+    expect(
+      callButtonsBesideBooking,
+      `${path} pairs a phone button with the booking button`
+    ).toEqual([]);
   });
 
   test(`${path} offers directions via the canonical Google Maps route link`, async ({ page }) => {
@@ -89,7 +115,13 @@ for (const path of widgetPages) {
 
     const dirs = page.locator('a[data-directions-cta]');
     const count = await dirs.count();
-    expect(count, 'page should offer directions').toBeGreaterThan(0);
+
+    // Every page that sends people to the clinic must offer directions. Testimonials is the
+    // exception: its job is social proof, and its only Maps link is the review page.
+    const needsDirections = !/testimonials/.test(path);
+    if (needsDirections) {
+      expect(count, `${path} should offer directions`).toBeGreaterThan(0);
+    }
 
     for (let i = 0; i < count; i++) {
       const d = dirs.nth(i);
