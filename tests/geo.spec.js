@@ -120,3 +120,13 @@ test('there is no llms.txt cargo cult', () => {
   expect(fs.existsSync(path.join(ROOT, 'llms.txt')),
     'llms.txt adds maintenance with no measured benefit; see robots.txt for the reasoning').toBe(false);
 });
+
+test('Bing site verification stays in place', () => {
+  // ChatGPT's search runs on Bing's index, so Bing Webmaster Tools access is what makes the
+  // site eligible to be cited there at all. Bing's instruction is explicit: do not remove the
+  // verification even after it succeeds. Deleting this file silently un-verifies the site.
+  const p = path.join(ROOT, 'BingSiteAuth.xml');
+  expect(fs.existsSync(p), 'BingSiteAuth.xml must stay at the site root').toBe(true);
+  const xml = fs.readFileSync(p, 'utf8');
+  expect(xml).toMatch(/<user>[A-F0-9]{32}<\/user>/);
+});
